@@ -1,0 +1,53 @@
+/* =========================================================================
+   Arabic / right-to-left adjustments
+   Layout mostly flows from logical properties; these are the exceptions.
+   ========================================================================= */
+
+[dir='rtl'] {
+  --font-display: 'Amiri', 'Cormorant Garamond', serif;
+  --font-body: 'Tajawal', 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-script: 'Amiri', serif;
+  --track-wide: 0.06em;
+  --track-mid: 0.02em;
+}
+
+/* Arabic type needs a little more air and no negative tracking */
+[dir='rtl'] body { font-weight: 400; line-height: 1.85; }
+[dir='rtl'] h1, [dir='rtl'] h2, [dir='rtl'] h3, [dir='rtl'] h4, [dir='rtl'] .display {
+  letter-spacing: 0;
+  line-height: 1.28;
+  font-weight: 700;
+}
+
+[dir='rtl'] .hero__title { line-height: 1.18; font-weight: 700; }
+[dir='rtl'] .phero__title,
+[dir='rtl'] .mgroup__title { line-height: 1.22; }
+[dir='rtl'] .lede { line-height: 1.9; }
+[dir='rtl'] .script { font-size: clamp(1.3rem, 1rem + 1.4vw, 2.1rem); line-height: 1.6; }
+
+/* Drop caps do not work in Arabic script */
+[dir='rtl'] .prose--drop > p:first-of-type::first-letter {
+  float: none;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  padding: 0;
+  font-weight: inherit;
+}
+
+/* Mirror directional ornament */
+[dir='rtl'] .eyebrow::before { background: linear-gradient(270deg, transparent, var(--gold-500)); }
+[dir='rtl'] .eyebrow--center::after { background: linear-gradient(270deg, var(--gold-500), transparent); }
+[dir='rtl'] .chips { -webkit-mask-image: linear-gradient(270deg, #000 94%, transparent); mask-image: linear-gradient(270deg, #000 94%, transparent); }
+[dir='rtl'] .split--reverse > *:first-child { order: 0; }
+[dir='rtl'] .split--reverse > *:last-child { order: -1; }
+
+/* Numbers stay left-to-right inside Arabic text */
+[dir='rtl'] .mrow__price,
+[dir='rtl'] .special__price,
+[dir='rtl'] .hours-row dd,
+[dir='rtl'] .stat__value,
+[dir='rtl'] .dish__price { direction: ltr; unicode-bidi: isolate; }
+
+/* Latin brand marks keep their own direction */
+[dir='rtl'] .ltr { direction: ltr; unicode-bidi: isolate; display: inline-block; }

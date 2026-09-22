@@ -1,0 +1,176 @@
+/* =========================================================================
+   Responsive — the same design, re-proportioned. No effects removed.
+   ========================================================================= */
+
+/* --- ≤ 1180px ---------------------------------------------------------- */
+@media (max-width: 1180px) {
+  .footer__grid { grid-template-columns: 1fr 1fr; gap: 2.5rem 2rem; }
+  .footer__grid > *:first-child { grid-column: 1 / -1; }
+  .mgroup__head { grid-template-columns: 1fr; align-items: start; gap: 1.2rem; }
+  .mgroup__note { max-width: none; }
+}
+
+/* --- ≤ 980px: single column for split layouts -------------------------- */
+@media (max-width: 980px) {
+  .split { grid-template-columns: 1fr; gap: 2.2rem; }
+  .split--reverse > *:first-child,
+  [dir='rtl'] .split--reverse > *:last-child { order: 0; }
+  .split__badge { inset-block-end: auto; inset-block-start: -22px; inset-inline-end: 10px; }
+
+  .visit-grid { grid-template-columns: 1fr; }
+  .grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .gal__item:nth-child(n) { grid-column: span 6; }
+  .gal__item:nth-child(1) { grid-column: span 12; }
+  .gal__item:nth-child(6) { grid-column: span 12; }
+  .gal__item:nth-child(6) .frame { aspect-ratio: 16 / 9; }
+  .gal__item .frame { aspect-ratio: 1 / 1 !important; }
+  .gal__item:nth-child(1) .frame,
+  .gal__item:nth-child(6) .frame { aspect-ratio: 16 / 10 !important; }
+  /* Touch devices never fire hover, so captions must be visible by default */
+  .gal__cap { opacity: 1; transform: none; background: linear-gradient(transparent, rgba(3, 17, 11, 0.85)); }
+}
+
+/* --- ≤ 860px: switch to the drawer ------------------------------------- */
+@media (max-width: 860px) {
+  .nav { display: none; }
+  .burger { display: block; }
+
+  .hero { min-height: 92svh; padding-block: calc(var(--header-h) + 2rem) 5rem; }
+  .hero__copy { max-width: none; }
+  .hero__veil {
+    background:
+      linear-gradient(180deg, rgba(3, 17, 11, 0.9) 0%, rgba(3, 17, 11, 0.62) 38%, rgba(3, 17, 11, 0.82) 74%, var(--green-950) 100%);
+  }
+  [dir='rtl'] .hero__veil {
+    background:
+      linear-gradient(180deg, rgba(3, 17, 11, 0.9) 0%, rgba(3, 17, 11, 0.62) 38%, rgba(3, 17, 11, 0.82) 74%, var(--green-950) 100%);
+  }
+  .hero__meta { gap: 0.85rem 1.4rem; }
+  /* the scroll cue means nothing on a touch screen, and it collides
+     with the meta row once the hero shortens */
+  .hero__scroll { display: none; }
+
+  .special { grid-template-columns: 1fr; }
+  .special--flip .special__media { order: 0; }
+  .special__media { min-height: 0; aspect-ratio: 16 / 10; }
+  .special__media img { position: static; }
+  .special__media::after,
+  .special--flip .special__media::after {
+    background: linear-gradient(180deg, transparent 45%, rgba(3, 17, 11, 0.72) 100%);
+  }
+
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .poster-cta { grid-template-columns: auto minmax(0, 1fr); }
+  .poster-cta > .btn { grid-column: 1 / -1; width: 100%; }
+
+  /* The menu filter bar is the one thing that must never be cramped.
+     Note the explicit `flex: none`: in a column container a flex-basis
+     is read as a HEIGHT, which would blow the search box up to 210px tall. */
+  .menu-tools__inner {
+    flex-direction: column;
+    /* `wrap` on a column container turns it into a MULTI-COLUMN layout and
+       each item is then sized to its content — which let the chips row push
+       the whole page out to its full 979px scroll width. */
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  .menu-search { flex: none; width: 100%; max-width: none; }
+  .chips {
+    flex: none;
+    width: auto;
+    min-width: 0;
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+  }
+}
+
+/* --- ≤ 620px ----------------------------------------------------------- */
+@media (max-width: 620px) {
+  .grid--4, .grid--3, .grid--2 { grid-template-columns: 1fr; }
+  .gal__item:nth-child(n) { grid-column: span 12; }
+
+  .btn { padding: 0.9rem 1.5rem; font-size: var(--t-xs); }
+  .btn-row { gap: 0.7rem; }
+  .btn-row .btn { flex: 1 1 100%; }
+
+  .hero__meta { flex-direction: column; align-items: flex-start; gap: 0.7rem; }
+
+  /* Karahi's three price columns will not fit beside the dish name, so the
+     name takes a full row and the three sizes sit under it as a compact
+     label-over-value strip. */
+  .mrow--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+    padding-block: 1rem;
+  }
+  .mrow--3 .mrow__name { grid-column: 1 / -1; margin-bottom: 0.15rem; }
+  .mrow--3 .mrow__price {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    text-align: start;
+    font-size: var(--t-base);
+    padding-top: 0.55rem;
+    border-block-start: 1px solid var(--line-soft);
+  }
+  .mrow--3 .mrow__price::before {
+    content: attr(data-label);
+    font-family: var(--font-body);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--cream-3);
+  }
+  [lang='ar'] .mrow--3 .mrow__price::before { letter-spacing: 0; text-transform: none; font-size: 0.72rem; }
+  .mtable__head.mrow--3 { display: none; }
+
+  .footer__grid { grid-template-columns: 1fr; gap: 2rem; }
+  .footer__bottom { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
+
+  .step { padding-inline-start: 2.9rem; }
+  .step::before { width: 32px; height: 32px; font-size: 0.92rem; }
+
+  /* The two floating buttons would collide on a narrow screen */
+  .wa-float span { display: none; }
+  .wa-float { padding: 0.85rem; }
+
+  .lightbox__btn { width: 40px; height: 40px; }
+  .lightbox__btn--prev { inset-inline-start: -2px; }
+  .lightbox__btn--next { inset-inline-end: -2px; }
+}
+
+/* --- ≤ 400px ----------------------------------------------------------- */
+@media (max-width: 360px) {
+  .logo__sub { display: none; }
+}
+
+@media (max-width: 400px) {
+  .stats { grid-template-columns: 1fr; }
+}
+
+/* --- Pointer capability ------------------------------------------------ */
+/* Custom cursor and tilt only make sense with a real pointer. */
+@media (hover: none), (pointer: coarse) {
+  .cursor, .cursor-dot { display: none !important; }
+  .frame__ring { opacity: 1; transform: none; }
+}
+
+/* --- Print ------------------------------------------------------------- */
+@media print {
+  .header, .drawer, .preloader, .progress, .to-top, .wa-float,
+  .cursor, .cursor-dot, .hero__scroll, .menu-tools, .curtain { display: none !important; }
+  body { background: #fff; color: #111; }
+  body::before, body::after { display: none; }
+  .frame, .mgroup__media, .phero__bg { display: none; }
+  .mrow, .mtable__head { border-color: #ccc; }
+  .mrow__label, .mgroup__title, h1, h2, h3 { color: #111; }
+  .mrow__price, .mgroup__sub { color: #6b5216; }
+  .mrow__desc, .muted, .lede { color: #444; }
+  [data-reveal] { opacity: 1 !important; transform: none !important; clip-path: none !important; }
+  .mgroup { page-break-inside: avoid; border: 0; }
+}

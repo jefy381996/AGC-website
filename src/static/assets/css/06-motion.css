@@ -1,0 +1,133 @@
+/* =========================================================================
+   Scroll reveals & motion
+   Elements opt in with data-reveal; JS adds .is-in when they enter view.
+   Everything degrades to "visible, no movement" if JS never runs.
+   ========================================================================= */
+
+[data-reveal] {
+  --rv-delay: 0ms;
+  transition:
+    opacity var(--d-reveal) var(--ease-out) var(--rv-delay),
+    transform var(--d-reveal) var(--ease-out) var(--rv-delay),
+    clip-path var(--d-reveal) var(--ease-out) var(--rv-delay),
+    filter var(--d-reveal) var(--ease-out) var(--rv-delay);
+  will-change: opacity, transform;
+}
+
+/* Only hide things once JS has confirmed it is driving the reveals. */
+html.js [data-reveal] { opacity: 0; }
+html.js [data-reveal='up'] { transform: translate3d(0, 38px, 0); }
+html.js [data-reveal='down'] { transform: translate3d(0, -28px, 0); }
+html.js [data-reveal='left'] { transform: translate3d(-42px, 0, 0); }
+html.js [data-reveal='right'] { transform: translate3d(42px, 0, 0); }
+html.js [data-reveal='zoom'] { transform: scale(0.94); }
+html.js [data-reveal='blur'] { filter: blur(14px); transform: translate3d(0, 20px, 0); }
+
+/* Image wipe: a solid panel slides off the photo from the leading edge.
+   This deliberately avoids clip-path on the target itself — a clipped
+   element reports a zero-area intersection rect, so IntersectionObserver
+   would never fire and the reveal would never run. */
+[data-reveal='wipe'] { position: relative; overflow: hidden; }
+
+[data-reveal='wipe']::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  z-index: 5;
+  background: var(--green-950);
+  transform-origin: right center;
+  transition: transform 1150ms var(--ease-out) var(--rv-delay);
+  pointer-events: none;
+}
+
+[dir='rtl'] [data-reveal='wipe']::before { transform-origin: left center; }
+
+html.js [data-reveal='wipe'] { opacity: 1; }
+html.js [data-reveal='wipe'].is-in::before { transform: scaleX(0); }
+
+html.js [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* Inner photo drifts back as the wipe opens — a subtle Ken Burns */
+html.js [data-reveal='wipe'] img { transform: scale(1.14); transition: transform 1.6s var(--ease-out); }
+html.js [data-reveal='wipe'].is-in img { transform: scale(1); }
+
+/* Hero headline: each line rises out of its own mask */
+html.js .hero__title .ln > span {
+  transform: translate3d(0, 108%, 0);
+  opacity: 0;
+  transition: transform 1150ms var(--ease-out), opacity 900ms var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 110ms + 120ms);
+}
+
+body.is-loaded .hero__title .ln > span { transform: none; opacity: 1; }
+
+/* Hero supporting elements follow the headline up */
+html.js .hero__fade {
+  opacity: 0;
+  transform: translate3d(0, 26px, 0);
+  transition: opacity 900ms var(--ease-out), transform 900ms var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 110ms + 520ms);
+}
+
+body.is-loaded .hero__fade { opacity: 1; transform: none; }
+
+/* On a narrow screen a 42px horizontal offset on a not-yet-revealed element
+   sticks out past the viewport and produces a stray horizontal scrollbar.
+   Sideways reveals also read poorly on a phone, so they become vertical. */
+@media (max-width: 860px) {
+  html.js [data-reveal='left'],
+  html.js [data-reveal='right'] { transform: translate3d(0, 32px, 0); }
+}
+
+/* Staggered children — set --i per child in the markup */
+[data-stagger] > * { --rv-delay: calc(var(--i, 0) * 95ms); }
+
+/* Magnetic buttons (desktop pointer only) */
+.magnetic { transition: transform 420ms var(--ease-out); }
+.magnetic.is-pulled { transition: transform 120ms linear; }
+
+/* Card tilt */
+.tilt { transform-style: preserve-3d; transition: transform 520ms var(--ease-out); }
+.tilt.is-tilting { transition: transform 110ms linear; }
+
+/* Counter roll-up */
+.stat__value { font-variant-numeric: tabular-nums; }
+
+/* Parallax layers get their transform written by JS */
+[data-parallax] { will-change: transform; }
+
+/* =========================================================================
+   Reduced motion — honour the OS setting without breaking the layout
+   ========================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html.js [data-reveal],
+  html.js .hero__fade,
+  html.js .hero__title .ln > span {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+
+  html.js [data-reveal='wipe'] img { transform: none !important; }
+  [data-reveal='wipe']::before { display: none; }
+
+  body::after { animation: none; opacity: 0.18; }
+  .marquee__track { animation: none; }
+  .hero__embers { display: none; }
+  .preloader { display: none; }
+  .cursor, .cursor-dot { display: none; }
+}
