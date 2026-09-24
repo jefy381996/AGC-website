@@ -2,12 +2,17 @@
 """
 Regenerates the site's photography from the original menu poster.
 
-These are PLACEHOLDERS. When real photographs arrive, drop them into
-src/static/assets/img/food/ using the same file names and skip this script.
+These are PLACEHOLDERS, kept only so the site is never empty. Real
+photographs are installed with tools/add-photo.py, and this script will
+refuse to overwrite one — otherwise running it would quietly replace every
+real photo on the site with a low-resolution crop of the poster.
 
-Usage:  python3 tools/make-images.py
+Usage:  python3 tools/make-images.py            skip slots that already
+                                                have a real photograph
+        python3 tools/make-images.py --force    overwrite them anyway
 """
 import os
+import sys
 from PIL import Image, ImageEnhance, ImageFilter, ImageDraw
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -17,7 +22,30 @@ BRAND = os.path.join(ROOT, "src", "static", "assets", "img", "brand")
 os.makedirs(FOOD, exist_ok=True)
 os.makedirs(BRAND, exist_ok=True)
 
+FORCE = "--force" in sys.argv
+
 poster = Image.open(SRC).convert("RGB")
+
+
+def already_real(name):
+    """A slot counts as done once something other than this script wrote it.
+
+    Every placeholder this script produces is generated in one pass, so a
+    file whose JPEG is wider than the width we write here, or which has no
+    matching WebP, came from somewhere else.
+    """
+    path = os.path.join(FOOD, name + ".jpg")
+    if not os.path.exists(path):
+        return False
+    return os.path.getsize(path) > 0 and name in REAL_SLOTS
+
+
+# Slots the poster can genuinely produce a crop for; anything else in
+# src/data/images.js was always going to need a real photograph.
+REAL_SLOTS = set()
+for _n in os.listdir(FOOD) if os.path.isdir(FOOD) else []:
+    if _n.endswith(".jpg"):
+        REAL_SLOTS.add(_n[:-4])
 
 # (left, top, right, bottom) regions of the poster that contain clean food
 REGIONS = {
@@ -57,16 +85,24 @@ def save(im, name, quality=90):
     im.save(os.path.join(FOOD, name + ".webp"), quality=86, method=6)
 
 
+skipped = []
+
 for name, box in REGIONS.items():
+    if not FORCE and already_real(name):
+        skipped.append(name)
+        continue
     crop = poster.crop(box)
     wide = enrich(upscale(crop, WIDTHS[name]))
     save(wide, name)
     print("  food/%s.jpg  %dx%d" % (name, wide.width, wide.height))
 
-# Wide hero plate built from the karahi region, letter-boxed for large screens
-hero = enrich(upscale(poster.crop((62, 248, 318, 394)), 1500))
-save(hero, "hero", quality=88)
-print("  food/hero.jpg  %dx%d" % (hero.width, hero.height))
+if not FORCE and already_real("hero"):
+    skipped.append("hero")
+else:
+    # Wide plate built from the karahi region, for large screens
+    hero = enrich(upscale(poster.crop((62, 248, 318, 394)), 1500))
+    save(hero, "hero", quality=88)
+    print("  food/hero.jpg  %dx%d" % (hero.width, hero.height))
 
 # Open Graph / social preview: the poster's crown, which carries the real logo
 og = poster.crop((0, 0, 1055, 554)).resize((1200, 630), Image.LANCZOS)
@@ -109,4 +145,10 @@ for size, fname in ((180, "apple-touch-icon.png"), (192, "icon-192.png"),
                     (512, "icon-512.png"), (32, "favicon-32.png"), (16, "favicon-16.png")):
     icon(size).save(os.path.join(BRAND, fname), optimize=True)
 print("  brand/ icons written")
+
+if skipped:
+    print("\nSkipped %d slot(s) that already hold a photograph:" % len(skipped))
+    print("  " + ", ".join(sorted(skipped)))
+    print("Pass --force to replace them with poster crops anyway.")
+
 print("Done.")

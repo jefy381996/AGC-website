@@ -23,8 +23,18 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* Which part of the hero stays in frame once the box is cropped. The
+     photograph puts the dish to one side and leaves the other side dark for
+     the headline, so a centred crop on a narrow screen shows only the empty
+     half. Retune this if the hero is ever replaced with a centred shot. */
+  object-position: var(--hero-focus, 50% center);
   filter: saturate(1.02) contrast(1.04) brightness(0.72);
 }
+
+/* In Arabic the headline moves to the right, so the dish has to move left.
+   Mirroring the photograph does that for any composition, and these are
+   food shots with no text or signage in them to read backwards. */
+[dir='rtl'] .hero__bg img { transform: scaleX(-1); }
 
 .hero__veil {
   position: absolute;

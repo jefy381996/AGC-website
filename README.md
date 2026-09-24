@@ -47,9 +47,9 @@ Other things you may want to change:
 
 ## Photographs
 
-> **The photos on the site right now are placeholders.** They are low-resolution
-> crops taken from your printed menu poster. They are there so the site is never
-> empty — please replace them.
+Real photographs are installed for every dish. Two slots are still open —
+`karahi-chatkhara` and `storefront` — and the site handles both gracefully
+until they arrive.
 
 To see exactly what is needed and what is still a placeholder:
 
@@ -121,7 +121,8 @@ dependencies to install.
 npm run build     # build into dist/
 npm start         # build and serve at http://localhost:4173
 npm run photos    # print the photo shot list
-npm run images    # regenerate the poster-crop placeholders (needs Python + Pillow)
+npm run images    # regenerate the poster-crop placeholders for any slot that
+                  # has no real photo yet (needs Python + Pillow)
 ```
 
 `dist/` is generated. Never edit anything in it — your changes will be wiped on
