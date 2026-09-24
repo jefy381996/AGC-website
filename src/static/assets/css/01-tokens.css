@@ -123,6 +123,10 @@ html {
   scroll-padding-top: calc(var(--header-h) + 1.5rem);
 }
 
+/* NOTE: do not add overflow-x: clip/hidden to html. It makes the root a clip
+   container, which detaches position: sticky — the menu page's filter bar
+   stops sticking and scrolls away. body's overflow-x below is the guard. */
+
 body {
   background: var(--bg);
   color: var(--fg);
