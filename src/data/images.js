@@ -13,7 +13,9 @@
 
 const slots = {
   hero: {
-    use: null,
+    // Falls back to the karahi until a dedicated hero is shot, so there is
+    // never a blurry stand-in behind the headline.
+    use: 'karahi',
     shot: 'Wide, landscape. A full karahi mid-cook in the iron wok, steam rising. This is the first thing every visitor sees — shoot it in landscape, not portrait, and leave empty space on the left for the headline.'
   },
   karahi: {

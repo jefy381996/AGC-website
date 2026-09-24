@@ -5,6 +5,7 @@
 const site = require('../data/site');
 const { ui } = require('../data/content');
 const icons = require('./icons');
+const photos = require('./photos');
 
 /* Picks the right language out of a { en, ar } pair. */
 function t(value, lang) {
@@ -230,6 +231,12 @@ function layout(opts) {
   const other = lang === 'en' ? 'ar' : 'en';
   const canonical = site.url + pageUrl(opts.id, lang).replace(new RegExp('^' + site.base.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')), '');
   const depth = lang === 'en' ? '' : '../';
+  // Preload whatever the hero slot actually resolves to, so the link never
+  // points at a file that is not there.
+  const heroSlot = photos.resolveSlot(opts.heroImage || 'hero');
+  const heroFile = heroSlot
+    ? (photos.hasWebp(heroSlot) ? heroSlot + '.webp' : photos.fileFor(heroSlot))
+    : '';
 
   return `<!DOCTYPE html>
 <html lang="${lang}" dir="${dir}">
@@ -267,7 +274,7 @@ ${opts.noindex ? '<meta name="robots" content="noindex">' : ''}
 
 <link rel="preload" as="font" type="font/woff2" crossorigin href="${asset('assets/fonts/' + (lang === 'ar' ? 'amiri-700-normal-arabic' : 'cormorant-garamond-300-normal-latin') + '.woff2')}">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="${asset('assets/fonts/' + (lang === 'ar' ? 'tajawal-500-normal-arabic' : 'manrope-300-normal-latin') + '.woff2')}">
-<link rel="preload" as="image" href="${asset('assets/img/food/' + (opts.heroImage || 'hero') + '.webp')}" fetchpriority="high">
+<link rel="preload" as="image" href="${asset('assets/img/food/' + heroFile)}" fetchpriority="high">
 <link rel="stylesheet" href="${asset('assets/css/styles.css')}">
 <script>document.documentElement.classList.add('js');</script>
 <script type="application/ld+json">${jsonLd(lang)}</script>

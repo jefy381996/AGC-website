@@ -1,48 +1,14 @@
 /* Reusable page fragments. */
 
-const fs = require('fs');
-const path = require('path');
-
 const site = require('../data/site');
-const slots = require('../data/images');
+const photos = require('./photos');
 const { ui } = require('../data/content');
 const L = require('./layout');
 const { t, esc, asset, pageUrl, waLink, directionsLink, icons } = L;
 
-const FOOD_DIR = path.join(__dirname, '..', 'static', 'assets', 'img', 'food');
-const EXTS = ['.jpg', '.jpeg', '.png', '.webp'];
-
-/* Which file on disk backs a slot name, if any. */
-function fileFor(name) {
-  for (let i = 0; i < EXTS.length; i++) {
-    if (fs.existsSync(path.join(FOOD_DIR, name + EXTS[i]))) return name + EXTS[i];
-  }
-  return null;
-}
-
-/* Walks the fallback chain until it finds a slot with an actual file. */
-function resolveSlot(name) {
-  const seen = {};
-  let key = name;
-  while (key && !seen[key]) {
-    seen[key] = true;
-    if (fileFor(key)) return key;
-    key = slots[key] ? slots[key].use : null;
-  }
-  return null;
-}
-
-/* True when a real photograph exists for this exact slot (no fallback).
-   Used where showing the wrong dish would be worse than showing none. */
-function hasPhoto(name) {
-  return !!fileFor(name);
-}
-
-
-/* <picture> with a WebP source and a JPEG fallback. */
 function picture(name, alt, opts) {
   opts = opts || {};
-  const slot = resolveSlot(name);
+  const slot = photos.resolveSlot(name);
 
   if (!slot) {
     // Nothing on disk for this slot or its fallbacks — render no <img> at all
@@ -50,7 +16,7 @@ function picture(name, alt, opts) {
     return '';
   }
 
-  const file = fileFor(slot);
+  const file = photos.fileFor(slot);
   const cls = opts.class ? ' class="' + opts.class + '"' : '';
   const loading = opts.eager ? 'eager' : 'lazy';
   const priority = opts.eager ? ' fetchpriority="high"' : '';
@@ -60,7 +26,7 @@ function picture(name, alt, opts) {
   // Only offer the WebP source when one actually exists. A photo dropped in
   // as a plain .jpg has no .webp beside it, and <picture> does not recover
   // from a source that 404s — it would just show a broken image.
-  const webp = fs.existsSync(path.join(FOOD_DIR, slot + '.webp')) && !/\.webp$/.test(file)
+  const webp = photos.hasWebp(slot) && !/\.webp$/.test(file)
     ? `<source type="image/webp" srcset="${asset('assets/img/food/' + slot + '.webp')}"${sizes}>\n      `
     : '';
 
@@ -135,5 +101,5 @@ function price(value, lang) {
 module.exports = {
   picture: picture, framed: framed, rule: rule,
   ctaBand: ctaBand, pageHero: pageHero, price: price,
-  hasPhoto: hasPhoto, resolveSlot: resolveSlot, fileFor: fileFor
+  hasPhoto: photos.hasPhoto, resolveSlot: photos.resolveSlot, fileFor: photos.fileFor
 };

@@ -132,7 +132,7 @@ module.exports = function (lang) {
       : 'Our Story — Al Ashfaz Restaurant, Al-Batha, Riyadh',
     description: lang === 'ar'
       ? 'من لاهور وبيشاور إلى البطحاء: كيف نطبخ في مطعم آل أشفاز، والفرق بين الكراهي اللاهوري والشنواري والبيضاء والتشاتخارا.'
-      : 'From Lahore and Peshawar to Al-Batha: how we cook at Al Ashfaz, and what actually separates Lahori, Shinwari, White and Chatkhara karahi.',
+      : 'Why Al Ashfaz opened in Al-Batha, how we cook, and what actually separates Lahori, Shinwari, White and Chatkhara karahi.',
     body: body
   };
 };
