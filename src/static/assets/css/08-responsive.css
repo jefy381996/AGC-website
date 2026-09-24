@@ -21,13 +21,13 @@
   .grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .grid--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
+  /* Two up, with the first and last photograph spanning the full width. */
   .gal__item:nth-child(n) { grid-column: span 6; }
-  .gal__item:nth-child(1) { grid-column: span 12; }
-  .gal__item:nth-child(6) { grid-column: span 12; }
-  .gal__item:nth-child(6) .frame { aspect-ratio: 16 / 9; }
+  .gal__item:nth-child(1),
+  .gal__item:nth-child(8) { grid-column: span 12; }
   .gal__item .frame { aspect-ratio: 1 / 1 !important; }
   .gal__item:nth-child(1) .frame,
-  .gal__item:nth-child(6) .frame { aspect-ratio: 16 / 10 !important; }
+  .gal__item:nth-child(8) .frame { aspect-ratio: 16 / 10 !important; }
   /* Touch devices never fire hover, so captions must be visible by default */
   .gal__cap { opacity: 1; transform: none; background: linear-gradient(transparent, rgba(3, 17, 11, 0.85)); }
 }

@@ -13,10 +13,13 @@ function heat(level, lang) {
 module.exports = function (lang) {
   const styleSlots = ['karahi-lahori', 'karahi-shinwari', 'karahi-white', 'karahi-chatkhara'];
 
+  // These four read as a set, so they are all-or-nothing: until every style
+  // has been shot, they all stay text-only. Three photographs and one gap
+  // looks like a bug, and a fallback photo would show the wrong karahi.
+  const allShot = styleSlots.every(function (slot) { return P.hasPhoto(slot); });
+
   const styles = about.styles.items.map(function (s, i) {
-    // Four near-identical fallback photos would look worse than none, so a
-    // card only gets an image once its own karahi has actually been shot.
-    const photo = P.hasPhoto(styleSlots[i])
+    const photo = allShot
       ? P.framed(styleSlots[i], t(s.name, lang), { ratio: 'ratio-3-2', reveal: false })
       : '';
     return `
@@ -58,7 +61,7 @@ module.exports = function (lang) {
     <div class="shell">
       <div class="split">
         <div class="split__media">
-          ${P.framed('karahi', t({ en: 'Karahi cooking in an iron wok', ar: 'كراهي تُطهى في مقلاة حديدية' }, lang), { ratio: 'ratio-portrait' })}
+          ${P.framed('interior', t({ en: 'The dining room at Al Ashfaz', ar: 'صالة الطعام في مطعم آل أشفاز' }, lang), { ratio: 'ratio-3-2' })}
         </div>
         <div>
           <p class="eyebrow" data-reveal="up">${esc(lang === 'ar' ? 'البداية' : 'The beginning')}</p>

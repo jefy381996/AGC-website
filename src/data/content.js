@@ -29,10 +29,6 @@ const ui = {
   prev: { en: 'Previous', ar: 'السابق' },
   next: { en: 'Next', ar: 'التالي' },
   close: { en: 'Close', ar: 'إغلاق' },
-  placeholderPhoto: {
-    en: 'Photograph from our printed menu',
-    ar: 'صورة من المنيو المطبوع'
-  },
   noDelivery: {
     en: 'We do not take bookings or deliver. Walk in, sit down, and we will cook it fresh.',
     ar: 'لا نستقبل الحجوزات ولا نقدم التوصيل. تفضَّل بالدخول واجلس، وسنطهو لك طازجاً.'
@@ -203,9 +199,11 @@ const gallery = {
     { id: 'karahi', title: { en: 'Chicken Karahi, full', ar: 'كراهي دجاج، كاملة' }, body: { en: 'Straight off the flame in its iron wok, green chilli still whole on top.', ar: 'مباشرة من النار في مقلاتها الحديدية، والفلفل الأخضر ما زال كاملاً فوقها.' } },
     { id: 'bbq', title: { en: 'Off the coals', ar: 'من على الفحم' }, body: { en: 'Seekh kababs, raita and raw onion — the way a BBQ plate should arrive.', ar: 'كباب سيخ ورايتة وبصل نيء — كما يجب أن يصل طبق المشاوي.' } },
     { id: 'biryani', title: { en: 'Beef Pulao', ar: 'بلاو لحم بقري' }, body: { en: 'Rice cooked in stock, meat folded through rather than laid on top.', ar: 'أرز مطهو في المرق، واللحم مدسوس بداخله لا موضوع فوقه.' } },
-    { id: 'naan', title: { en: 'Fresh from the tandoor', ar: 'طازج من التنور' }, body: { en: 'Kabul naan and roghni naan, still too hot to hold properly.', ar: 'نان كابلي ونان روغني، ما زالا ساخنين يصعب حملهما.' } },
+    { id: 'naan', title: { en: 'Naan, straight to the table', ar: 'نان إلى الطاولة مباشرة' }, body: { en: 'Kabul naan and roghni naan, still too hot to hold properly.', ar: 'نان كابلي ونان روغني، ما زالا ساخنين يصعب حملهما.' } },
     { id: 'daal', title: { en: 'Daal Karahi', ar: 'دال كراهي' }, body: { en: 'Slow-cooked lentils finished with a garlic tarka at the last moment.', ar: 'عدس مطهو ببطء يُنهى بتقلية ثوم في اللحظة الأخيرة.' } },
-    { id: 'sides', title: { en: 'The small things', ar: 'التفاصيل الصغيرة' }, body: { en: 'Raita, salad and something cold — one riyal each, and the table is complete.', ar: 'رايتة وسلطة وشيء بارد — بريال لكل منها، وتكتمل الطاولة.' } }
+    { id: 'sides', title: { en: 'The small things', ar: 'التفاصيل الصغيرة' }, body: { en: 'Raita, salad and something cold — one riyal each, and the table is complete.', ar: 'رايتة وسلطة وشيء بارد — بريال لكل منها، وتكتمل الطاولة.' } },
+    { id: 'tandoor', title: { en: 'Out of the tandoor', ar: 'من التنور' }, body: { en: 'Bread goes onto the clay wall and comes off about ninety seconds later.', ar: 'يُلصق الخبز على جدار التنور الطيني ويُرفع بعد تسعين ثانية تقريباً.' } },
+    { id: 'interior', title: { en: 'The dining room', ar: 'صالة الطعام' }, body: { en: 'Open from seven in the morning until two the next — and busiest long after dark.', ar: 'مفتوح من السابعة صباحاً حتى الثانية بعد منتصف الليل — وأكثر ازدحاماً بعد حلول الظلام بكثير.' } }
   ]
 };
 
