@@ -34,12 +34,12 @@ const site = {
     phoneHref: '+966564478360',
     email: '',
     address: {
-      en: ['Opposite Lulu Hypermarket', 'Al-Batha, Riyadh', 'Kingdom of Saudi Arabia'],
-      ar: ['مقابل لولو هايبر ماركت', 'البطحاء، الرياض', 'المملكة العربية السعودية']
+      en: ['Opposite Lulu Hyper', 'Al-Batha, Riyadh'],
+      ar: ['مقابل لولو هايبر', 'البطحاء، الرياض']
     },
     addressOneLine: {
-      en: 'Opposite Lulu Hypermarket, Al-Batha, Riyadh, Saudi Arabia',
-      ar: 'مقابل لولو هايبر ماركت، البطحاء، الرياض، المملكة العربية السعودية'
+      en: 'Opposite Lulu Hyper, Al-Batha, Riyadh',
+      ar: 'مقابل لولو هايبر، البطحاء، الرياض'
     },
     mapsQuery: 'Al+Ashfaz+Restaurant+Al+Batha+Riyadh',
     // Pin used by the embedded map. Replace with your exact coordinates from
@@ -51,14 +51,14 @@ const site = {
   hours: {
     note: { en: 'Open every day', ar: 'مفتوح كل يوم' },
     rows: [
-      { days: { en: 'Every day', ar: 'كل يوم' }, time: { en: '7:00 AM — 2:00 PM', ar: '٧:٠٠ ص — ٢:٠٠ م' } }
+      { days: { en: 'Every day', ar: 'كل يوم' }, time: { en: '7:00 AM — 2:00 AM', ar: '٧:٠٠ ص — ٢:٠٠ ص' } }
     ],
     // 24-hour values for the "open now" indicator, per weekday (0 = Sunday).
     // A closing time past midnight would be written as e.g. '26:00' for 2 AM.
     schedule: {
-      0: ['07:00', '14:00'], 1: ['07:00', '14:00'], 2: ['07:00', '14:00'],
-      3: ['07:00', '14:00'], 4: ['07:00', '14:00'], 5: ['07:00', '14:00'],
-      6: ['07:00', '14:00']
+      0: ['07:00', '26:00'], 1: ['07:00', '26:00'], 2: ['07:00', '26:00'],
+      3: ['07:00', '26:00'], 4: ['07:00', '26:00'], 5: ['07:00', '26:00'],
+      6: ['07:00', '26:00']
     }
   },
 

@@ -57,7 +57,7 @@ const slots = {
   naan: { use: 'hero', shot: 'Fresh naan in the basket — kabul naan and roghni naan together, blistered and steaming.' },
   sides: { use: 'hero', shot: 'Raita, salad and a cold drink arranged together on the table.' },
   tandoor: { use: 'naan', optional: true, shot: 'Naan being lifted out of the tandoor. Hands in shot are good.' },
-  storefront: { use: 'naan', optional: true, shot: 'The shopfront from across the road in daylight, sign clearly readable. Helps people find you.' },
+  storefront: { use: 'naan', optional: true, shot: 'The shopfront from across the road, sign clearly readable — daylight or evening with the sign lit. Must be a real photograph: its only job is to help people recognise the building.' },
   interior: { use: 'hero', optional: true, shot: 'The dining room with people in it, shot wide. Warm and busy beats empty and tidy.' }
 };
 

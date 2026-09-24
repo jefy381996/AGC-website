@@ -84,7 +84,7 @@ function jsonLd(lang) {
     acceptsReservations: 'False',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: lang === 'ar' ? 'مقابل لولو هايبر ماركت، البطحاء' : 'Opposite Lulu Hypermarket, Al-Batha',
+      streetAddress: lang === 'ar' ? 'مقابل لولو هايبر، البطحاء' : 'Opposite Lulu Hyper, Al-Batha',
       addressLocality: lang === 'ar' ? 'الرياض' : 'Riyadh',
       addressCountry: 'SA'
     },

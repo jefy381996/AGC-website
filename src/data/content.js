@@ -67,11 +67,11 @@ const home = {
     title: { en: 'A Batha kitchen that cooks the way home does', ar: 'مطبخ بطحاوي يطبخ كما يطبخ البيت' },
     body: {
       en: [
-        'Al Ashfaz sits opposite Lulu Hypermarket in Al-Batha. We opened with one rule and we have not moved off it: cook everything from raw, when it is ordered, in front of you.',
+        'Al Ashfaz sits opposite Lulu Hyper in Al-Batha. We opened with one rule and we have not moved off it: cook everything from raw, when it is ordered, in front of you.',
         'That means the karahi takes longer than you might like. It also means the tomato has not been sitting in a pot since we opened, the chicken has not been reheated, and the naan reaches you too hot to hold. Desi, Shinwari and BBQ — done properly, priced so a family can afford it twice a week.'
       ],
       ar: [
-        'يقع مطعم آل أشفاز مقابل لولو هايبر ماركت في البطحاء. افتتحنا بقاعدة واحدة ولم نحد عنها: نطهو كل شيء من الطازج، عند طلبه، أمامك.',
+        'يقع مطعم آل أشفاز مقابل لولو هايبر في البطحاء. افتتحنا بقاعدة واحدة ولم نحد عنها: نطهو كل شيء من الطازج، عند طلبه، أمامك.',
         'هذا يعني أن الكراهي تستغرق وقتاً أطول مما قد تتمنى. ويعني أيضاً أن الطماطم لم تبقَ في القدر منذ الافتتاح، وأن الدجاج لم يُعَد تسخينه، وأن النان يصل إليك ساخناً يصعب حمله. ديسي وشنواري ومشويات — بإتقان، وبأسعار تسمح للعائلة بالعودة مرتين في الأسبوع.'
       ]
     }
@@ -108,7 +108,7 @@ const home = {
   },
   visit: {
     eyebrow: { en: 'Come and sit', ar: 'تفضَّل واجلس' },
-    title: { en: 'Opposite Lulu Hypermarket, Al-Batha', ar: 'مقابل لولو هايبر ماركت، البطحاء' },
+    title: { en: 'Opposite Lulu Hyper, Al-Batha', ar: 'مقابل لولو هايبر، البطحاء' },
     body: {
       en: 'No bookings, no delivery apps, no waiting for a driver. Walk in, take a table, and tell us what you want cooked.',
       ar: 'لا حجوزات، ولا تطبيقات توصيل، ولا انتظار لسائق. ادخل واختر طاولة وأخبرنا بما تريد أن نطهوه.'
@@ -131,12 +131,12 @@ const about = {
       en: [
         'Al Ashfaz began with a simple frustration. Too much food is cooked early, held warm for hours and served tired — and everyone has learned to accept it. We wanted a kitchen where nothing is made until somebody asks for it.',
         'So that is how we built it. The meat is cut and prepared the same morning. The tandoor is lit from the moment we open. Every karahi starts from raw when your order reaches the kitchen — which is why it takes fifteen or twenty minutes, and why it tastes the way it does.',
-        'The rest was about price. Good food should not be an occasion. We set ours so a family can eat properly on an ordinary day and not think twice about coming back. We opened opposite Lulu Hypermarket because that is where people actually walk, and we have cooked for that street ever since.'
+        'The rest was about price. Good food should not be an occasion. We set ours so a family can eat properly on an ordinary day and not think twice about coming back. We opened opposite Lulu Hyper because that is where people actually walk, and we have cooked for that street ever since.'
       ],
       ar: [
         'بدأ مطعم آل أشفاز من شعور بسيط بالضيق. الكثير من الطعام يُطهى مبكراً ويُحفظ ساخناً لساعات ثم يُقدَّم وقد فقد حيويته — وتعوَّد الجميع على قبول ذلك. أردنا مطبخاً لا يُحضَّر فيه شيء قبل أن يطلبه أحد.',
         'وهكذا بنيناه. يُقطَّع اللحم ويُجهَّز في الصباح نفسه. ويُشعل التنور منذ لحظة الافتتاح. وتبدأ كل كراهي من اللحم الطازج حين تصل طلبيتك إلى المطبخ — ولهذا تستغرق خمس عشرة أو عشرين دقيقة، ولهذا يكون مذاقها كما هو.',
-        'أما الباقي فكان مسألة سعر. الطعام الجيد لا ينبغي أن يكون مناسبة خاصة. حدَّدنا أسعارنا كي تتمكن العائلة من تناول طعام جيد في يوم عادي دون أن تفكر مرتين في العودة. افتتحنا مقابل لولو هايبر ماركت لأن هذا حيث يمشي الناس فعلاً، وما زلنا نطبخ لذلك الشارع منذ ذلك الحين.'
+        'أما الباقي فكان مسألة سعر. الطعام الجيد لا ينبغي أن يكون مناسبة خاصة. حدَّدنا أسعارنا كي تتمكن العائلة من تناول طعام جيد في يوم عادي دون أن تفكر مرتين في العودة. افتتحنا مقابل لولو هايبر لأن هذا حيث يمشي الناس فعلاً، وما زلنا نطبخ لذلك الشارع منذ ذلك الحين.'
       ]
     }
   },
@@ -214,8 +214,8 @@ const visit = {
     eyebrow: { en: 'Visit Us', ar: 'زورونا' },
     title: { en: 'Find us in Al-Batha', ar: 'تجدنا في البطحاء' },
     lede: {
-      en: 'Opposite Lulu Hypermarket. Walk in whenever you like — there is nothing to book and nothing to arrange.',
-      ar: 'مقابل لولو هايبر ماركت. تفضَّل بالدخول متى شئت — لا شيء يُحجز ولا شيء يُرتَّب.'
+      en: 'Opposite Lulu Hyper. Walk in whenever you like — there is nothing to book and nothing to arrange.',
+      ar: 'مقابل لولو هايبر. تفضَّل بالدخول متى شئت — لا شيء يُحجز ولا شيء يُرتَّب.'
     }
   },
   finding: {
@@ -223,13 +223,13 @@ const visit = {
     steps: {
       en: [
         'Make your way to Al-Batha, central Riyadh — the old commercial heart of the city.',
-        'Find Lulu Hypermarket. Everyone in the district knows it, so it is safe to ask.',
+        'Find Lulu Hyper. Everyone in the district knows it, so it is safe to ask.',
         'We are directly opposite, on the other side of the road. Look for the green and gold front.',
         'Taxi or Careem drivers: "Al Ashfaz Restaurant, opposite Lulu, Batha" is enough.'
       ],
       ar: [
         'توجَّه إلى البطحاء وسط الرياض — القلب التجاري القديم للمدينة.',
-        'ابحث عن لولو هايبر ماركت. يعرفه الجميع في الحي، فلا بأس بالسؤال عنه.',
+        'ابحث عن لولو هايبر. يعرفه الجميع في الحي، فلا بأس بالسؤال عنه.',
         'نحن مقابله مباشرة، على الجانب الآخر من الطريق. ابحث عن الواجهة الخضراء والذهبية.',
         'لسائقي التاكسي أو كريم: «مطعم آل أشفاز، مقابل لولو، البطحاء» تكفي.'
       ]
@@ -240,7 +240,7 @@ const visit = {
     items: [
       {
         q: { en: 'Do you take table bookings?', ar: 'هل تقبلون حجز الطاولات؟' },
-        a: { en: 'No. Seating is first come, first served, every day. Around the middle of the day you may wait a few minutes for a table to clear — it moves quickly.', ar: 'لا. الجلوس بالأسبقية لمن يأتي أولاً، كل يوم. في منتصف النهار قد تنتظر دقائق حتى تخلو طاولة — لكن الحركة سريعة.' }
+        a: { en: 'No. Seating is first come, first served, every day. On Thursday and Friday evenings you may wait a few minutes for a table to clear — it moves quickly.', ar: 'لا. الجلوس بالأسبقية لمن يأتي أولاً، كل يوم. في أمسيات الخميس والجمعة قد تنتظر دقائق حتى تخلو طاولة — لكن الحركة سريعة.' }
       },
       {
         q: { en: 'Do you deliver?', ar: 'هل تقدمون خدمة التوصيل؟' },
@@ -260,7 +260,7 @@ const visit = {
       },
       {
         q: { en: 'Is there a family section?', ar: 'هل يوجد قسم عائلي؟' },
-        a: { en: 'There is no separate family section — one dining room, everyone in it. There is plenty of room for large groups, so if you are bringing a big table, come a little before the midday rush.', ar: 'لا يوجد قسم عائلي منفصل — صالة واحدة تجمع الجميع. لدينا مساحة واسعة للمجموعات الكبيرة، فإن كنت قادماً بطاولة كبيرة فتعال قبل ازدحام الظهيرة بقليل.' }
+        a: { en: 'There is no separate family section — one dining room, everyone in it. There is plenty of room for large groups, so if you are bringing a big table, come a little before the evening rush.', ar: 'لا يوجد قسم عائلي منفصل — صالة واحدة تجمع الجميع. لدينا مساحة واسعة للمجموعات الكبيرة، فإن كنت قادماً بطاولة كبيرة فتعال قبل ازدحام المساء بقليل.' }
       },
       {
         q: { en: 'Do you have vegetarian dishes?', ar: 'هل لديكم أطباق نباتية؟' },

@@ -135,8 +135,8 @@ module.exports = function (lang) {
   ${P.ctaBand(lang, {
     title: { en: 'We are open — come over', ar: 'نحن مفتوحون — تفضّل بالزيارة' },
     body: {
-      en: 'Opposite Lulu Hypermarket in Al-Batha. Find a table, and tell us what you want cooked.',
-      ar: 'مقابل لولو هايبر ماركت في البطحاء. اختر طاولة، وأخبرنا بما تريد أن نطهوه.'
+      en: 'Opposite Lulu Hyper in Al-Batha. Find a table, and tell us what you want cooked.',
+      ar: 'مقابل لولو هايبر في البطحاء. اختر طاولة، وأخبرنا بما تريد أن نطهوه.'
     }
   })}
 
@@ -149,8 +149,8 @@ module.exports = function (lang) {
       ? 'زورونا — مطعم آل أشفاز، مقابل لولو، البطحاء، الرياض'
       : 'Visit Us — Al Ashfaz Restaurant, Opposite Lulu, Al-Batha, Riyadh',
     description: lang === 'ar'
-      ? 'الموقع وأوقات العمل وطريقة الوصول إلى مطعم آل أشفاز في البطحاء، مقابل لولو هايبر ماركت. بدون حجوزات وبدون توصيل.'
-      : 'Location, opening hours and directions to Al Ashfaz Restaurant in Al-Batha, opposite Lulu Hypermarket. No bookings, no delivery.',
+      ? 'الموقع وأوقات العمل وطريقة الوصول إلى مطعم آل أشفاز في البطحاء، مقابل لولو هايبر. بدون حجوزات وبدون توصيل.'
+      : 'Location, opening hours and directions to Al Ashfaz Restaurant in Al-Batha, opposite Lulu Hyper. No bookings, no delivery.',
     body: body
   };
 };

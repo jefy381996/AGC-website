@@ -228,8 +228,8 @@ module.exports = function (lang) {
       ? 'مطعم آل أشفاز — كراهي ومشويات في البطحاء، الرياض'
       : 'Al Ashfaz Restaurant — Karahi, Shinwari & BBQ in Al-Batha, Riyadh',
     description: lang === 'ar'
-      ? 'مطعم آل أشفاز في البطحاء بالرياض، مقابل لولو هايبر ماركت. كراهي لاهوري وشنواري، مشاوي على الفحم، برياني، ونان طازج من التنور — كل شيء يُطهى عند الطلب.'
-      : 'Al Ashfaz Restaurant in Al-Batha, Riyadh, opposite Lulu Hypermarket. Lahori and Shinwari karahi, charcoal BBQ, biryani and tandoor-fresh naan — everything cooked to order.',
+      ? 'مطعم آل أشفاز في البطحاء بالرياض، مقابل لولو هايبر. كراهي لاهوري وشنواري، مشاوي على الفحم، برياني، ونان طازج من التنور — كل شيء يُطهى عند الطلب.'
+      : 'Al Ashfaz Restaurant in Al-Batha, Riyadh, opposite Lulu Hyper. Lahori and Shinwari karahi, charcoal BBQ, biryani and tandoor-fresh naan — everything cooked to order.',
     body: body
   };
 };

@@ -12,8 +12,8 @@
 const specials = {
   heading: { en: 'Two Special Dishes Daily', ar: 'طبقان مميزان يومياً' },
   blurb: {
-    en: 'Made fresh every single day, in limited numbers, and usually gone well before we close. These are the two plates the neighbourhood comes back for.',
-    ar: 'تُحضَّر طازجة كل يوم بكميات محدودة، وعادةً تنفد قبل الإغلاق بوقت طويل. هذان هما الطبقان اللذان يعود إليهما الحي دائماً.'
+    en: 'Made fresh every single day, in limited numbers, and usually gone by the evening rush. These are the two plates the neighbourhood comes back for.',
+    ar: 'تُحضَّر طازجة كل يوم بكميات محدودة، وعادةً تنفد مع ازدحام المساء. هذان هما الطبقان اللذان يعود إليهما الحي دائماً.'
   },
   items: [
     {
