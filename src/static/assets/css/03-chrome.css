@@ -145,7 +145,17 @@ body.is-loading { overflow: hidden; }
 }
 
 /* --- Logo -------------------------------------------------------------- */
-.logo { display: inline-flex; align-items: center; gap: 0.7rem; flex: none; }
+/* Shrinkable, with the name truncating as a last resort. The header is
+   position: fixed, so anything that overflows it is silently clipped by the
+   screen edge rather than showing up as page scroll — the menu button was
+   being cut off on a 360px phone and no width measurement caught it. */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex: 0 1 auto;
+  min-width: 0;
+}
 
 .logo__mark {
   width: clamp(34px, 4vw, 42px);
@@ -157,7 +167,7 @@ body.is-loading { overflow: hidden; }
 
 .logo:hover .logo__mark { transform: rotate(-8deg) scale(1.08); }
 
-.logo__text { display: flex; flex-direction: column; line-height: 1; }
+.logo__text { display: flex; flex-direction: column; line-height: 1; min-width: 0; }
 
 .logo__name {
   font-family: var(--font-display);
@@ -166,7 +176,14 @@ body.is-loading { overflow: hidden; }
   letter-spacing: 0.04em;
   color: var(--cream);
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
+/* Below ~340px the full name cannot fit beside the language switch and the
+   menu button; the short mark reads better than an ellipsis. display:none
+   keeps the hidden one out of the accessibility tree, so it is not read twice. */
+.logo__name--short { display: none; }
 
 .logo__sub {
   font-size: 0.56rem;
@@ -261,6 +278,7 @@ body.is-loading { overflow: hidden; }
   color: var(--green-950);
   box-shadow: 0 2px 10px rgba(201, 162, 75, 0.32);
 }
+
 
 /* --- Burger ------------------------------------------------------------ */
 .burger {
