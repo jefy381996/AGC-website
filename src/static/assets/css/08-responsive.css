@@ -70,6 +70,12 @@
         rgba(3, 17, 11, 0.88) 92%,
         var(--green-950) 100%);
   }
+  /* The home page runs long on a phone. "How we cook" and the figures strip
+     below it are supporting detail, so they are dropped here and kept on
+     wider screens. They stay in the markup, which is what Google indexes. */
+  .section--pillars,
+  .section--stats { display: none; }
+
   .hero__meta { gap: 0.85rem 1.4rem; }
   /* the scroll cue means nothing on a touch screen, and it collides
      with the meta row once the hero shortens */
