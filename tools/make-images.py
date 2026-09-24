@@ -57,19 +57,10 @@ def save(im, name, quality=90):
     im.save(os.path.join(FOOD, name + ".webp"), quality=86, method=6)
 
 
-def square(im, size=900):
-    """Centre-crop to a square for the gallery grid."""
-    side = min(im.width, im.height)
-    left = (im.width - side) // 2
-    top = (im.height - side) // 2
-    return im.crop((left, top, left + side, top + side)).resize((size, size), Image.LANCZOS)
-
-
 for name, box in REGIONS.items():
     crop = poster.crop(box)
     wide = enrich(upscale(crop, WIDTHS[name]))
     save(wide, name)
-    save(square(wide), name + "-square")
     print("  food/%s.jpg  %dx%d" % (name, wide.width, wide.height))
 
 # Wide hero plate built from the karahi region, letter-boxed for large screens

@@ -57,9 +57,15 @@ To see exactly what is needed and what is still a placeholder:
 npm run photos
 ```
 
-To replace one, drop a file into `src/static/assets/img/food/` named exactly as
-the list says — for example `karahi.jpg` or `bbq.jpg` — and push. Nothing else
-to do; the site picks it up on the next build.
+To replace one, either drop a file into `src/static/assets/img/food/` named
+exactly as the list says — for example `karahi.jpg` — or let the helper do the
+resizing, WebP conversion and EXIF stripping for you:
+
+```bash
+python3 tools/add-photo.py ~/Downloads/my-karahi.jpg karahi
+```
+
+Then push. Nothing else to do; the site picks it up on the next build.
 
 - JPG is fine. Straight from a phone is fine.
 - Shoot **landscape**, at least 1600px wide.
