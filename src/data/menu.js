@@ -12,8 +12,8 @@
 const specials = {
   heading: { en: 'Two Special Dishes Daily', ar: 'طبقان مميزان يومياً' },
   blurb: {
-    en: 'Made fresh every single day, in limited numbers, and gone by the evening rush. These are the two plates the neighbourhood comes back for.',
-    ar: 'تُحضَّر طازجة كل يوم بكميات محدودة، وتنفد مع ازدحام المساء. هذان هما الطبقان اللذان يعود إليهما الحي دائماً.'
+    en: 'Made fresh every single day, in limited numbers, and usually gone well before we close. These are the two plates the neighbourhood comes back for.',
+    ar: 'تُحضَّر طازجة كل يوم بكميات محدودة، وعادةً تنفد قبل الإغلاق بوقت طويل. هذان هما الطبقان اللذان يعود إليهما الحي دائماً.'
   },
   items: [
     {
@@ -21,8 +21,8 @@ const specials = {
       price: 8,
       image: 'chapli-kabab',
       desc: {
-        en: 'Minced beef pressed flat with pomegranate seed, coriander and crushed chilli, then shallow-fried until the edges go lacy and crisp. Peshawar on a plate.',
-        ar: 'لحم بقري مفروم يُضغط على شكل قرص مع بذور الرمان والكزبرة والفلفل المجروش، ثم يُقلى حتى تصبح أطرافه مقرمشة. بيشاور في طبق.'
+        en: 'Minced beef pressed flat with pomegranate seed, coriander and crushed chilli, then shallow-fried until the edges go lacy and crisp.',
+        ar: 'لحم بقري مفروم يُضغط على شكل قرص مع بذور الرمان والكزبرة والفلفل المجروش، ثم يُقلى حتى تصبح أطرافه مقرمشة.'
       }
     },
     {
@@ -30,8 +30,8 @@ const specials = {
       price: 12,
       image: 'afghani-kabab',
       desc: {
-        en: 'Hand-minced beef threaded onto flat skewers and cooked over open coals — salt, fat and smoke, nothing else. The way it is done across the border.',
-        ar: 'لحم بقري مفروم يدوياً يُلف على أسياخ مسطحة ويُشوى على الفحم المكشوف — ملح ودهن ودخان، لا شيء غير ذلك. كما يُحضَّر خلف الحدود تماماً.'
+        en: 'Hand-minced beef threaded onto flat skewers and cooked over open coals — salt, fat and smoke, nothing else.',
+        ar: 'لحم بقري مفروم يدوياً يُلف على أسياخ مسطحة ويُشوى على الفحم المكشوف — ملح ودهن ودخان، لا شيء غير ذلك.'
       }
     }
   ]
@@ -69,8 +69,8 @@ const sections = [
       {
         name: { en: 'Shinwari', ar: 'شنواري' },
         desc: {
-          en: 'The Khyber method — meat, tomato, salt and its own fat. No masala to hide behind.',
-          ar: 'طريقة خيبر — لحم وطماطم وملح ودهنه الخاص. بلا بهارات تختبئ خلفها.'
+          en: 'The purist\u2019s way — meat, tomato, salt and its own fat. No masala to hide behind.',
+          ar: 'الطريقة الأصيلة — لحم وطماطم وملح ودهنه الخاص. بلا بهارات تختبئ خلفها.'
         },
         badge: { en: 'House speciality', ar: 'تخصص المطعم' },
         items: [
@@ -115,8 +115,8 @@ const sections = [
     subtitle: { en: 'BBQ, grilled to order over open fire', ar: 'مشويات تُحضَّر عند الطلب على النار المكشوفة' },
     unit: { en: 'per plate', ar: 'للطبق' },
     note: {
-      en: 'Charcoal only — never gas. Marinated overnight and grilled the moment you order.',
-      ar: 'فحم فقط — لا غاز أبداً. تُتبَّل طوال الليل وتُشوى لحظة طلبك.'
+      en: 'Marinated overnight and grilled the moment you order — over charcoal or gas, whichever the dish calls for.',
+      ar: 'تُتبَّل طوال الليل وتُشوى لحظة طلبك — على الفحم أو الغاز، حسب ما يتطلبه الطبق.'
     },
     items: [
       { name: { en: 'Chicken Chest Piece', ar: 'صدر دجاج مشوي' }, price: 12, desc: { en: 'Bone-in breast, yoghurt-marinated overnight, seared until the skin blisters.', ar: 'صدر بالعظم متبَّل بالزبادي طوال الليل، يُشوى حتى يتحمَّص جلده.' } },
@@ -129,7 +129,7 @@ const sections = [
       { name: { en: 'Chaska Wings', ar: 'أجنحة تشاسكا' }, price: 10, desc: { en: 'Wings tossed in our tangy chilli rub while still hot off the grill.', ar: 'أجنحة تُقلَّب في خلطتنا الحارة الحامضة وهي ساخنة من على الشواية.' }, badge: { en: 'Spicy', ar: 'حار' } },
       { name: { en: 'Beef Kabab', ar: 'كباب لحم بقري' }, price: 12, desc: { en: 'Seekh-style minced beef, hand-rolled onto the skewer.', ar: 'كباب سيخ من اللحم البقري المفروم، يُلف يدوياً على السيخ.' } },
       { name: { en: 'Chicken Kabab', ar: 'كباب دجاج' }, price: 12, desc: { en: 'Lighter seekh kabab with coriander and green chilli through it.', ar: 'كباب سيخ أخف مع الكزبرة والفلفل الأخضر.' } },
-      { name: { en: 'Behari Kabab', ar: 'كباب بهاري' }, price: 12, desc: { en: 'Thin strips of beef tenderised the Karachi way, then grilled until they curl.', ar: 'شرائح رفيعة من اللحم البقري تُطرَّى على الطريقة الكراتشية، ثم تُشوى حتى تتجعد.' } },
+      { name: { en: 'Behari Kabab', ar: 'كباب بهاري' }, price: 12, desc: { en: 'Thin strips of beef tenderised until they almost fall apart, then grilled until they curl.', ar: 'شرائح رفيعة من اللحم البقري تُطرَّى حتى تكاد تتفتت، ثم تُشوى حتى تتجعد.' } },
       { name: { en: 'BBQ Mix Platter', ar: 'طبق مشاوي مشكّل' }, price: 35, desc: { en: 'A little of everything from the grill, arranged on one tray. Built for a table, not a person.', ar: 'قليل من كل شيء من على الشواية في صينية واحدة. مُعد لطاولة كاملة لا لشخص واحد.' }, badge: { en: 'For sharing', ar: 'للمشاركة' }, feature: true }
     ]
   },
@@ -185,7 +185,7 @@ const sections = [
       { name: { en: 'Roghni Naan', ar: 'نان روغني' }, price: 2, desc: { en: 'Brushed with ghee and scattered with sesame.', ar: 'مدهون بالسمن ومرشوش بالسمسم.' } },
       { name: { en: 'Plain Naan', ar: 'نان سادة' }, price: 1, desc: { en: 'The everyday naan. Soft, blistered, honest.', ar: 'نان كل يوم. طري ومنفوخ وصادق.' } },
       { name: { en: 'Rumaali Naan', ar: 'نان رومالي' }, price: 2, desc: { en: 'Stretched thin as a handkerchief, then folded warm.', ar: 'يُمدُّ رفيعاً كالمنديل، ثم يُطوى دافئاً.' } },
-      { name: { en: 'Kabul Naan', ar: 'نان كابلي' }, price: 2, desc: { en: 'The long Afghan loaf, ridged down its length and built for tearing.', ar: 'الرغيف الأفغاني الطويل، محزَّز على طوله ومصنوع ليُقطَّع باليد.' } },
+      { name: { en: 'Kabul Naan', ar: 'نان كابلي' }, price: 2, desc: { en: 'The long ridged loaf, scored down its length and built for tearing.', ar: 'الرغيف الطويل، محزَّز على طوله ومصنوع ليُقطَّع باليد.' } },
       { name: { en: 'Tandoori Roti', ar: 'روتي تندوري' }, price: 1, desc: { en: 'Wholewheat, thin and quick. The one that goes with daal.', ar: 'قمح كامل، رفيع وسريع. الرفيق المثالي للدال.' } }
     ]
   },

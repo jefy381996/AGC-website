@@ -67,12 +67,12 @@ const home = {
     title: { en: 'A Batha kitchen that cooks the way home does', ar: 'مطبخ بطحاوي يطبخ كما يطبخ البيت' },
     body: {
       en: [
-        'Al Ashfaz sits opposite Lulu Hypermarket, in the part of Riyadh where half the subcontinent comes to eat. We opened with one rule and we have not moved off it: cook everything from raw, when it is ordered, in front of you.',
-        'That means the karahi takes longer than you might like. It also means the tomato has not been sitting in a pot since noon, the chicken has not been reheated, and the naan reaches you too hot to hold. Desi, Shinwari and BBQ — done properly, priced so a family can afford it twice a week.'
+        'Al Ashfaz sits opposite Lulu Hypermarket in Al-Batha. We opened with one rule and we have not moved off it: cook everything from raw, when it is ordered, in front of you.',
+        'That means the karahi takes longer than you might like. It also means the tomato has not been sitting in a pot since we opened, the chicken has not been reheated, and the naan reaches you too hot to hold. Desi, Shinwari and BBQ — done properly, priced so a family can afford it twice a week.'
       ],
       ar: [
-        'يقع مطعم آل أشفاز مقابل لولو هايبر ماركت، في الجزء من الرياض الذي يجتمع فيه نصف شبه القارة الهندية ليأكل. افتتحنا بقاعدة واحدة ولم نحد عنها: نطهو كل شيء من الطازج، عند طلبه، أمامك.',
-        'هذا يعني أن الكراهي تستغرق وقتاً أطول مما قد تتمنى. ويعني أيضاً أن الطماطم لم تبقَ في القدر منذ الظهيرة، وأن الدجاج لم يُعَد تسخينه، وأن النان يصل إليك ساخناً يصعب حمله. ديسي وشنواري ومشويات — بإتقان، وبأسعار تسمح للعائلة بالعودة مرتين في الأسبوع.'
+        'يقع مطعم آل أشفاز مقابل لولو هايبر ماركت في البطحاء. افتتحنا بقاعدة واحدة ولم نحد عنها: نطهو كل شيء من الطازج، عند طلبه، أمامك.',
+        'هذا يعني أن الكراهي تستغرق وقتاً أطول مما قد تتمنى. ويعني أيضاً أن الطماطم لم تبقَ في القدر منذ الافتتاح، وأن الدجاج لم يُعَد تسخينه، وأن النان يصل إليك ساخناً يصعب حمله. ديسي وشنواري ومشويات — بإتقان، وبأسعار تسمح للعائلة بالعودة مرتين في الأسبوع.'
       ]
     }
   },
@@ -85,8 +85,8 @@ const home = {
         body: { en: 'Nothing is pre-cooked and held. Your karahi starts when your order reaches the kitchen.', ar: 'لا شيء يُطهى مسبقاً ويُحفظ. كراهيك تبدأ حين تصل طلبيتك إلى المطبخ.' }
       },
       {
-        title: { en: 'Charcoal, never gas', ar: 'فحم لا غاز' },
-        body: { en: 'Every kabab goes over live coals. It is slower, it is messier, and it is the only way to get that smoke.', ar: 'كل كباب يُشوى على فحم حي. أبطأ وأصعب، لكنه الطريق الوحيد لذلك الدخان.' }
+        title: { en: 'Grilled to order', ar: 'تُشوى عند الطلب' },
+        body: { en: 'Charcoal and gas, whichever the dish calls for, and nothing goes on the grill until you have ordered it.', ar: 'فحم وغاز، حسب ما يتطلبه الطبق، ولا شيء يوضع على الشواية قبل أن تطلبه.' }
       },
       {
         title: { en: 'Cut fresh each morning', ar: 'يُقطَّع طازجاً كل صباح' },
@@ -119,24 +119,24 @@ const home = {
 const about = {
   hero: {
     eyebrow: { en: 'Our Story', ar: 'قصتنا' },
-    title: { en: 'Four generations of the same stubbornness', ar: 'أربعة أجيال من العناد نفسه' },
+    title: { en: 'We opened for people who care how food tastes', ar: 'افتتحنا لمن يهتم بمذاق الطعام' },
     lede: {
-      en: 'There is no secret. There is only the refusal to take shortcuts that every cook in this kitchen was raised on.',
-      ar: 'لا يوجد سر. هناك فقط رفض اختصار الطريق، وهو ما نشأ عليه كل طاهٍ في هذا المطبخ.'
+      en: 'There is no secret recipe here. There is a kitchen that will not take shortcuts, and prices that let you come back next week.',
+      ar: 'لا توجد وصفة سرية هنا. هناك مطبخ لا يختصر الطريق، وأسعار تسمح لك بالعودة الأسبوع القادم.'
     }
   },
   story: {
-    title: { en: 'Where it comes from', ar: 'من أين جاء كل هذا' },
+    title: { en: 'Why we started', ar: 'لماذا بدأنا' },
     body: {
       en: [
-        'The food at Al Ashfaz did not come out of a culinary school. It came down a family line — from a grandmother in Lahore who would not let a karahi leave the stove until the oil separated, and from a Shinwari cook in Peshawar who was convinced that anything more than meat, tomato and salt was an apology for bad meat.',
-        'Those two arguments still run this kitchen. You can taste the Lahore side in our Lahori and Chatkhara karahis — loud, sharp, generous with black pepper and green chilli. You can taste the Peshawar side in the Shinwari, where there is nowhere to hide: if the meat is not good that day, the dish tells on us.',
-        'Al-Batha was the obvious place to land. It is the crossroads of Riyadh — Pakistani, Afghan, Indian, Bangladeshi, Yemeni, Filipino, Saudi families all eating within a few streets of each other. We opened opposite Lulu because that is where people actually walk, and we have cooked for that street ever since.'
+        'Al Ashfaz began with a simple frustration. Too much food is cooked early, held warm for hours and served tired — and everyone has learned to accept it. We wanted a kitchen where nothing is made until somebody asks for it.',
+        'So that is how we built it. The meat is cut and prepared the same morning. The tandoor is lit from the moment we open. Every karahi starts from raw when your order reaches the kitchen — which is why it takes fifteen or twenty minutes, and why it tastes the way it does.',
+        'The rest was about price. Good food should not be an occasion. We set ours so a family can eat properly on an ordinary day and not think twice about coming back. We opened opposite Lulu Hypermarket because that is where people actually walk, and we have cooked for that street ever since.'
       ],
       ar: [
-        'لم يأتِ طعام آل أشفاز من مدرسة للطهي. جاء عبر سلسلة عائلية — من جدة في لاهور لم تكن تسمح للكراهي بمغادرة النار قبل أن ينفصل الزيت، ومن طاهٍ شنواري في بيشاور كان مقتنعاً بأن أي شيء يزيد عن اللحم والطماطم والملح ما هو إلا اعتذار عن لحم رديء.',
-        'هذان الرأيان ما زالا يديران هذا المطبخ. تتذوق جانب لاهور في كراهي اللاهوري والتشاتخارا — جريئة وحادة وسخية بالفلفل الأسود والأخضر. وتتذوق جانب بيشاور في الشنواري، حيث لا مكان للاختباء: إن لم يكن اللحم جيداً ذلك اليوم، فالطبق سيفضحنا.',
-        'كانت البطحاء المكان البديهي. إنها ملتقى الرياض — عائلات باكستانية وأفغانية وهندية وبنغلاديشية ويمنية وفلبينية وسعودية تأكل جميعها في نطاق بضعة شوارع. افتتحنا مقابل لولو لأن هذا حيث يمشي الناس فعلاً، وما زلنا نطبخ لذلك الشارع منذ ذلك الحين.'
+        'بدأ مطعم آل أشفاز من شعور بسيط بالضيق. الكثير من الطعام يُطهى مبكراً ويُحفظ ساخناً لساعات ثم يُقدَّم وقد فقد حيويته — وتعوَّد الجميع على قبول ذلك. أردنا مطبخاً لا يُحضَّر فيه شيء قبل أن يطلبه أحد.',
+        'وهكذا بنيناه. يُقطَّع اللحم ويُجهَّز في الصباح نفسه. ويُشعل التنور منذ لحظة الافتتاح. وتبدأ كل كراهي من اللحم الطازج حين تصل طلبيتك إلى المطبخ — ولهذا تستغرق خمس عشرة أو عشرين دقيقة، ولهذا يكون مذاقها كما هو.',
+        'أما الباقي فكان مسألة سعر. الطعام الجيد لا ينبغي أن يكون مناسبة خاصة. حدَّدنا أسعارنا كي تتمكن العائلة من تناول طعام جيد في يوم عادي دون أن تفكر مرتين في العودة. افتتحنا مقابل لولو هايبر ماركت لأن هذا حيث يمشي الناس فعلاً، وما زلنا نطبخ لذلك الشارع منذ ذلك الحين.'
       ]
     }
   },
@@ -161,7 +161,7 @@ const about = {
       {
         name: { en: 'White', ar: 'بيضاء' },
         heat: 1,
-        body: { en: 'No tomato anywhere. Yoghurt and cream carry it instead, with white pepper for warmth rather than heat. Order this one for anyone at the table who does not want to sweat through dinner.', ar: 'بلا طماطم إطلاقاً. الزبادي والكريمة يحملانها بدلاً من ذلك، مع فلفل أبيض للدفء لا للحرارة. اطلبها لمن على الطاولة لا يرغب في التعرّق أثناء العشاء.' }
+        body: { en: 'No tomato anywhere. Yoghurt and cream carry it instead, with white pepper for warmth rather than heat. Order this one for anyone at the table who does not want to sweat through the meal.', ar: 'بلا طماطم إطلاقاً. الزبادي والكريمة يحملانها بدلاً من ذلك، مع فلفل أبيض للدفء لا للحرارة. اطلبها لمن على الطاولة لا يرغب في التعرّق أثناء الوجبة.' }
       },
       {
         name: { en: 'Chatkhara', ar: 'تشاتخارا' },
@@ -176,15 +176,15 @@ const about = {
     yes: {
       title: { en: 'What you will find', ar: 'ما ستجده' },
       items: {
-        en: ['Meat cut and prepared the same morning', 'Live charcoal under every skewer', 'A tandoor running from open to close', 'Halal throughout, without exception', 'Family seating, and room for a big table', 'Prices a working family can repeat'],
-        ar: ['لحم يُقطَّع ويُجهَّز في الصباح نفسه', 'فحم حي تحت كل سيخ', 'تنور يعمل من الافتتاح حتى الإغلاق', 'حلال بالكامل، بلا استثناء', 'جلسات عائلية، ومساحة لطاولة كبيرة', 'أسعار تستطيع العائلة العاملة تكرارها']
+        en: ['Meat cut and prepared the same morning', 'A tandoor running from open to close', 'Halal throughout, without exception', 'Room for a big table, and for a big order', 'Takeaway, cooked to order while you wait', 'Prices a working family can repeat'],
+        ar: ['لحم يُقطَّع ويُجهَّز في الصباح نفسه', 'تنور يعمل من الافتتاح حتى الإغلاق', 'حلال بالكامل، بلا استثناء', 'مساحة لطاولة كبيرة ولطلب كبير', 'طلبات خارجية تُطهى عند الطلب أثناء انتظارك', 'أسعار تستطيع العائلة العاملة تكرارها']
       }
     },
     no: {
       title: { en: 'What you will not', ar: 'وما لن تجده' },
       items: {
-        en: ['Anything reheated from yesterday', 'Gas grills pretending to be charcoal', 'Frozen naan from a bag', 'Table bookings — it is first come, first served', 'Delivery apps or drivers', 'A dish you cannot watch being cooked'],
-        ar: ['أي شيء مُعاد تسخينه من الأمس', 'شوايات غاز تتظاهر بأنها فحم', 'نان مجمَّد من كيس', 'حجز طاولات — الأسبقية لمن يأتي أولاً', 'تطبيقات توصيل أو سائقين', 'طبق لا تستطيع مشاهدته وهو يُطهى']
+        en: ['Anything reheated from yesterday', 'Frozen naan from a bag', 'A plate that sat waiting under a lamp', 'Table bookings — it is first come, first served', 'Delivery apps or drivers', 'A separate family section'],
+        ar: ['أي شيء مُعاد تسخينه من الأمس', 'نان مجمَّد من كيس', 'طبق انتظر تحت مصباح التسخين', 'حجز طاولات — الأسبقية لمن يأتي أولاً', 'تطبيقات توصيل أو سائقين', 'قسم عائلي منفصل']
       }
     }
   }
@@ -240,7 +240,7 @@ const visit = {
     items: [
       {
         q: { en: 'Do you take table bookings?', ar: 'هل تقبلون حجز الطاولات؟' },
-        a: { en: 'No. Seating is first come, first served, every day. On Thursday and Friday evenings you may wait a few minutes for a table to clear — it moves quickly.', ar: 'لا. الجلوس بالأسبقية لمن يأتي أولاً، كل يوم. في أمسيات الخميس والجمعة قد تنتظر دقائق حتى تخلو طاولة — لكن الحركة سريعة.' }
+        a: { en: 'No. Seating is first come, first served, every day. Around the middle of the day you may wait a few minutes for a table to clear — it moves quickly.', ar: 'لا. الجلوس بالأسبقية لمن يأتي أولاً، كل يوم. في منتصف النهار قد تنتظر دقائق حتى تخلو طاولة — لكن الحركة سريعة.' }
       },
       {
         q: { en: 'Do you deliver?', ar: 'هل تقدمون خدمة التوصيل؟' },
@@ -252,23 +252,23 @@ const visit = {
       },
       {
         q: { en: 'How long does a karahi take?', ar: 'كم تستغرق الكراهي؟' },
-        a: { en: 'Roughly twenty to twenty-five minutes for a full karahi, because it is started from raw meat when you order it. Order naan and a salad to start and the wait passes.', ar: 'نحو عشرين إلى خمس وعشرين دقيقة للكراهي الكاملة، لأنها تبدأ من اللحم الطازج عند طلبك. اطلب نان وسلطة للبداية ويمر الانتظار سريعاً.' }
+        a: { en: 'Roughly fifteen to twenty minutes for a full karahi, because it is started from raw meat when you order it. Order naan and a salad to start and the wait passes.', ar: 'نحو خمس عشرة إلى عشرين دقيقة للكراهي الكاملة، لأنها تبدأ من اللحم الطازج عند طلبك. اطلب نان وسلطة للبداية ويمر الانتظار سريعاً.' }
       },
       {
         q: { en: 'Is everything halal?', ar: 'هل كل شيء حلال؟' },
         a: { en: 'Yes — every item on the menu, without exception.', ar: 'نعم — كل صنف في المنيو، بلا استثناء.' }
       },
       {
-        q: { en: 'Is there family seating?', ar: 'هل توجد جلسات عائلية؟' },
-        a: { en: 'Yes, with room for large groups. If you are bringing a big table, come a little before the evening rush.', ar: 'نعم، مع مساحة للمجموعات الكبيرة. إن كنت قادماً بطاولة كبيرة، فتعال قبل ازدحام المساء بقليل.' }
+        q: { en: 'Is there a family section?', ar: 'هل يوجد قسم عائلي؟' },
+        a: { en: 'There is no separate family section — one dining room, everyone in it. There is plenty of room for large groups, so if you are bringing a big table, come a little before the midday rush.', ar: 'لا يوجد قسم عائلي منفصل — صالة واحدة تجمع الجميع. لدينا مساحة واسعة للمجموعات الكبيرة، فإن كنت قادماً بطاولة كبيرة فتعال قبل ازدحام الظهيرة بقليل.' }
       },
       {
         q: { en: 'Do you have vegetarian dishes?', ar: 'هل لديكم أطباق نباتية؟' },
         a: { en: 'Yes. The whole Daal & Vegetable Karahi section is cooked without meat, and every bread from the tandoor is vegetarian.', ar: 'نعم. قسم الدال والخضار بأكمله يُطهى بدون لحم، وكل خبز من التنور نباتي.' }
       },
       {
-        q: { en: 'Which card do you accept?', ar: 'ما وسائل الدفع المقبولة؟' },
-        a: { en: 'Cash and mada. Please ask at the counter if you would like to use anything else.', ar: 'نقداً وبطاقة مدى. يُرجى السؤال عند الكاونتر إن رغبت في وسيلة أخرى.' }
+        q: { en: 'How can I pay?', ar: 'ما وسائل الدفع المقبولة؟' },
+        a: { en: 'However you like — cash, mada, credit cards and Apple Pay are all accepted at the counter.', ar: 'كما تشاء — نقداً أو مدى أو البطاقات الائتمانية أو Apple Pay، جميعها مقبولة عند الكاونتر.' }
       }
     ]
   }

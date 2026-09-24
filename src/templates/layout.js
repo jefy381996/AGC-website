@@ -80,7 +80,7 @@ function jsonLd(lang) {
     servesCuisine: ['Pakistani', 'Afghan', 'Desi', 'Shinwari', 'Barbecue'],
     priceRange: 'SAR 1–90',
     currenciesAccepted: 'SAR',
-    paymentAccepted: 'Cash, mada',
+    paymentAccepted: 'Cash, mada, credit card, Apple Pay',
     acceptsReservations: 'False',
     address: {
       '@type': 'PostalAddress',

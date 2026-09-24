@@ -48,19 +48,17 @@ const site = {
     lng: 46.7100
   },
 
-  /* ⚠ PLACEHOLDER OPENING HOURS — please confirm and correct these.
-     They were not printed on the menu poster. */
   hours: {
     note: { en: 'Open every day', ar: 'مفتوح كل يوم' },
     rows: [
-      { days: { en: 'Saturday — Thursday', ar: 'السبت — الخميس' }, time: { en: '11:00 AM — 2:00 AM', ar: '١١:٠٠ ص — ٢:٠٠ ص' } },
-      { days: { en: 'Friday', ar: 'الجمعة' }, time: { en: '1:00 PM — 2:00 AM', ar: '١:٠٠ م — ٢:٠٠ ص' } }
+      { days: { en: 'Every day', ar: 'كل يوم' }, time: { en: '7:00 AM — 2:00 PM', ar: '٧:٠٠ ص — ٢:٠٠ م' } }
     ],
     // 24-hour values for the "open now" indicator, per weekday (0 = Sunday).
+    // A closing time past midnight would be written as e.g. '26:00' for 2 AM.
     schedule: {
-      0: ['11:00', '26:00'], 1: ['11:00', '26:00'], 2: ['11:00', '26:00'],
-      3: ['11:00', '26:00'], 4: ['11:00', '26:00'], 5: ['13:00', '26:00'],
-      6: ['11:00', '26:00']
+      0: ['07:00', '14:00'], 1: ['07:00', '14:00'], 2: ['07:00', '14:00'],
+      3: ['07:00', '14:00'], 4: ['07:00', '14:00'], 5: ['07:00', '14:00'],
+      6: ['07:00', '14:00']
     }
   },
 
