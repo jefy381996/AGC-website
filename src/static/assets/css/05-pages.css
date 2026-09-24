@@ -23,8 +23,18 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* Which part of the hero stays in frame once the box is cropped. The
+     photograph puts the dish to one side and leaves the other side dark for
+     the headline, so a centred crop on a narrow screen shows only the empty
+     half. Retune this if the hero is ever replaced with a centred shot. */
+  object-position: var(--hero-focus, 50% center);
   filter: saturate(1.02) contrast(1.04) brightness(0.72);
 }
+
+/* In Arabic the headline moves to the right, so the dish has to move left.
+   Mirroring the photograph does that for any composition, and these are
+   food shots with no text or signage in them to read backwards. */
+[dir='rtl'] .hero__bg img { transform: scaleX(-1); }
 
 .hero__veil {
   position: absolute;
@@ -556,12 +566,16 @@ body.header-hidden .menu-tools { inset-block-start: 0; }
 .gal { display: grid; grid-template-columns: repeat(12, 1fr); gap: clamp(0.7rem, 0.4rem + 1vw, 1.3rem); }
 
 .gal__item { position: relative; overflow: hidden; border-radius: var(--r-lg); cursor: pointer; display: block; }
+
+/* Four rows: 7+5, 4+4+4, 5+7, then a full-width band. */
 .gal__item:nth-child(1) { grid-column: span 7; }
 .gal__item:nth-child(2) { grid-column: span 5; }
-.gal__item:nth-child(3) { grid-column: span 4; }
-.gal__item:nth-child(4) { grid-column: span 4; }
+.gal__item:nth-child(3),
+.gal__item:nth-child(4),
 .gal__item:nth-child(5) { grid-column: span 4; }
-.gal__item:nth-child(6) { grid-column: span 12; }
+.gal__item:nth-child(6) { grid-column: span 5; }
+.gal__item:nth-child(7) { grid-column: span 7; }
+.gal__item:nth-child(8) { grid-column: span 12; }
 
 .gal__item .frame { height: 100%; border-radius: var(--r-lg); }
 .gal__item:nth-child(1) .frame { aspect-ratio: 16 / 10; }
@@ -569,7 +583,9 @@ body.header-hidden .menu-tools { inset-block-start: 0; }
 .gal__item:nth-child(3) .frame,
 .gal__item:nth-child(4) .frame,
 .gal__item:nth-child(5) .frame { aspect-ratio: 1 / 1; }
-.gal__item:nth-child(6) .frame { aspect-ratio: 21 / 8; }
+.gal__item:nth-child(6) .frame { aspect-ratio: 4 / 3; }
+.gal__item:nth-child(7) .frame { aspect-ratio: 16 / 9; }
+.gal__item:nth-child(8) .frame { aspect-ratio: 21 / 8; }
 
 .gal__item:hover .frame img { transform: scale(1.07); }
 

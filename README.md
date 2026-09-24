@@ -47,9 +47,11 @@ Other things you may want to change:
 
 ## Photographs
 
-> **The photos on the site right now are placeholders.** They are low-resolution
-> crops taken from your printed menu poster. They are there so the site is never
-> empty — please replace them.
+Every dish on the site has a real photograph. One slot is still open —
+`storefront` — and the Visit page falls back gracefully until it arrives.
+
+The shopfront should be a real photo of the building, not a generated one:
+its whole job is helping someone standing in Al-Batha recognise the place.
 
 To see exactly what is needed and what is still a placeholder:
 
@@ -57,9 +59,15 @@ To see exactly what is needed and what is still a placeholder:
 npm run photos
 ```
 
-To replace one, drop a file into `src/static/assets/img/food/` named exactly as
-the list says — for example `karahi.jpg` or `bbq.jpg` — and push. Nothing else
-to do; the site picks it up on the next build.
+To replace one, either drop a file into `src/static/assets/img/food/` named
+exactly as the list says — for example `karahi.jpg` — or let the helper do the
+resizing, WebP conversion and EXIF stripping for you:
+
+```bash
+python3 tools/add-photo.py ~/Downloads/my-karahi.jpg karahi
+```
+
+Then push. Nothing else to do; the site picks it up on the next build.
 
 - JPG is fine. Straight from a phone is fine.
 - Shoot **landscape**, at least 1600px wide.
@@ -115,7 +123,8 @@ dependencies to install.
 npm run build     # build into dist/
 npm start         # build and serve at http://localhost:4173
 npm run photos    # print the photo shot list
-npm run images    # regenerate the poster-crop placeholders (needs Python + Pillow)
+npm run images    # regenerate the poster-crop placeholders for any slot that
+                  # has no real photo yet (needs Python + Pillow)
 ```
 
 `dist/` is generated. Never edit anything in it — your changes will be wiped on

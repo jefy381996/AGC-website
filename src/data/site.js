@@ -34,12 +34,12 @@ const site = {
     phoneHref: '+966564478360',
     email: '',
     address: {
-      en: ['Opposite Lulu Hypermarket', 'Al-Batha, Riyadh', 'Kingdom of Saudi Arabia'],
-      ar: ['مقابل لولو هايبر ماركت', 'البطحاء، الرياض', 'المملكة العربية السعودية']
+      en: ['Opposite Lulu Hyper', 'Al-Batha, Riyadh'],
+      ar: ['مقابل لولو هايبر', 'البطحاء، الرياض']
     },
     addressOneLine: {
-      en: 'Opposite Lulu Hypermarket, Al-Batha, Riyadh, Saudi Arabia',
-      ar: 'مقابل لولو هايبر ماركت، البطحاء، الرياض، المملكة العربية السعودية'
+      en: 'Opposite Lulu Hyper, Al-Batha, Riyadh',
+      ar: 'مقابل لولو هايبر، البطحاء، الرياض'
     },
     mapsQuery: 'Al+Ashfaz+Restaurant+Al+Batha+Riyadh',
     // Pin used by the embedded map. Replace with your exact coordinates from
@@ -48,28 +48,29 @@ const site = {
     lng: 46.7100
   },
 
-  /* ⚠ PLACEHOLDER OPENING HOURS — please confirm and correct these.
-     They were not printed on the menu poster. */
   hours: {
     note: { en: 'Open every day', ar: 'مفتوح كل يوم' },
     rows: [
-      { days: { en: 'Saturday — Thursday', ar: 'السبت — الخميس' }, time: { en: '11:00 AM — 2:00 AM', ar: '١١:٠٠ ص — ٢:٠٠ ص' } },
-      { days: { en: 'Friday', ar: 'الجمعة' }, time: { en: '1:00 PM — 2:00 AM', ar: '١:٠٠ م — ٢:٠٠ ص' } }
+      { days: { en: 'Every day', ar: 'كل يوم' }, time: { en: '7:00 AM — 2:00 AM', ar: '٧:٠٠ ص — ٢:٠٠ ص' } }
     ],
     // 24-hour values for the "open now" indicator, per weekday (0 = Sunday).
+    // A closing time past midnight would be written as e.g. '26:00' for 2 AM.
     schedule: {
-      0: ['11:00', '26:00'], 1: ['11:00', '26:00'], 2: ['11:00', '26:00'],
-      3: ['11:00', '26:00'], 4: ['11:00', '26:00'], 5: ['13:00', '26:00'],
-      6: ['11:00', '26:00']
+      0: ['07:00', '26:00'], 1: ['07:00', '26:00'], 2: ['07:00', '26:00'],
+      3: ['07:00', '26:00'], 4: ['07:00', '26:00'], 5: ['07:00', '26:00'],
+      6: ['07:00', '26:00']
     }
   },
 
   currency: { en: 'SAR', ar: 'ريال' },
 
-  // Set to '' to hide a link from the footer.
+  // Set to '' to hide a link from the footer. Paste the clean profile URL —
+  // a link copied from the app's share sheet carries tracking parameters
+  // (?_t=, ?_r=, ?igsh=) that tie back to your own session, and those have
+  // no business on a public page.
   social: {
+    tiktok: 'https://www.tiktok.com/@ashfaz4',
     instagram: '',
-    tiktok: '',
     snapchat: '',
     google: ''
   },

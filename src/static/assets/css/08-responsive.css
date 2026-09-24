@@ -21,13 +21,13 @@
   .grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .grid--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
+  /* Two up, with the first and last photograph spanning the full width. */
   .gal__item:nth-child(n) { grid-column: span 6; }
-  .gal__item:nth-child(1) { grid-column: span 12; }
-  .gal__item:nth-child(6) { grid-column: span 12; }
-  .gal__item:nth-child(6) .frame { aspect-ratio: 16 / 9; }
+  .gal__item:nth-child(1),
+  .gal__item:nth-child(8) { grid-column: span 12; }
   .gal__item .frame { aspect-ratio: 1 / 1 !important; }
   .gal__item:nth-child(1) .frame,
-  .gal__item:nth-child(6) .frame { aspect-ratio: 16 / 10 !important; }
+  .gal__item:nth-child(8) .frame { aspect-ratio: 16 / 10 !important; }
   /* Touch devices never fire hover, so captions must be visible by default */
   .gal__cap { opacity: 1; transform: none; background: linear-gradient(transparent, rgba(3, 17, 11, 0.85)); }
 }
@@ -39,13 +39,14 @@
 
   .hero { min-height: 92svh; padding-block: calc(var(--header-h) + 2rem) 5rem; }
   .hero__copy { max-width: none; }
-  .hero__veil {
-    background:
-      linear-gradient(180deg, rgba(3, 17, 11, 0.9) 0%, rgba(3, 17, 11, 0.62) 38%, rgba(3, 17, 11, 0.82) 74%, var(--green-950) 100%);
-  }
+  /* A portrait crop of a 16:9 hero throws away most of its width, so pull
+     the frame across to whichever side the dish is actually on. */
+  :root { --hero-focus: 70% center; }
+
+  .hero__veil,
   [dir='rtl'] .hero__veil {
     background:
-      linear-gradient(180deg, rgba(3, 17, 11, 0.9) 0%, rgba(3, 17, 11, 0.62) 38%, rgba(3, 17, 11, 0.82) 74%, var(--green-950) 100%);
+      linear-gradient(180deg, rgba(3, 17, 11, 0.88) 0%, rgba(3, 17, 11, 0.42) 40%, rgba(3, 17, 11, 0.74) 76%, var(--green-950) 100%);
   }
   .hero__meta { gap: 0.85rem 1.4rem; }
   /* the scroll cue means nothing on a touch screen, and it collides

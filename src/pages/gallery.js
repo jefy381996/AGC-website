@@ -37,7 +37,6 @@ module.exports = function (lang) {
   <section class="section section--flush-top">
     <div class="shell shell--wide">
       <div class="gal" data-stagger>${items}</div>
-      <p class="mnote" style="margin-top:2.5rem">${esc(t(ui.placeholderPhoto, lang))}</p>
     </div>
   </section>
 

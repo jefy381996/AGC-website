@@ -14,7 +14,7 @@ function splitTitle(str) {
 
 /* The four plates recommended to a first-time visitor. */
 const picks = [
-  { image: 'karahi', section: 'karahi', name: { en: 'Chicken Shinwari Karahi', ar: 'كراهي شنواري دجاج' }, price: 55,
+  { image: 'karahi-shinwari', section: 'karahi', name: { en: 'Chicken Shinwari Karahi', ar: 'كراهي شنواري دجاج' }, price: 55,
     unit: { en: 'full', ar: 'كاملة' },
     note: { en: 'Meat, tomato and salt. Nothing else, and nowhere to hide.', ar: 'لحم وطماطم وملح. لا شيء غير ذلك، ولا مكان للاختباء.' } },
   { image: 'bbq-platter', section: 'bbq', name: { en: 'BBQ Mix Platter', ar: 'طبق مشاوي مشكّل' }, price: 35,
@@ -25,7 +25,7 @@ const picks = [
     note: { en: 'Saffron rice, fried onion, a whole piece of chicken beneath.', ar: 'أرز الزعفران وبصل مقلي وقطعة دجاج كاملة تحته.' } },
   { image: 'naan', section: 'bread', name: { en: 'Kabul Naan', ar: 'نان كابلي' }, price: 2,
     unit: { en: 'each', ar: 'للحبة' },
-    note: { en: 'The long Afghan loaf, ridged and built for tearing apart.', ar: 'الرغيف الأفغاني الطويل، محزَّز ومصنوع ليُقطَّع باليد.' } }
+    note: { en: 'The long ridged loaf, scored down its length and built for tearing.', ar: 'الرغيف الطويل، محزَّز على طوله ومصنوع ليُقطَّع باليد.' } }
 ];
 
 module.exports = function (lang) {
@@ -228,8 +228,8 @@ module.exports = function (lang) {
       ? 'مطعم آل أشفاز — كراهي ومشويات في البطحاء، الرياض'
       : 'Al Ashfaz Restaurant — Karahi, Shinwari & BBQ in Al-Batha, Riyadh',
     description: lang === 'ar'
-      ? 'مطعم آل أشفاز في البطحاء بالرياض، مقابل لولو هايبر ماركت. كراهي لاهوري وشنواري، مشاوي على الفحم، برياني، ونان طازج من التنور — كل شيء يُطهى عند الطلب.'
-      : 'Al Ashfaz Restaurant in Al-Batha, Riyadh, opposite Lulu Hypermarket. Lahori and Shinwari karahi, charcoal BBQ, biryani and tandoor-fresh naan — everything cooked to order.',
+      ? 'مطعم آل أشفاز في البطحاء بالرياض، مقابل لولو هايبر. كراهي لاهوري وشنواري، مشاوي على الفحم، برياني، ونان طازج من التنور — كل شيء يُطهى عند الطلب.'
+      : 'Al Ashfaz Restaurant in Al-Batha, Riyadh, opposite Lulu Hyper. Lahori and Shinwari karahi, charcoal BBQ, biryani and tandoor-fresh naan — everything cooked to order.',
     body: body
   };
 };
