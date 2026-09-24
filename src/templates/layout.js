@@ -152,21 +152,64 @@ function header(lang, current) {
 }
 
 /* --- Footer ------------------------------------------------------------- */
-const SOCIAL_LABELS = {
-  instagram: { en: 'Instagram', ar: 'إنستغرام' },
-  tiktok: { en: 'TikTok', ar: 'تيك توك' },
-  snapchat: { en: 'Snapchat', ar: 'سناب شات' },
-  google: { en: 'Google reviews', ar: 'تقييمات جوجل' }
+const SOCIAL = {
+  tiktok: { label: { en: 'TikTok', ar: 'تيك توك' }, icon: 'tiktok' },
+  instagram: { label: { en: 'Instagram', ar: 'إنستغرام' }, icon: 'instagram' },
+  snapchat: { label: { en: 'Snapchat', ar: 'سناب شات' }, icon: 'snapchat' },
+  google: { label: { en: 'Google reviews', ar: 'تقييمات جوجل' }, icon: 'star' }
 };
 
-/* Only the social links that have actually been filled in appear. */
-function socialLinks(lang) {
-  const rows = Object.keys(SOCIAL_LABELS)
-    .filter(function (key) { return site.social[key]; })
-    .map(function (key) {
-      return `<li><a href="${esc(site.social[key])}" target="_blank" rel="noopener">${esc(t(SOCIAL_LABELS[key], lang))}</a></li>`;
-    });
-  return rows.length ? rows.join('') : '';
+/* Share-sheet links carry tracking parameters tied to the sender's own
+   session — TikTok adds _t and _r, Instagram adds igsh. Those get stripped
+   so they never reach a public page, whatever is pasted into site.js. */
+const TRACKING = /^(_t|_r|igsh|igshid|si|fbclid|mibextid|utm_[a-z_]+)$/i;
+
+function cleanUrl(url) {
+  const raw = String(url).trim();
+  const hash = raw.indexOf('#');
+  const base = hash === -1 ? raw : raw.slice(0, hash);
+  const cut = base.indexOf('?');
+  if (cut === -1) return base;
+
+  const kept = base.slice(cut + 1).split('&').filter(function (pair) {
+    return pair && !TRACKING.test(pair.split('=')[0]);
+  });
+  return base.slice(0, cut) + (kept.length ? '?' + kept.join('&') : '');
+}
+
+/* Pulls "@name" out of a profile URL so the footer shows the handle people
+   can actually search for, rather than just an icon. */
+function handleFrom(url) {
+  const clean = cleanUrl(url).replace(/\/+$/, '');
+  const match = clean.match(/@([A-Za-z0-9._-]+)/);
+  if (match) return '@' + match[1];
+  const tail = clean.split('/').pop();
+  return tail ? '@' + tail : '';
+}
+
+/* Only the accounts actually filled in appear. */
+function socialRow(lang) {
+  const keys = Object.keys(SOCIAL).filter(function (key) { return site.social[key]; });
+  if (!keys.length) return '';
+
+  const links = keys.map(function (key) {
+    const spec = SOCIAL[key];
+    const name = t(spec.label, lang);
+    const handle = key === 'google' ? name : handleFrom(site.social[key]);
+    return `<a class="social-link" href="${esc(cleanUrl(site.social[key]))}" target="_blank" rel="noopener"
+             aria-label="${esc(name)}">
+          <span class="social-link__icon">${icons[spec.icon]}</span>
+          <span class="social-link__name ltr">${esc(handle)}</span>
+        </a>`;
+  }).join('\n        ');
+
+  return `
+      <div class="social">
+        <p class="footer__title">${esc(lang === 'ar' ? 'تابعنا' : 'Follow us')}</p>
+        <div class="social__row">
+        ${links}
+        </div>
+      </div>`;
 }
 
 function footer(lang) {
@@ -192,6 +235,7 @@ function footer(lang) {
               <span class="open-pill__dot"></span><span data-open-label>${esc(t(ui.openNow, lang))}</span>
             </span>
           </p>
+          ${socialRow(lang)}
         </div>
 
         <div data-reveal="up">
@@ -205,7 +249,6 @@ function footer(lang) {
             <li><a href="${waLink(lang)}" target="_blank" rel="noopener">${esc(lang === 'ar' ? 'واتساب' : 'WhatsApp')} <span class="ltr">${esc(site.contact.phoneDisplay)}</span></a></li>
             <li><a href="tel:${site.contact.phoneHref}" class="ltr">${esc(site.contact.phoneIntl)}</a></li>
             <li><a href="${mapsLink()}" target="_blank" rel="noopener">${esc(lang === 'ar' ? 'الموقع على الخريطة' : 'Open in Google Maps')}</a></li>
-            ${socialLinks(lang)}
           </ul>
         </div>
 

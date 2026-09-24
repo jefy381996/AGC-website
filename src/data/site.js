@@ -64,10 +64,13 @@ const site = {
 
   currency: { en: 'SAR', ar: 'ريال' },
 
-  // Set to '' to hide a link from the footer.
+  // Set to '' to hide a link from the footer. Paste the clean profile URL —
+  // a link copied from the app's share sheet carries tracking parameters
+  // (?_t=, ?_r=, ?igsh=) that tie back to your own session, and those have
+  // no business on a public page.
   social: {
+    tiktok: 'https://www.tiktok.com/@ashfaz4',
     instagram: '',
-    tiktok: '',
     snapchat: '',
     google: ''
   },
