@@ -78,6 +78,31 @@ function minifyCss(css) {
     .trim();
 }
 
+/* Selectors the site visibly depends on. A scripted edit to the stylesheets
+   can delete a whole rule block without any build error — it has happened
+   twice, once taking the language switch with it — and the result only shows
+   up by eye. Cheap insurance. */
+const REQUIRED_CSS = [
+  '.lang-switch', '.lang-switch a.is-active', '.burger', '.drawer',
+  '.header', '.hero', '.hero__bg', '.hero__veil', '.marquee',
+  '.mrow', '.mtable__head', '.chip', '.menu-tools',
+  '.gal__item', '.lightbox', '.acc__btn', '.social-link',
+  '.footer', '.btn--gold', '.card', '.frame', '.open-pill'
+];
+
+function checkCss(css) {
+  const missing = REQUIRED_CSS.filter(function (sel) {
+    // match the selector followed by a combinator, comma or the rule's brace
+    return !new RegExp(sel.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '[\\s,:>{\\[]').test(css);
+  });
+  if (missing.length) {
+    console.error('\n  BUILD FAILED — these rules are missing from the stylesheet:');
+    missing.forEach(function (m) { console.error('    ' + m); });
+    console.error('  A stylesheet edit probably removed more than it meant to.\n');
+    process.exit(1);
+  }
+}
+
 function fmt(bytes) {
   return bytes > 1024 ? (bytes / 1024).toFixed(1) + ' kB' : bytes + ' B';
 }
@@ -93,6 +118,7 @@ function build() {
 
   /* Styles and scripts, bundled into one file each. */
   const css = minifyCss(concat(path.join(SRC, 'static/assets/css'), '.css'));
+  checkCss(css);
   const cssBytes = write('assets/css/styles.css',
     '/*! Al Ashfaz Restaurant — Al-Batha, Riyadh */\n' + css);
 

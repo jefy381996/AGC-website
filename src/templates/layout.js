@@ -116,7 +116,7 @@ function header(lang, current) {
       <a class="logo" href="${pageUrl('home', lang)}" aria-label="${esc(t(site.name, lang))}">
         <span class="logo__mark">${icons.logo}</span>
         <span class="logo__text">
-          <span class="logo__name">${esc(t(site.name, lang))}</span>
+          <span class="logo__name"><span class="logo__name--full">${esc(t(site.name, lang))}</span><span class="logo__name--short">${esc(t(site.shortName, lang))}</span></span>
           <span class="logo__sub">${esc(t(site.district, lang))} · ${esc(lang === 'ar' ? 'الرياض' : 'Riyadh')}</span>
         </span>
       </a>

@@ -37,16 +37,38 @@
   .nav { display: none; }
   .burger { display: block; }
 
-  .hero { min-height: 92svh; padding-block: calc(var(--header-h) + 2rem) 5rem; }
+  /* A 16:9 photograph stretched over a tall portrait hero gets cropped to a
+     sliver — only a quarter of its width survived, which reads as a blurry
+     close-up. The fix is the shape of the box, not its size: the photograph
+     now sits as a band across the lower part of the hero, so it is far wider
+     than it is tall and keeps most of the frame. It is masked into the dark
+     background at the top, so there is no seam. */
+  .hero { min-height: 76svh; padding-block: calc(var(--header-h) + 1.5rem) 3.5rem; }
+
+  .hero__bg {
+    inset: auto 0 -3% 0;
+    height: 62%;
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 26%);
+    mask-image: linear-gradient(180deg, transparent 0%, #000 26%);
+  }
   .hero__copy { max-width: none; }
+  .hero__lede { margin-bottom: var(--s-5); }
+  .hero__meta { margin-top: var(--s-5); padding-top: var(--s-4); }
   /* A portrait crop of a 16:9 hero throws away most of its width, so pull
      the frame across to whichever side the dish is actually on. */
-  :root { --hero-focus: 70% center; }
+  :root { --hero-focus: 62% center; }
 
+  /* Dark where the headline sits, open across the middle so the food reads,
+     then closing again under the buttons and the address line. */
   .hero__veil,
   [dir='rtl'] .hero__veil {
     background:
-      linear-gradient(180deg, rgba(3, 17, 11, 0.88) 0%, rgba(3, 17, 11, 0.42) 40%, rgba(3, 17, 11, 0.74) 76%, var(--green-950) 100%);
+      linear-gradient(180deg,
+        rgba(3, 17, 11, 0.72) 0%,
+        rgba(3, 17, 11, 0.28) 46%,
+        rgba(3, 17, 11, 0.52) 72%,
+        rgba(3, 17, 11, 0.88) 92%,
+        var(--green-950) 100%);
   }
   .hero__meta { gap: 0.85rem 1.4rem; }
   /* the scroll cue means nothing on a touch screen, and it collides
@@ -146,8 +168,42 @@
 }
 
 /* --- ≤ 400px ----------------------------------------------------------- */
+/* --- Narrow phones: the header must not push the menu button off ------- */
+/* The header is position: fixed, so overflow here is clipped by the screen
+   rather than showing up as page scroll. Every part is trimmed so the full
+   name still fits beside the language switch and the menu button. */
+@media (max-width: 420px) {
+  .header__inner { gap: var(--s-3); }
+  .header__actions { gap: 0.5rem; }
+  .logo { gap: 0.55rem; }
+  .logo__mark { width: 32px; height: 32px; }
+  .logo__name { font-size: 0.98rem; }
+
+  .lang-switch { padding: 2px; }
+  .lang-switch a { min-width: 28px; height: 25px; padding-inline: 0.4rem; font-size: 0.68rem; }
+  .lang-switch a[lang='ar'] { font-size: 0.9rem; }
+
+  .burger { width: 40px; height: 40px; }
+  .burger span:nth-child(1) { inset-block-start: 15px; }
+  .burger span:nth-child(2) { inset-block-start: 20px; }
+  .burger span:nth-child(3) { inset-block-start: 25px; }
+  body.drawer-open .burger span:nth-child(1),
+  body.drawer-open .burger span:nth-child(3) { inset-block-start: 20px; }
+
+  /* the drawer's reveal circle is centred on the button, which just moved */
+  .drawer { clip-path: circle(0% at calc(100% - 40px) 38px); }
+  [dir='rtl'] .drawer { clip-path: circle(0% at 40px 38px); }
+  body.drawer-open .drawer { clip-path: circle(160% at calc(100% - 40px) 38px); }
+  [dir='rtl'] body.drawer-open .drawer { clip-path: circle(160% at 40px 38px); }
+}
+
 @media (max-width: 360px) {
   .logo__sub { display: none; }
+}
+
+@media (max-width: 340px) {
+  .logo__name--full { display: none; }
+  .logo__name--short { display: inline; }
 }
 
 @media (max-width: 400px) {
