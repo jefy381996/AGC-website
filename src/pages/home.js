@@ -154,7 +154,7 @@ module.exports = function (lang) {
     </div>
   </section>
 
-  <section class="section">
+  <section class="section section--pillars">
     <div class="shell">
       <div class="section__head section__head--center">
         <p class="eyebrow eyebrow--center" data-reveal="up" style="justify-content:center">${esc(t(home.pillars.eyebrow, lang))}</p>
@@ -164,7 +164,7 @@ module.exports = function (lang) {
     </div>
   </section>
 
-  <section class="section section--tight">
+  <section class="section section--tight section--stats">
     <div class="shell">
       <div class="stats" data-stagger>${stats}</div>
     </div>
