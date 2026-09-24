@@ -1,0 +1,16 @@
+{
+  "name": "al-ashfaz-restaurant",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Website for Al Ashfaz Restaurant, Al-Batha, Riyadh",
+  "scripts": {
+    "build": "node build.js",
+    "start": "node build.js --serve",
+    "dev": "node build.js --serve",
+    "images": "python3 tools/make-images.py",
+    "photos": "node tools/photos.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

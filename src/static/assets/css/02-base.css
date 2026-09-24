@@ -1,0 +1,244 @@
+/* =========================================================================
+   Typography, layout primitives, ambient texture
+   ========================================================================= */
+
+/* --- Ambient background: two slow gold glows over deep green ----------- */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(900px 620px at 12% -8%, rgba(201, 162, 75, 0.13), transparent 62%),
+    radial-gradient(760px 560px at 92% 8%, rgba(22, 88, 61, 0.42), transparent 64%),
+    radial-gradient(1000px 900px at 50% 108%, rgba(201, 162, 75, 0.07), transparent 66%),
+    var(--green-950);
+}
+
+/* --- Film grain: keeps upscaled photography looking intentional -------- */
+body::after {
+  content: '';
+  position: fixed;
+  inset: -50%;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.30;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  animation: grain 7s steps(6) infinite;
+}
+
+@keyframes grain {
+  0%   { transform: translate(0, 0); }
+  17%  { transform: translate(-3%, -2%); }
+  34%  { transform: translate(2%, -4%); }
+  51%  { transform: translate(-1%, 3%); }
+  68%  { transform: translate(3%, 1%); }
+  85%  { transform: translate(-2%, 2%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* =========================================================================
+   Layout
+   ========================================================================= */
+
+.shell {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.shell--narrow { max-width: var(--maxw-narrow); }
+.shell--wide { max-width: 1560px; }
+
+.section { position: relative; padding-block: var(--section-y); }
+.section--tight { padding-block: calc(var(--section-y) * 0.6); }
+.section--flush-top { padding-top: 0; }
+
+.section__head { max-width: 62ch; margin-bottom: clamp(2.5rem, 1.5rem + 3vw, 4.5rem); }
+.section__head--center { margin-inline: auto; text-align: center; }
+
+.stack > * + * { margin-top: var(--s-4); }
+.stack-lg > * + * { margin-top: var(--s-6); }
+
+.grid { display: grid; gap: clamp(1.25rem, 0.8rem + 1.8vw, 2.5rem); }
+.grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+/* =========================================================================
+   Type
+   ========================================================================= */
+
+.display, h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: var(--lh-tight);
+  letter-spacing: -0.012em;
+}
+
+h1, .t-3xl { font-size: var(--t-3xl); }
+h2, .t-2xl { font-size: var(--t-2xl); }
+h3, .t-xl { font-size: var(--t-xl); line-height: var(--lh-snug); }
+h4, .t-lg { font-size: var(--t-lg); line-height: var(--lh-snug); }
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7em;
+  font-family: var(--font-body);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  letter-spacing: var(--track-wide);
+  text-transform: uppercase;
+  color: var(--gold-400);
+  margin-bottom: var(--s-4);
+}
+
+.eyebrow::before {
+  content: '';
+  width: clamp(24px, 4vw, 46px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-500));
+  flex: none;
+}
+
+.eyebrow--center::after {
+  content: '';
+  width: clamp(24px, 4vw, 46px);
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold-500), transparent);
+  flex: none;
+}
+
+.script {
+  font-family: var(--font-script);
+  font-size: clamp(1.6rem, 1.1rem + 2.2vw, 3.1rem);
+  line-height: 1.1;
+  color: var(--gold-300);
+  font-weight: 400;
+}
+
+.lede {
+  font-size: var(--t-md);
+  line-height: 1.68;
+  color: var(--cream-2);
+  font-weight: 300;
+  max-width: 56ch;
+}
+
+.muted { color: var(--fg-muted); }
+.small { font-size: var(--t-sm); }
+.tiny { font-size: var(--t-xs); letter-spacing: 0.04em; }
+
+.prose p { color: var(--cream-2); font-weight: 300; }
+.prose p + p { margin-top: 1.35em; }
+.prose p:first-of-type::first-letter { /* opt-in via .prose--drop */ }
+
+.prose--drop > p:first-of-type::first-letter {
+  float: left;
+  font-family: var(--font-display);
+  font-size: 3.9em;
+  line-height: 0.82;
+  padding-inline-end: 0.10em;
+  padding-top: 0.06em;
+  color: var(--gold-400);
+  font-weight: 500;
+}
+
+/* Gold foil text with a slow travelling highlight */
+.foil {
+  background: var(--gradient-gold);
+  background-size: 260% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: foil-travel 9s var(--ease-in-out) infinite;
+}
+
+@keyframes foil-travel {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.italic-accent { font-style: italic; color: var(--gold-300); font-weight: 300; }
+
+/* =========================================================================
+   Ornament
+   ========================================================================= */
+
+.rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-4);
+  color: var(--gold-500);
+}
+
+.rule::before, .rule::after {
+  content: '';
+  height: 1px;
+  flex: 1 1 auto;
+  max-width: 190px;
+  background: linear-gradient(90deg, transparent, rgba(226, 190, 106, 0.55), transparent);
+}
+
+.rule__mark {
+  width: 9px;
+  height: 9px;
+  flex: none;
+  transform: rotate(45deg);
+  border: 1px solid var(--gold-500);
+  background: rgba(226, 190, 106, 0.16);
+}
+
+.corner-frame { position: relative; }
+.corner-frame::before,
+.corner-frame::after {
+  content: '';
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--line);
+  pointer-events: none;
+  transition: all var(--d-mid) var(--ease-out);
+}
+.corner-frame::before { inset-block-start: 10px; inset-inline-start: 10px; border-width: 1px 0 0 1px; }
+.corner-frame::after { inset-block-end: 10px; inset-inline-end: 10px; border-width: 0 1px 1px 0; }
+.corner-frame:hover::before,
+.corner-frame:hover::after { width: 34px; height: 34px; border-color: var(--gold-400); }
+
+/* =========================================================================
+   Utility
+   ========================================================================= */
+
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  inset-block-start: -100px;
+  inset-inline-start: var(--s-4);
+  z-index: 999;
+  padding: 0.8rem 1.4rem;
+  background: var(--gold-400);
+  color: var(--green-950);
+  font-weight: 700;
+  border-radius: var(--r-sm);
+  transition: inset-block-start var(--d-fast) var(--ease-out);
+}
+.skip-link:focus { inset-block-start: var(--s-4); }
+
+.text-center { text-align: center; }
+.nowrap { white-space: nowrap; }
+.relative { position: relative; }
