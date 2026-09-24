@@ -47,9 +47,11 @@ Other things you may want to change:
 
 ## Photographs
 
-Real photographs are installed for every dish. Two slots are still open —
-`karahi-chatkhara` and `storefront` — and the site handles both gracefully
-until they arrive.
+Every dish on the site has a real photograph. One slot is still open —
+`storefront` — and the Visit page falls back gracefully until it arrives.
+
+The shopfront should be a real photo of the building, not a generated one:
+its whole job is helping someone standing in Al-Batha recognise the place.
 
 To see exactly what is needed and what is still a placeholder:
 
