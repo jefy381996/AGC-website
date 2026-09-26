@@ -49,6 +49,10 @@
 
   /* --- Channels, for anything translucent ------------------------------ */
   --rgb-sand: 239 230 214;
+  /* Mirrors --sand-200. The marquee strip under the hero is --sand-100 at
+     0.55 over the page, which composites to #F5EEE1 — this is the tone the
+     hero's closing fade has to land on for that edge to disappear. */
+  --rgb-sand-200: 244 236 222;
   --rgb-surface: 250 245 234;
   --rgb-ink: 30 45 38;
   --rgb-green: 15 75 58;
