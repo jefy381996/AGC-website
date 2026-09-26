@@ -23,7 +23,14 @@
 [dir='rtl'] .phero__title,
 [dir='rtl'] .mgroup__title { line-height: 1.22; }
 [dir='rtl'] .lede { line-height: 1.9; }
-[dir='rtl'] .script { font-size: clamp(1.3rem, 1rem + 1.4vw, 2.1rem); line-height: 1.6; }
+/* Arabic has no italic. Slanting it is a synthesised oblique that leans
+   the wrong way against the script's own stroke logic, so it stays
+   upright and takes its warmth from Amiri instead. */
+[dir='rtl'] .script {
+  font-style: normal;
+  font-size: clamp(1.3rem, 1rem + 1.4vw, 2.1rem);
+  line-height: 1.6;
+}
 
 /* Drop caps do not work in Arabic script */
 [dir='rtl'] .prose--drop > p:first-of-type::first-letter {

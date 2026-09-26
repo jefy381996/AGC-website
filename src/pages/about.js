@@ -106,7 +106,11 @@ module.exports = function (lang) {
         </div>
         <div class="info-card" data-reveal="right">
           <div class="info-card__icon" style="color:var(--ember-soft);border-color:rgba(216,82,63,.4)">${icons.cross}</div>
-          <p class="info-card__label" style="color:var(--ember-soft)">${esc(t(about.values.no.title, lang))}</p>
+          <!-- --ember, not --ember-soft: this label is 12.5px, which WCAG treats
+               as normal text however bold it is, and the soft tone only reaches
+               3.42:1 on the card. The icon above keeps the softer one — it is a
+               graphic, held to 3:1, and clears it. -->
+          <p class="info-card__label" style="color:var(--ember)">${esc(t(about.values.no.title, lang))}</p>
           <ul style="margin-top:.6rem">${noList}</ul>
         </div>
       </div>

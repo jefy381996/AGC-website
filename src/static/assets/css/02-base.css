@@ -122,10 +122,21 @@ h4, .t-lg { font-size: var(--t-lg); line-height: var(--lh-snug); }
 
 .script {
   font-family: var(--font-script);
-  font-size: clamp(1.6rem, 1.1rem + 2.2vw, 3.1rem);
-  line-height: 1.1;
-  color: var(--brass-600);
-  font-weight: 400;
+  /* Only a 300 italic of this family is self-hosted, so the weight is named
+     to match the face that exists — asking for 400 invites a synthesised one. */
+  font-style: italic;
+  font-weight: 300;
+  /* Smaller than the roundhand it replaces, which needed the size to be
+     readable at all. This face carries far more ink per point. */
+  font-size: clamp(1.28rem, 1rem + 1.15vw, 2.15rem);
+  line-height: 1.32;
+  letter-spacing: 0.006em;
+  /* --brass-600 is the brand gold, but on the sand page it measures 2.92:1 —
+     it fails WCAG AA even at the 3:1 large-text allowance, and this line is
+     no longer large on a phone. --brass-700 is the same hue carried darker
+     and clears 4.5:1 at any size. The lighter gold still reads on the dark
+     grounds, where the inversion block hands it --brass-300. */
+  color: var(--brass-700);
 }
 
 .lede {

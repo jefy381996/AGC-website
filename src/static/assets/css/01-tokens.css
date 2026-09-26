@@ -97,7 +97,13 @@
   /* --- Type ----------------------------------------------------------- */
   --font-display: 'Cormorant Garamond', 'Amiri', Georgia, 'Times New Roman', serif;
   --font-body: 'Manrope', 'Tajawal', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-script: 'Pinyon Script', 'Cormorant Garamond', cursive;
+  /* The accent line. This was Pinyon Script, a formal English roundhand:
+     beautiful up close, but the joined strokes and swashed capitals make
+     it slow to read at a glance and it thins out badly on a phone. The
+     display serif's italic says the same thing — a softer, warmer voice
+     than the headings — and stays legible at every size. It is the same
+     family as --font-display, so the pairing reads as deliberate. */
+  --font-script: 'Cormorant Garamond', 'Amiri', Georgia, 'Times New Roman', serif;
 
   /* Fluid type scale — clamp() keeps every size sane from 320px to 1800px */
   --t-xs: clamp(0.72rem, 0.70rem + 0.10vw, 0.79rem);
