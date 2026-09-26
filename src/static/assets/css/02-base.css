@@ -10,10 +10,10 @@ body::before {
   z-index: -2;
   pointer-events: none;
   background:
-    radial-gradient(900px 620px at 12% -8%, rgba(201, 162, 75, 0.13), transparent 62%),
-    radial-gradient(760px 560px at 92% 8%, rgba(22, 88, 61, 0.42), transparent 64%),
-    radial-gradient(1000px 900px at 50% 108%, rgba(201, 162, 75, 0.07), transparent 66%),
-    var(--green-950);
+    radial-gradient(900px 620px at 12% -8%, rgb(var(--rgb-brass) / 0.10), transparent 62%),
+    radial-gradient(760px 560px at 92% 6%, rgb(var(--rgb-green) / 0.07), transparent 64%),
+    radial-gradient(1000px 900px at 50% 108%, rgb(var(--rgb-brass) / 0.06), transparent 66%),
+    var(--sand-300);
 }
 
 /* --- Film grain ---------------------------------------------------------
@@ -28,8 +28,8 @@ body::after {
   inset: 0;
   z-index: 3;
   pointer-events: none;
-  opacity: 0.30;
-  mix-blend-mode: overlay;
+  opacity: 0.085;
+  mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
   background-repeat: repeat;
   animation: grain 7s steps(6) infinite;
@@ -100,7 +100,7 @@ h4, .t-lg { font-size: var(--t-lg); line-height: var(--lh-snug); }
   font-weight: 600;
   letter-spacing: var(--track-wide);
   text-transform: uppercase;
-  color: var(--gold-400);
+  color: var(--brass-700);
   margin-bottom: var(--s-4);
 }
 
@@ -108,7 +108,7 @@ h4, .t-lg { font-size: var(--t-lg); line-height: var(--lh-snug); }
   content: '';
   width: clamp(24px, 4vw, 46px);
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold-500));
+  background: linear-gradient(90deg, transparent, var(--brass-500));
   flex: none;
 }
 
@@ -116,7 +116,7 @@ h4, .t-lg { font-size: var(--t-lg); line-height: var(--lh-snug); }
   content: '';
   width: clamp(24px, 4vw, 46px);
   height: 1px;
-  background: linear-gradient(90deg, var(--gold-500), transparent);
+  background: linear-gradient(90deg, var(--brass-500), transparent);
   flex: none;
 }
 
@@ -124,14 +124,14 @@ h4, .t-lg { font-size: var(--t-lg); line-height: var(--lh-snug); }
   font-family: var(--font-script);
   font-size: clamp(1.6rem, 1.1rem + 2.2vw, 3.1rem);
   line-height: 1.1;
-  color: var(--gold-300);
+  color: var(--brass-600);
   font-weight: 400;
 }
 
 .lede {
   font-size: var(--t-md);
   line-height: 1.68;
-  color: var(--cream-2);
+  color: var(--ink-600);
   font-weight: 300;
   max-width: 56ch;
 }
@@ -140,7 +140,7 @@ h4, .t-lg { font-size: var(--t-lg); line-height: var(--lh-snug); }
 .small { font-size: var(--t-sm); }
 .tiny { font-size: var(--t-xs); letter-spacing: 0.04em; }
 
-.prose p { color: var(--cream-2); font-weight: 300; }
+.prose p { color: var(--ink-600); font-weight: 300; }
 .prose p + p { margin-top: 1.35em; }
 .prose p:first-of-type::first-letter { /* opt-in via .prose--drop */ }
 
@@ -151,13 +151,70 @@ h4, .t-lg { font-size: var(--t-lg); line-height: var(--lh-snug); }
   line-height: 0.82;
   padding-inline-end: 0.10em;
   padding-top: 0.06em;
-  color: var(--gold-400);
+  color: var(--brass-600);
   font-weight: 500;
+}
+
+/* =========================================================================
+   The dark grounds
+
+   The page is sand, but five places keep a dark ground on purpose: the hero,
+   the interior page heroes, the closing band, the footer and the drawer.
+   Everything inside them has to invert, and headings inherit rather than
+   declare a colour, so setting it on the container carries most of it.
+   ========================================================================= */
+
+:is(.hero, .phero, .footer, .drawer) { color: var(--on-dark); }
+
+:is(.hero, .phero, .footer, .drawer) :is(h1, h2, h3, h4, .display) {
+  color: var(--on-dark);
+}
+
+:is(.hero, .phero, .footer, .drawer) .lede,
+:is(.hero, .phero, .footer, .drawer) .prose p {
+  color: var(--on-dark-muted);
+}
+
+:is(.hero, .phero, .footer, .drawer) .muted,
+:is(.hero, .phero, .footer, .drawer) .tiny {
+  color: var(--on-dark-faint);
+}
+
+:is(.hero, .phero, .footer, .drawer) .eyebrow { color: var(--brass-300); }
+
+:is(.hero, .phero, .footer, .drawer) .eyebrow::before {
+  background: linear-gradient(90deg, transparent, var(--brass-300));
+}
+
+:is(.hero, .phero, .footer, .drawer) .eyebrow--center::after {
+  background: linear-gradient(90deg, var(--brass-300), transparent);
+}
+
+[dir='rtl'] :is(.hero, .phero, .footer, .drawer) .eyebrow::before {
+  background: linear-gradient(270deg, transparent, var(--brass-300));
+}
+
+[dir='rtl'] :is(.hero, .phero, .footer, .drawer) .eyebrow--center::after {
+  background: linear-gradient(270deg, var(--brass-300), transparent);
+}
+
+:is(.hero, .phero, .footer, .drawer) .script { color: var(--brass-300); }
+
+:is(.hero, .phero, .footer) .rule { color: var(--brass-400); }
+
+:is(.hero, .phero, .footer) .rule::before,
+:is(.hero, .phero, .footer) .rule::after {
+  background: linear-gradient(90deg, transparent, rgb(var(--rgb-brass) / 0.6), transparent);
+}
+
+:is(.hero, .phero, .footer) .rule__mark {
+  border-color: var(--brass-400);
+  background: rgb(var(--rgb-brass) / 0.22);
 }
 
 /* Gold foil text with a slow travelling highlight */
 .foil {
-  background: var(--gradient-gold);
+  background: var(--gradient-metal);
   background-size: 260% 100%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -166,12 +223,17 @@ h4, .t-lg { font-size: var(--t-lg); line-height: var(--lh-snug); }
   animation: foil-travel 9s var(--ease-in-out) infinite;
 }
 
+/* On the dark ground the same sweep needs more light in it to read. */
+.hero .foil, .phero .foil, .footer .foil {
+  background-image: var(--gradient-metal-dark);
+}
+
 @keyframes foil-travel {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
 }
 
-.italic-accent { font-style: italic; color: var(--gold-300); font-weight: 300; }
+.italic-accent { font-style: italic; color: var(--brass-700); font-weight: 300; }
 
 /* =========================================================================
    Ornament
@@ -182,7 +244,7 @@ h4, .t-lg { font-size: var(--t-lg); line-height: var(--lh-snug); }
   align-items: center;
   justify-content: center;
   gap: var(--s-4);
-  color: var(--gold-500);
+  color: var(--brass-500);
 }
 
 .rule::before, .rule::after {
@@ -190,7 +252,7 @@ h4, .t-lg { font-size: var(--t-lg); line-height: var(--lh-snug); }
   height: 1px;
   flex: 1 1 auto;
   max-width: 190px;
-  background: linear-gradient(90deg, transparent, rgba(226, 190, 106, 0.55), transparent);
+  background: linear-gradient(90deg, transparent, rgb(var(--rgb-brass) / 0.55), transparent);
 }
 
 .rule__mark {
@@ -198,8 +260,8 @@ h4, .t-lg { font-size: var(--t-lg); line-height: var(--lh-snug); }
   height: 9px;
   flex: none;
   transform: rotate(45deg);
-  border: 1px solid var(--gold-500);
-  background: rgba(226, 190, 106, 0.16);
+  border: 1px solid var(--brass-500);
+  background: rgb(var(--rgb-brass) / 0.16);
 }
 
 .corner-frame { position: relative; }
@@ -216,7 +278,7 @@ h4, .t-lg { font-size: var(--t-lg); line-height: var(--lh-snug); }
 .corner-frame::before { inset-block-start: 10px; inset-inline-start: 10px; border-width: 1px 0 0 1px; }
 .corner-frame::after { inset-block-end: 10px; inset-inline-end: 10px; border-width: 0 1px 1px 0; }
 .corner-frame:hover::before,
-.corner-frame:hover::after { width: 34px; height: 34px; border-color: var(--gold-400); }
+.corner-frame:hover::after { width: 34px; height: 34px; border-color: var(--brass-500); }
 
 /* =========================================================================
    Utility
@@ -238,8 +300,8 @@ h4, .t-lg { font-size: var(--t-lg); line-height: var(--lh-snug); }
   inset-inline-start: var(--s-4);
   z-index: 999;
   padding: 0.8rem 1.4rem;
-  background: var(--gold-400);
-  color: var(--green-950);
+  background: var(--green-800);
+  color: var(--sand-100);
   font-weight: 700;
   border-radius: var(--r-sm);
   transition: inset-block-start var(--d-fast) var(--ease-out);

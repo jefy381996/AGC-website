@@ -34,7 +34,7 @@ html.js [data-reveal='blur'] { filter: blur(14px); transform: translate3d(0, 20p
   position: absolute;
   inset: -1px;
   z-index: 5;
-  background: var(--green-950);
+  background: var(--sand-300);
   transform-origin: right center;
   transition: transform 1150ms var(--ease-out) var(--rv-delay);
   pointer-events: none;

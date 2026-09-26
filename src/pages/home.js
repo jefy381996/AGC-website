@@ -88,7 +88,7 @@ module.exports = function (lang) {
       <div class="hero__copy">
         <p class="eyebrow hero__fade" style="--i:0">${esc(t(home.hero.eyebrow, lang))}</p>
         <span class="script hero__script hero__fade" style="--i:1">${esc(t(site.cuisine, lang))}</span>
-        <h1 class="hero__title">${splitTitle(t(home.hero.title, lang))}</h1>
+        <h1 class="hero__title foil">${splitTitle(t(home.hero.title, lang))}</h1>
         <p class="lede hero__lede hero__fade" style="--i:2">${esc(t(home.hero.lede, lang))}</p>
 
         <div class="btn-row hero__fade" style="--i:3">
