@@ -13,13 +13,15 @@
 
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 const ROOT = __dirname;
 const SRC = path.join(ROOT, 'src');
 const OUT = path.join(ROOT, 'dist');
 
 const site = require('./src/data/site');
-const { layout } = require('./src/templates/layout');
+const L = require('./src/templates/layout');
+const layout = L.layout;
 
 const pages = {
   home: require('./src/pages/home'),
@@ -63,6 +65,12 @@ function concat(dir, ext) {
       return '/* ---- ' + f + ' ---- */\n' + fs.readFileSync(path.join(dir, f), 'utf8');
     })
     .join('\n\n');
+}
+
+/* A short content hash, so a changed bundle gets a new filename and no
+   browser can serve a stale one after a deploy. */
+function fingerprint(contents) {
+  return crypto.createHash('sha1').update(contents).digest('hex').slice(0, 8);
 }
 
 /* Conservative CSS minify: drop comments and squeeze whitespace. Nothing
@@ -119,15 +127,21 @@ function build() {
   /* Styles and scripts, bundled into one file each. */
   const css = minifyCss(concat(path.join(SRC, 'static/assets/css'), '.css'));
   checkCss(css);
-  const cssBytes = write('assets/css/styles.css',
-    '/*! Al Ashfaz Restaurant — Al-Batha, Riyadh */\n' + css);
+  const cssOut = '/*! Al Ashfaz Restaurant — Al-Batha, Riyadh */\n' + css;
 
   const js = concat(path.join(SRC, 'static/assets/js'), '.js');
-  const jsBytes = write('assets/js/app.js',
-    '/*! Al Ashfaz Restaurant */\n(function () {\n"use strict";\n' + js + '\n})();\n');
+  const jsOut = '/*! Al Ashfaz Restaurant */\n(function () {\n"use strict";\n' + js + '\n})();\n';
 
-  console.log('    assets/css/styles.css   ' + fmt(cssBytes));
-  console.log('    assets/js/app.js        ' + fmt(jsBytes));
+  // Name each bundle after its contents and tell the layout what to link to,
+  // before any page is rendered.
+  L.bundles.css = 'assets/css/styles.' + fingerprint(cssOut) + '.css';
+  L.bundles.js = 'assets/js/app.' + fingerprint(jsOut) + '.js';
+
+  const cssBytes = write(L.bundles.css, cssOut);
+  const jsBytes = write(L.bundles.js, jsOut);
+
+  console.log('    ' + L.bundles.css.padEnd(34) + fmt(cssBytes));
+  console.log('    ' + L.bundles.js.padEnd(34) + fmt(jsBytes));
 
   /* Everything under src/static except the css/js we just bundled. */
   /* Report which photo slots are real and which are still placeholders. */

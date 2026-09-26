@@ -7,6 +7,12 @@ const { ui } = require('../data/content');
 const icons = require('./icons');
 const photos = require('./photos');
 
+/* The bundle filenames carry a content hash, which build.js fills in before
+   it renders anything. Without one, a browser that has the old stylesheet
+   cached keeps using it after a deploy — which is exactly what happened
+   after the palette change went live. */
+const bundles = { css: 'assets/css/styles.css', js: 'assets/js/app.js' };
+
 /* Picks the right language out of a { en, ar } pair. */
 function t(value, lang) {
   if (value === null || value === undefined) return '';
@@ -318,7 +324,7 @@ ${opts.noindex ? '<meta name="robots" content="noindex">' : ''}
 <link rel="preload" as="font" type="font/woff2" crossorigin href="${asset('assets/fonts/' + (lang === 'ar' ? 'amiri-700-normal-arabic' : 'cormorant-garamond-300-normal-latin') + '.woff2')}">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="${asset('assets/fonts/' + (lang === 'ar' ? 'tajawal-500-normal-arabic' : 'manrope-300-normal-latin') + '.woff2')}">
 <link rel="preload" as="image" href="${asset('assets/img/food/' + heroFile)}" fetchpriority="high">
-<link rel="stylesheet" href="${asset('assets/css/styles.css')}">
+<link rel="stylesheet" href="${asset(bundles.css)}">
 <script>document.documentElement.classList.add('js');</script>
 <script type="application/ld+json">${jsonLd(lang)}</script>
 </head>
@@ -350,12 +356,13 @@ ${footer(lang)}
 </a>
 ${opts.extra || ''}
 
-<script src="${asset('assets/js/app.js')}" defer></script>
+<script src="${asset(bundles.js)}" defer></script>
 </body>
 </html>`;
 }
 
 module.exports = {
+  bundles: bundles,
   layout: layout, t: t, esc: esc, asset: asset, pageUrl: pageUrl,
   waLink: waLink, mapsLink: mapsLink, directionsLink: directionsLink, icons: icons
 };
