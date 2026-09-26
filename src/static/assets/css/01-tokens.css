@@ -49,6 +49,10 @@
 
   /* --- Channels, for anything translucent ------------------------------ */
   --rgb-sand: 239 230 214;
+  /* Mirrors --sand-200. The marquee strip under the hero is --sand-100 at
+     0.55 over the page, which composites to #F5EEE1 — this is the tone the
+     hero's closing fade has to land on for that edge to disappear. */
+  --rgb-sand-200: 244 236 222;
   --rgb-surface: 250 245 234;
   --rgb-ink: 30 45 38;
   --rgb-green: 15 75 58;
@@ -93,7 +97,13 @@
   /* --- Type ----------------------------------------------------------- */
   --font-display: 'Cormorant Garamond', 'Amiri', Georgia, 'Times New Roman', serif;
   --font-body: 'Manrope', 'Tajawal', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-script: 'Pinyon Script', 'Cormorant Garamond', cursive;
+  /* The accent line. This was Pinyon Script, a formal English roundhand:
+     beautiful up close, but the joined strokes and swashed capitals make
+     it slow to read at a glance and it thins out badly on a phone. The
+     display serif's italic says the same thing — a softer, warmer voice
+     than the headings — and stays legible at every size. It is the same
+     family as --font-display, so the pairing reads as deliberate. */
+  --font-script: 'Cormorant Garamond', 'Amiri', Georgia, 'Times New Roman', serif;
 
   /* Fluid type scale — clamp() keeps every size sane from 320px to 1800px */
   --t-xs: clamp(0.72rem, 0.70rem + 0.10vw, 0.79rem);

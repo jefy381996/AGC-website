@@ -5,6 +5,16 @@
 /* --- Home hero --------------------------------------------------------- */
 .hero {
   position: relative;
+  /* A solid dark ground under the photograph. Without it, anywhere the photo
+     does not reach shows translucent green over the sand page, which mixes
+     to a milky grey — and it is also what you see if the image fails. */
+  background: var(--green-900);
+  /* Required by that background, not decoration. The photo and veil layers
+     below are z-index: -1, and position: relative alone does not open a
+     stacking context — so they would paint against the root and this
+     background would cover them, hiding the photograph completely. Isolating
+     puts them back above the hero's own background and below its content. */
+  isolation: isolate;
   min-height: 100svh;
   display: flex;
   align-items: center;
@@ -68,6 +78,23 @@
 
 .hero__title .ln { display: block; overflow: hidden; }
 .hero__title .ln > span { display: inline-block; }
+
+/* The foil is a gradient clipped to the glyphs with background-clip: text.
+   The reveal above transforms .ln > span, and a transformed descendant is
+   composited on its own — so while the reveal runs those glyphs drop out of
+   the h1's clip region and the headline paints as nothing at all, for the
+   1.4s it takes to settle. Clipping on the span itself keeps the gold with
+   the glyphs the whole way up. Each line then carries its own sweep, which
+   is why the travel is re-declared here rather than inherited. */
+.hero__title.foil { background-image: none; animation: none; }
+
+.hero__title .ln > span {
+  background-image: var(--gradient-metal-dark);
+  background-size: 260% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: foil-travel 9s var(--ease-in-out) infinite;
+}
 
 .hero__lede { margin-bottom: var(--s-6); max-width: 44ch; }
 
@@ -133,6 +160,9 @@
 /* --- Page hero (interior pages) ---------------------------------------- */
 .phero {
   position: relative;
+  /* Same trap as .hero above: __bg and __veil are z-index: -1, so the day
+     anyone gives .phero a background colour it would hide them both. */
+  isolation: isolate;
   padding-block: calc(var(--header-h) + clamp(4rem, 9vw, 8rem)) clamp(3rem, 6vw, 6rem);
   overflow: hidden;
   text-align: center;

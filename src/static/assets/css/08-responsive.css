@@ -37,39 +37,96 @@
   .nav { display: none; }
   .burger { display: block; }
 
-  /* A 16:9 photograph stretched over a tall portrait hero gets cropped to a
-     sliver — only a quarter of its width survived, which reads as a blurry
-     close-up. The fix is the shape of the box, not its size: the photograph
-     now sits as a band across the lower part of the hero, so it is far wider
-     than it is tall and keeps most of the frame. It is masked into the dark
-     background at the top, so there is no seam. */
-  .hero { min-height: 76svh; padding-block: calc(var(--header-h) + 1.5rem) 3.5rem; }
+  /* MOBILE HERO
+     -----------
+     On a phone the hero carries the eyebrow, the script line, a two-line
+     headline, a four-line lede, two buttons and a three-item meta row. That
+     fills the viewport on its own, so there is no room left for the
+     photograph to be a subject as well. Stretching it behind the copy is
+     what produced both faults: a 16:9 frame squeezed into a tall portrait
+     box crops to a blurry sliver, and the scrim needed to keep the text
+     legible over it turned the whole panel milky.
+
+     So the two stop competing. The copy sits on flat --green-900, which is
+     what makes it crisp. The photograph becomes a full-width band along the
+     bottom, sized to its own aspect ratio so it is shown whole rather than
+     cropped, with nothing on top of it. It fades up out of the green and
+     down into --sand-200, which is the tone the translucent marquee strip
+     below composites to — so the hand-off is a single smooth gradient with
+     no seam and no muddy overlap. */
+
+  /* 1672x941 at full bleed wants height = 56.3% of the width, so the band is
+     sized in vw and the photograph is shown essentially uncropped. */
+  :root { --hero-band: clamp(180px, 56vw, 250px); }
+
+  .hero {
+    /* Copy to the top, band reserved at the bottom. align-items:center would
+       push the copy down into the band. */
+    display: block;
+    min-height: auto;
+    padding-block: calc(var(--header-h) + 2rem) calc(var(--hero-band) + 1.75rem);
+  }
 
   .hero__bg {
-    inset: auto 0 -3% 0;
-    height: 62%;
-    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 26%);
-    mask-image: linear-gradient(180deg, transparent 0%, #000 26%);
+    inset: auto 0 0 0;
+    height: var(--hero-band);
+    /* Fades up into the green ground. The bottom stop is not a second fade —
+       the veil below still does all the work of taking the photograph into
+       sand, well above this point. It is a hard cut that keeps the image
+       away from the hero's own bottom edge: .hero clips with overflow and
+       that edge lands on a fractional pixel, where the clip antialiases the
+       photo and the veil differently and leaks a single row of raw image
+       across the seam. Cutting inside the layer's own mask has no such
+       edge. The 6% of headroom clears the parallax drift. */
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 34%, #000 90%, transparent 96%);
+    mask-image: linear-gradient(180deg, transparent 0%, #000 34%, #000 90%, transparent 96%);
   }
+
+  /* No text sits over the photograph any more, so the veil has no scrim to
+     do. Its only job is the dissolve into the strip below, scaled to the
+     band so it never reaches up into the copy. */
+  .hero__veil,
+  [dir='rtl'] .hero__veil {
+    /* Overshoots the hero's bottom, which .hero then clips away. Ending the
+       veil exactly on that edge leaves its last device row short of the
+       hero's own background — the seam reappears, green instead of photo.
+       Running past it means no row is half-covered. */
+    inset: 0 0 -6px;
+    background:
+      linear-gradient(180deg,
+        transparent 0%,
+        transparent 44%,
+        rgb(var(--rgb-sand-200) / 0.22) 64%,
+        rgb(var(--rgb-sand-200) / 0.62) 81%,
+        rgb(var(--rgb-sand-200) / 0.93) 86%,
+        var(--sand-200) 92%)
+      bottom center / 100% var(--hero-band) no-repeat;
+  }
+
+  /* Dimmed to 0.72 on desktop to sit under a heavy scrim. Here it is shown
+     on its own, so it only needs enough shaping to match the palette. */
+  .hero__bg img { filter: saturate(1.04) contrast(1.03) brightness(0.95); }
+
   .hero__copy { max-width: none; }
   .hero__lede { margin-bottom: var(--s-5); }
   .hero__meta { margin-top: var(--s-5); padding-top: var(--s-4); }
-  /* A portrait crop of a 16:9 hero throws away most of its width, so pull
-     the frame across to whichever side the dish is actually on. */
-  :root { --hero-focus: 62% center; }
 
-  /* Dark where the headline sits, open across the middle so the food reads,
-     then closing again under the buttons and the address line. */
-  .hero__veil,
-  [dir='rtl'] .hero__veil {
-    background:
-      linear-gradient(180deg,
-        rgb(var(--rgb-deep) / 0.70) 0%,
-        rgb(var(--rgb-deep) / 0.26) 46%,
-        rgb(var(--rgb-deep) / 0.50) 72%,
-        rgb(var(--rgb-deep) / 0.86) 92%,
-        var(--sand-300) 100%);
-  }
+  /* The band is full-bleed and uncropped, so the desktop focus offset —
+     which exists to rescue a hard portrait crop — is no longer wanted. */
+  :root { --hero-focus: 50% center; }
+
+  /* Multiplying grain over a dark hero only adds murk, and it was the other
+     half of the haze. It does little at this size anyway. */
+  body::after { display: none; }
+
+  /* Crisper on the flat green than the shared muted tone. */
+  .hero .lede { color: rgb(var(--rgb-cream) / 0.92); }
+
+  /* The hero's photograph now dissolves straight into this strip, so the
+     hairline that reads as a tidy separator on a wide screen cuts that fade
+     in half here. The bottom one still divides the strip from the page. */
+  .marquee { border-block-start: 0; }
+
   /* The home page runs long on a phone. "How we cook" and the figures strip
      below it are supporting detail, so they are dropped here and kept on
      wider screens. They stay in the markup, which is what Google indexes. */
