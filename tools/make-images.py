@@ -119,13 +119,13 @@ print("  brand/menu-poster.jpg %dx%d" % poster.size)
 def icon(size):
     """Gold monogram on the house green — used for favicons and the PWA icon."""
     s = size * 4
-    im = Image.new("RGB", (s, s), (9, 36, 27))
+    im = Image.new("RGB", (s, s), (11, 47, 36))
     d = ImageDraw.Draw(im)
-    d.rectangle([0, 0, s, s], fill=(9, 36, 27))
+    d.rectangle([0, 0, s, s], fill=(11, 47, 36))
     # gold hairline frame
     inset = int(s * 0.085)
     d.rectangle([inset, inset, s - inset, s - inset],
-                outline=(198, 160, 78), width=max(2, int(s * 0.018)))
+                outline=(168, 128, 58), width=max(2, int(s * 0.018)))
     try:
         from PIL import ImageFont
         font = ImageFont.truetype(
@@ -137,7 +137,7 @@ def icon(size):
         bbox = d.textbbox((0, 0), text, font=font)
         d.text(((s - (bbox[2] - bbox[0])) / 2 - bbox[0],
                 (s - (bbox[3] - bbox[1])) / 2 - bbox[1]),
-               text, font=font, fill=(226, 190, 106))
+               text, font=font, fill=(232, 211, 164))
     return im.resize((size, size), Image.LANCZOS)
 
 

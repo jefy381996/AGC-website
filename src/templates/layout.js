@@ -288,7 +288,7 @@ function layout(opts) {
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>${esc(opts.title)}</title>
 <meta name="description" content="${esc(opts.description)}">
-<meta name="theme-color" content="#03110B">
+<meta name="theme-color" content="#EFE6D6">
 ${opts.noindex ? '<meta name="robots" content="noindex">' : ''}
 <meta name="format-detection" content="telephone=no">
 <link rel="canonical" href="${canonical}">
@@ -322,7 +322,7 @@ ${opts.noindex ? '<meta name="robots" content="noindex">' : ''}
 <script>document.documentElement.classList.add('js');</script>
 <script type="application/ld+json">${jsonLd(lang)}</script>
 </head>
-<body class="page-${opts.id}">
+<body class="page-${opts.id}${opts.id === 'notfound' ? '' : ' has-dark-hero'}">
 <a class="skip-link" href="#main">${esc(t(ui.skip, lang))}</a>
 
 <div class="preloader" role="status" aria-live="polite">

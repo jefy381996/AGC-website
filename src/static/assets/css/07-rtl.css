@@ -36,8 +36,8 @@
 }
 
 /* Mirror directional ornament */
-[dir='rtl'] .eyebrow::before { background: linear-gradient(270deg, transparent, var(--gold-500)); }
-[dir='rtl'] .eyebrow--center::after { background: linear-gradient(270deg, var(--gold-500), transparent); }
+[dir='rtl'] .eyebrow::before { background: linear-gradient(270deg, transparent, var(--brass-500)); }
+[dir='rtl'] .eyebrow--center::after { background: linear-gradient(270deg, var(--brass-500), transparent); }
 [dir='rtl'] .chips { -webkit-mask-image: linear-gradient(270deg, #000 94%, transparent); mask-image: linear-gradient(270deg, #000 94%, transparent); }
 [dir='rtl'] .split--reverse > *:first-child { order: 0; }
 [dir='rtl'] .split--reverse > *:last-child { order: -1; }

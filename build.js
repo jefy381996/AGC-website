@@ -220,8 +220,8 @@ function build() {
     start_url: site.base + '/',
     scope: site.base + '/',
     display: 'standalone',
-    background_color: '#03110B',
-    theme_color: '#03110B',
+    background_color: '#EFE6D6',
+    theme_color: '#EFE6D6',
     icons: [
       { src: site.base + '/assets/img/brand/icon-192.png', sizes: '192x192', type: 'image/png' },
       { src: site.base + '/assets/img/brand/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' }

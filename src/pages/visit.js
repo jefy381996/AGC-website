@@ -90,7 +90,7 @@ module.exports = function (lang) {
           <div class="info-card" data-reveal="up">
             <div class="info-card__icon">${icons.wallet}</div>
             <p class="info-card__label">${esc(lang === 'ar' ? 'الدفع' : 'Payment')}</p>
-            <p class="info-card__value small">${esc(lang === 'ar' ? 'نقداً وبطاقة مدى' : 'Cash and mada')}</p>
+            <p class="info-card__value small">${esc(lang === 'ar' ? 'نقداً، مدى، البطاقات الائتمانية، Apple Pay' : 'Cash, mada, credit cards and Apple Pay')}</p>
           </div>
         </div>
 
