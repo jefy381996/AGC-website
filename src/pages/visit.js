@@ -149,8 +149,8 @@ module.exports = function (lang) {
       ? 'زورونا — مطعم آل أشفاز، مقابل لولو، البطحاء، الرياض'
       : 'Visit Us — Al Ashfaz Restaurant, Opposite Lulu, Al-Batha, Riyadh',
     description: lang === 'ar'
-      ? 'الموقع وأوقات العمل وطريقة الوصول إلى مطعم آل أشفاز في البطحاء، مقابل لولو هايبر. بدون حجوزات وبدون توصيل.'
-      : 'Location, opening hours and directions to Al Ashfaz Restaurant in Al-Batha, opposite Lulu Hyper. No bookings, no delivery.',
+      ? 'الموقع وأوقات العمل وطريقة الوصول إلى مطعم آل أشفاز في البطحاء، مقابل لولو هايبر. اطلب على واتساب للاستلام أو التوصيل.'
+      : 'Location, opening hours and directions to Al Ashfaz Restaurant in Al-Batha, opposite Lulu Hyper. Order on WhatsApp for collection or delivery.',
     body: body
   };
 };

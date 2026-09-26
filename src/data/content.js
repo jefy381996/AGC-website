@@ -29,9 +29,9 @@ const ui = {
   prev: { en: 'Previous', ar: 'السابق' },
   next: { en: 'Next', ar: 'التالي' },
   close: { en: 'Close', ar: 'إغلاق' },
-  noDelivery: {
-    en: 'We do not take bookings or deliver. Walk in, sit down, and we will cook it fresh.',
-    ar: 'لا نستقبل الحجوزات ولا نقدم التوصيل. تفضَّل بالدخول واجلس، وسنطهو لك طازجاً.'
+  orderNote: {
+    en: 'We still take no table bookings — seating is first come, first served. Ordering ahead is for collection and delivery only.',
+    ar: 'ما زلنا لا نستقبل حجوزات الطاولات — الجلوس بالأسبقية لمن يأتي أولاً. الطلب المسبق للاستلام والتوصيل فقط.'
   },
   priceNote: {
     en: 'All prices are in Saudi Riyals and include VAT. Prices may change without notice.',
@@ -106,8 +106,8 @@ const home = {
     eyebrow: { en: 'Come and sit', ar: 'تفضَّل واجلس' },
     title: { en: 'Opposite Lulu Hyper, Al-Batha', ar: 'مقابل لولو هايبر، البطحاء' },
     body: {
-      en: 'No bookings, no delivery apps, no waiting for a driver. Walk in, take a table, and tell us what you want cooked.',
-      ar: 'لا حجوزات، ولا تطبيقات توصيل، ولا انتظار لسائق. ادخل واختر طاولة وأخبرنا بما تريد أن نطهوه.'
+      en: 'Walk in and take a table, or build your order on the menu page and send it to us on WhatsApp. Either way it is cooked when you ask for it.',
+      ar: 'ادخل واختر طاولة، أو جهِّز طلبك من صفحة المنيو وأرسله لنا على واتساب. في الحالتين يُطهى الطعام عند طلبك له.'
     }
   }
 };
@@ -179,8 +179,8 @@ const about = {
     no: {
       title: { en: 'What you will not', ar: 'وما لن تجده' },
       items: {
-        en: ['Anything reheated from yesterday', 'Frozen naan from a bag', 'A plate that sat waiting under a lamp', 'Table bookings — it is first come, first served', 'Delivery apps or drivers', 'A separate family section'],
-        ar: ['أي شيء مُعاد تسخينه من الأمس', 'نان مجمَّد من كيس', 'طبق انتظر تحت مصباح التسخين', 'حجز طاولات — الأسبقية لمن يأتي أولاً', 'تطبيقات توصيل أو سائقين', 'قسم عائلي منفصل']
+        en: ['Anything reheated from yesterday', 'Frozen naan from a bag', 'A plate that sat waiting under a lamp', 'Table bookings — it is first come, first served', 'A delivery app in between, taking its cut', 'A separate family section'],
+        ar: ['أي شيء مُعاد تسخينه من الأمس', 'نان مجمَّد من كيس', 'طبق انتظر تحت مصباح التسخين', 'حجز طاولات — الأسبقية لمن يأتي أولاً', 'تطبيق توصيل بيننا وبينك يأخذ نصيبه', 'قسم عائلي منفصل']
       }
     }
   }
@@ -242,11 +242,11 @@ const visit = {
       },
       {
         q: { en: 'Do you deliver?', ar: 'هل تقدمون خدمة التوصيل؟' },
-        a: { en: 'We do not deliver and we are not on any delivery app. Our food is built to be eaten minutes after it leaves the wok, and it does not survive a journey across Riyadh.', ar: 'لا نقدم التوصيل ولسنا على أي تطبيق توصيل. طعامنا مُعد ليُؤكل بعد دقائق من خروجه من المقلاة، ولا يصمد في رحلة عبر الرياض.' }
+        a: { en: 'Yes. Build your order on the menu page and send it on WhatsApp, and we will reply with the total, the delivery charge for your area and how long it will take. We are not on any delivery app — your order comes straight to the kitchen. Karahi is still at its best eaten here, minutes out of the wok.', ar: 'نعم. جهِّز طلبك من صفحة المنيو وأرسله على واتساب، وسنرد عليك بالمجموع ورسوم التوصيل لمنطقتك والمدة المتوقعة. لسنا على أي تطبيق توصيل — طلبك يصل إلى المطبخ مباشرة. تبقى الكراهي في أفضل حالاتها هنا، بعد دقائق من خروجها من المقلاة.' }
       },
       {
         q: { en: 'Can I take food away?', ar: 'هل يمكنني الطلب للخارج؟' },
-        a: { en: 'Yes. Order at the counter, wait while it is cooked, and carry it home yourself. Naan travels best; karahi is at its best eaten here.', ar: 'نعم. اطلب من الكاونتر، وانتظر حتى يُطهى، ثم خذه معك. النان يتحمل السفر أكثر؛ أما الكراهي فأفضل ما تكون هنا.' }
+        a: { en: 'Yes, two ways. Order at the counter and wait while it is cooked, or send your order ahead on WhatsApp from the menu page so it is ready closer to when you arrive. Naan travels best; karahi is at its best eaten here.', ar: 'نعم، بطريقتين. اطلب من الكاونتر وانتظر حتى يُطهى، أو أرسل طلبك مسبقاً على واتساب من صفحة المنيو ليكون جاهزاً قرب وصولك. النان يتحمل السفر أكثر؛ أما الكراهي فأفضل ما تكون هنا.' }
       },
       {
         q: { en: 'How long does a karahi take?', ar: 'كم تستغرق الكراهي؟' },
@@ -297,7 +297,117 @@ const notFound = {
   }
 };
 
+
+/* --- Ordering ------------------------------------------------------------
+   Everything the basket, the order panel and the WhatsApp message say. The
+   message itself is assembled in 07-order.js from the `wa` strings below, in
+   whichever language the customer is reading the site in — so the kitchen
+   receives Arabic from an Arabic reader and English from an English one.   */
+
+const order = {
+  /* the invitation on the menu page */
+  howTo: {
+    en: 'Tap any price to add it to your order.',
+    ar: 'اضغط على أي سعر لإضافته إلى طلبك.'
+  },
+  addTo: { en: 'Add', ar: 'أضف' },
+  inOrder: { en: 'in your order', ar: 'في طلبك' },
+
+  /* the bar that rises once something is in the basket */
+  review: { en: 'Review order', ar: 'مراجعة الطلب' },
+  panelTitle: { en: 'Your order', ar: 'طلبك' },
+  empty: {
+    en: 'Nothing here yet. Tap any price on the menu and it lands in this list.',
+    ar: 'لا شيء هنا بعد. اضغط على أي سعر في المنيو وسيظهر في هذه القائمة.'
+  },
+  browse: { en: 'Go to the menu', ar: 'إلى المنيو' },
+
+  /* line controls */
+  increase: { en: 'One more', ar: 'واحد إضافي' },
+  decrease: { en: 'One fewer', ar: 'واحد أقل' },
+  remove: { en: 'Remove', ar: 'إزالة' },
+  clear: { en: 'Empty the order', ar: 'إفراغ الطلب' },
+  clearConfirm: { en: 'Remove everything from this order?', ar: 'إزالة كل شيء من هذا الطلب؟' },
+
+  /* totals */
+  total: { en: 'Items total', ar: 'مجموع الأصناف' },
+  totalNote: {
+    en: 'Prices include VAT. If you choose delivery we will confirm the charge for your area when we reply.',
+    ar: 'الأسعار تشمل ضريبة القيمة المضافة. إذا اخترت التوصيل سنؤكد الرسوم لمنطقتك عند الرد عليك.'
+  },
+
+  /* how the food is collected */
+  howLabel: { en: 'How would you like it?', ar: 'كيف تريد استلامه؟' },
+  pickup: { en: 'I will collect it', ar: 'سأستلمه بنفسي' },
+  pickupHint: { en: 'Ready at the counter, opposite Lulu Hyper', ar: 'جاهز عند الكاونتر، مقابل لولو هايبر' },
+  delivery: { en: 'Deliver it to me', ar: 'وصِّلوه إليّ' },
+  deliveryHint: { en: 'We will confirm the charge and the time', ar: 'سنؤكد الرسوم والمدة' },
+
+  /* the form */
+  nameLabel: { en: 'Your name', ar: 'اسمك' },
+  namePlaceholder: { en: 'So we know who to call for', ar: 'حتى نعرف من ننادي' },
+  phoneLabel: { en: 'Phone number', ar: 'رقم الجوال' },
+  phonePlaceholder: { en: '05X XXX XXXX', ar: '05X XXX XXXX' },
+  addressLabel: { en: 'Delivery address', ar: 'عنوان التوصيل' },
+  addressPlaceholder: {
+    en: 'Street, building and anything that helps the driver find you',
+    ar: 'الشارع والمبنى وأي تفاصيل تساعد السائق في الوصول إليك'
+  },
+  notesLabel: { en: 'Anything else?', ar: 'أي ملاحظات؟' },
+  notesPlaceholder: {
+    en: 'Extra spicy, no coriander, a time you need it by…',
+    ar: 'حار إضافي، بدون كزبرة، وقت محدد تريده فيه…'
+  },
+  optional: { en: 'optional', ar: 'اختياري' },
+
+  /* validation */
+  errName: { en: 'Please tell us your name.', ar: 'من فضلك أخبرنا باسمك.' },
+  errPhone: { en: 'Please give a phone number we can reach you on.', ar: 'من فضلك اكتب رقم جوال يمكننا الوصول إليك عليه.' },
+  errPhoneShape: { en: 'That does not look like a phone number.', ar: 'هذا لا يبدو رقم جوال صحيحاً.' },
+  errAddress: { en: 'We need an address to deliver to.', ar: 'نحتاج عنواناً للتوصيل إليه.' },
+  errEmpty: { en: 'There is nothing in the order yet.', ar: 'لا يوجد شيء في الطلب بعد.' },
+
+  /* the send button, and what happens after */
+  send: { en: 'Send order on WhatsApp', ar: 'إرسال الطلب على واتساب' },
+  sendHint: {
+    en: 'This opens WhatsApp with your order written out. Nothing is ordered until you press send there, and we reply to confirm.',
+    ar: 'سيفتح هذا واتساب وطلبك مكتوب بالكامل. لا يتم تأكيد الطلب حتى ترسله من هناك، ثم نرد عليك للتأكيد.'
+  },
+  sentTitle: { en: 'Sent to the kitchen', ar: 'أُرسل إلى المطبخ' },
+  sentBody: {
+    en: 'Check WhatsApp and press send if it is still sitting there. We will reply with the total and the time.',
+    ar: 'تحقق من واتساب وأرسل الرسالة إن كانت ما زالت هناك. سنرد عليك بالمجموع والوقت.'
+  },
+  sentClear: { en: 'Start a new order', ar: 'ابدأ طلباً جديداً' },
+  sentKeep: { en: 'Keep this order', ar: 'احتفظ بهذا الطلب' },
+
+  /* the WhatsApp message itself */
+  wa: {
+    heading: { en: 'NEW ORDER — Al Ashfaz', ar: 'طلب جديد — مطعم آل أشفاز' },
+    items: { en: 'Order', ar: 'الطلب' },
+    total: { en: 'Items total', ar: 'مجموع الأصناف' },
+    how: { en: 'Collection', ar: 'الاستلام' },
+    pickup: { en: 'Customer will collect', ar: 'العميل سيستلم بنفسه' },
+    delivery: { en: 'Delivery', ar: 'توصيل' },
+    name: { en: 'Name', ar: 'الاسم' },
+    phone: { en: 'Phone', ar: 'الجوال' },
+    address: { en: 'Address', ar: 'العنوان' },
+    notes: { en: 'Notes', ar: 'ملاحظات' },
+    footer: {
+      en: 'Sent from the website. Please confirm the total and the time.',
+      ar: 'أُرسل من الموقع. يُرجى تأكيد المجموع والوقت.'
+    }
+  },
+
+  /* Arabic counts three ways where English counts two, so the basket label
+     carries all of the forms rather than bolting an "s" on at runtime. */
+  count: {
+    en: { one: '{n} item', other: '{n} items' },
+    ar: { zero: 'لا أصناف', one: 'صنف واحد', two: 'صنفان', few: '{n} أصناف', many: '{n} صنفاً' }
+  }
+};
+
 module.exports = {
-  ui: ui, home: home, about: about,
+  ui: ui, home: home, about: about, order: order,
   gallery: gallery, visit: visit, menuPage: menuPage, notFound: notFound
 };

@@ -1,0 +1,465 @@
+/* =========================================================================
+   Ordering — the price buttons, the basket bar and the order panel
+
+   Named 04b so it lands between the components and the pages in the
+   concatenated bundle, and well before 08-responsive.css, which is where
+   anything that has to change on a phone belongs.
+   ========================================================================= */
+
+/* --- The price is the button -------------------------------------------- */
+/* .mrow__price already sets the type, colour and alignment. These rules only
+   undo the browser's button chrome and add the affordance, so a price looks
+   the same as it always did until you point at it. */
+.mrow__price--add {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid transparent;
+  background: none;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  /* A price cell is 62px wide in a karahi row; this keeps the tap target at
+     the 44px the WCAG target-size rule asks for without changing the grid. */
+  min-height: 44px;
+  padding-inline: 0.4rem;
+  border-radius: var(--r-sm);
+  transition: background var(--d-fast) var(--ease-out),
+              border-color var(--d-fast) var(--ease-out),
+              color var(--d-fast) var(--ease-out);
+}
+
+/* The buttons ship disabled and 07-order.js switches them on, so a price is
+   never a control that does nothing — without the script it is not focusable
+   and not clickable, just a number, which is what it was before. That also
+   means no flash of "enabled" before the bundle runs, so :disabled has to be
+   visually identical to the resting state. */
+.mrow__price--add:disabled { cursor: default; opacity: 1; color: var(--brass-700); }
+
+.mrow__price--add:not(:disabled):hover,
+.mrow__price--add:not(:disabled):focus-visible {
+  background: rgb(var(--rgb-brass) / 0.12);
+  border-color: rgb(var(--rgb-brass) / 0.38);
+  color: var(--brass-800);
+}
+
+.mrow__price--add:not(:disabled):active { transform: scale(0.96); }
+
+/* The count rides on the price once the dish is in the basket. */
+.mrow__qty {
+  position: absolute;
+  inset-block-start: 1px;
+  inset-inline-start: 1px;
+  min-width: 19px;
+  height: 19px;
+  padding-inline: 4px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--r-pill);
+  background: var(--green-800);
+  color: var(--sand-100);
+  font-size: 0.68rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  box-shadow: 0 2px 6px rgb(var(--rgb-ink) / 0.22);
+}
+
+.mrow__price--add.is-in { color: var(--green-800); }
+
+/* A brief pulse so a tap that only changes a number still feels like it did
+   something. Motion-safe: the reduced-motion block at the end kills it. */
+@keyframes order-pop { 50% { transform: scale(1.22); } }
+.mrow__qty.is-bumped { animation: order-pop 320ms var(--ease-out); }
+
+/* The two daily specials get a real button, since they have the room. */
+.btn--sm {
+  padding: 0.62rem 1.25rem;
+  font-size: var(--t-xs);
+  gap: 0.45rem;
+}
+
+.btn--sm svg { width: 14px; height: 14px; }
+
+.special__add {
+  position: relative;
+  margin-block-start: var(--s-4);
+  align-self: flex-start;
+}
+
+.special__add .mrow__qty {
+  position: static;
+  margin-inline-start: 0.2rem;
+}
+
+.btn-row--tight { gap: var(--s-3); flex-wrap: wrap; }
+
+/* --- The basket bar ------------------------------------------------------ */
+/* Rises from the bottom once there is something in the order. It sits above
+   the floating buttons, which step aside for it — see body.order-active in
+   03-chrome.css. */
+.obar {
+  position: fixed;
+  inset-block-end: clamp(1rem, 3vw, 2rem);
+  inset-inline: 0;
+  z-index: 130;
+  display: flex;
+  justify-content: center;
+  padding-inline: clamp(1rem, 4vw, 2rem);
+  pointer-events: none;
+}
+
+.obar__btn {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.8rem 0.9rem 0.8rem 0.85rem;
+  border: 1px solid rgb(var(--rgb-brass) / 0.45);
+  border-radius: var(--r-pill);
+  background: var(--green-900);
+  color: var(--sand-100);
+  cursor: pointer;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(150%);
+  transition: transform var(--d-mid) var(--ease-out),
+              border-color var(--d-fast) var(--ease-out);
+}
+
+body.order-active .obar__btn { transform: none; }
+
+.obar__btn:hover,
+.obar__btn:focus-visible { border-color: var(--brass-400); }
+
+.obar__count {
+  min-width: 30px;
+  height: 30px;
+  padding-inline: 7px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--r-pill);
+  background: var(--gradient-metal-dark);
+  color: var(--green-900);
+  font-size: var(--t-sm);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.obar__label {
+  font-size: var(--t-sm);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+[lang='ar'] .obar__label { letter-spacing: 0; text-transform: none; }
+
+.obar__total {
+  padding-inline: 0.85rem 0.35rem;
+  font-size: var(--t-sm);
+  font-weight: 700;
+  color: var(--brass-300);
+  font-variant-numeric: tabular-nums;
+  border-inline-start: 1px solid rgb(var(--rgb-cream) / 0.18);
+}
+
+/* --- The order panel ----------------------------------------------------- */
+.opanel {
+  position: fixed;
+  inset: 0;
+  z-index: 170;
+  display: grid;
+  /* The sheet is the second child but has to paint above the scrim, so the
+     two are stacked deliberately rather than by source order. The track is
+     pinned to the viewport rather than left on `auto`: an auto row grows to
+     fit its content, so a long order made the sheet taller than the screen,
+     which left __scroll with nothing to scroll and put the send button
+     somewhere no one could reach. */
+  grid-template-areas: 'stack';
+  grid-template-rows: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
+  visibility: hidden;
+}
+
+body.opanel-open .opanel { visibility: visible; }
+
+.opanel__scrim {
+  grid-area: stack;
+  background: rgb(var(--rgb-deep) / 0.62);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  opacity: 0;
+  transition: opacity var(--d-mid) var(--ease-out);
+  cursor: pointer;
+}
+
+body.opanel-open .opanel__scrim { opacity: 1; }
+
+.opanel__sheet {
+  grid-area: stack;
+  z-index: 1;
+  justify-self: end;
+  width: min(30rem, 100%);
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--sand-100);
+  box-shadow: var(--shadow-lg);
+  transform: translateX(100%);
+  transition: transform var(--d-slow) var(--ease-out);
+}
+
+/* justify-self is already logical — `end` puts the sheet on the right in
+   English and on the left in Arabic on its own. Only the transform is
+   physical, so only the transform is mirrored; overriding justify-self as
+   well flipped it straight back to the wrong edge. */
+[dir='rtl'] .opanel__sheet { transform: translateX(-100%); }
+body.opanel-open .opanel__sheet { transform: none; }
+
+.opanel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding: var(--s-5) var(--s-5) var(--s-4);
+  border-block-end: 1px solid var(--line-soft);
+  background: var(--sand-100);
+}
+
+.opanel__title {
+  font-size: var(--t-lg);
+  font-weight: 400;
+  margin: 0;
+}
+
+.opanel__close {
+  width: 42px;
+  height: 42px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: none;
+  color: var(--ink-800);
+  cursor: pointer;
+  transition: background var(--d-fast) var(--ease-out), color var(--d-fast) var(--ease-out);
+}
+
+.opanel__close:hover { background: var(--green-800); border-color: var(--green-800); color: var(--sand-100); }
+.opanel__close svg { width: 17px; height: 17px; }
+
+.opanel__scroll {
+  flex: 1;
+  /* A flex child's floor is its content unless told otherwise, and a child
+     that cannot shrink cannot scroll. */
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: var(--s-5);
+}
+
+.opanel__empty {
+  color: var(--ink-600);
+  line-height: 1.7;
+  margin: var(--s-6) 0;
+  text-align: center;
+}
+
+/* --- Lines ---------------------------------------------------------------- */
+.olist { list-style: none; margin: 0 0 var(--s-5); padding: 0; }
+
+.oline {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.35rem var(--s-4);
+  padding-block: var(--s-4);
+  border-block-end: 1px solid var(--line-soft);
+}
+
+.oline__name { font-weight: 600; color: var(--ink-800); line-height: 1.4; }
+.oline__var { display: block; font-size: var(--t-xs); color: var(--ink-400); font-weight: 500; margin-block-start: 2px; }
+
+.oline__price {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  text-align: end;
+  font-weight: 800;
+  color: var(--brass-700);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.ostep {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  padding: 2px;
+  justify-self: start;
+}
+
+.ostep__btn {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  color: var(--ink-800);
+  cursor: pointer;
+  transition: background var(--d-fast) var(--ease-out), color var(--d-fast) var(--ease-out);
+}
+
+.ostep__btn:hover { background: var(--green-800); color: var(--sand-100); }
+.ostep__btn svg { width: 15px; height: 15px; }
+
+.ostep__n {
+  min-width: 26px;
+  text-align: center;
+  font-weight: 800;
+  font-size: var(--t-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Total ---------------------------------------------------------------- */
+.ototal { padding-block: var(--s-4) var(--s-5); }
+
+.ototal__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-4);
+  font-size: var(--t-md);
+}
+
+.ototal__row strong { font-size: var(--t-lg); color: var(--brass-700); font-variant-numeric: tabular-nums; }
+.ototal__note { margin-block: var(--s-3) var(--s-3); line-height: 1.6; }
+
+.olink {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--green-800);
+  font-weight: 700;
+  font-size: var(--t-sm);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.olink:hover { color: var(--green-900); }
+.olink--quiet { color: var(--ink-600); font-weight: 600; }
+.olink--quiet:hover { color: var(--ember); }
+
+/* --- Form ----------------------------------------------------------------- */
+.oform { border-block-start: 1px solid var(--line-soft); padding-block-start: var(--s-5); }
+
+.ohow { border: none; margin: 0 0 var(--s-5); padding: 0; display: grid; gap: var(--s-3); }
+.ohow > .ofield__label { margin-block-end: var(--s-1); }
+
+.ohow__opt {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  cursor: pointer;
+  transition: border-color var(--d-fast) var(--ease-out), background var(--d-fast) var(--ease-out);
+}
+
+.ohow__opt:hover { border-color: var(--brass-500); }
+.ohow__opt:has(input:checked) { border-color: var(--green-800); background: rgb(var(--rgb-green) / 0.06); }
+.ohow__opt input { margin-block-start: 0.2rem; accent-color: var(--green-800); flex: none; }
+.ohow__body { display: block; }
+.ohow__name { display: block; font-weight: 700; color: var(--ink-800); }
+.ohow__hint { display: block; font-size: var(--t-xs); color: var(--ink-400); margin-block-start: 2px; line-height: 1.5; }
+
+.ofield { margin: 0 0 var(--s-4); }
+
+.ofield__label {
+  display: block;
+  font-size: var(--t-xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-600);
+  margin-block-end: 0.4rem;
+}
+
+[lang='ar'] .ofield__label { letter-spacing: 0; text-transform: none; }
+
+.ofield__opt { font-weight: 500; text-transform: none; letter-spacing: 0; color: var(--ink-400); }
+
+.ofield__input {
+  width: 100%;
+  padding: 0.75rem 0.95rem;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  background: var(--sand-50);
+  color: var(--ink-800);
+  font-size: var(--t-sm);
+  transition: border-color var(--d-fast) var(--ease-out);
+}
+
+textarea.ofield__input { resize: vertical; min-height: 3rem; line-height: 1.6; }
+.ofield__input::placeholder { color: var(--ink-400); }
+.ofield__input:focus { outline: none; border-color: var(--green-800); box-shadow: 0 0 0 3px rgb(var(--rgb-green) / 0.14); }
+.ofield__input[aria-invalid='true'] { border-color: var(--ember); }
+
+.ofield__err {
+  display: block;
+  margin-block-start: 0.35rem;
+  font-size: var(--t-xs);
+  font-weight: 600;
+  color: var(--ember);
+}
+
+.obtn { width: 100%; margin-block-start: var(--s-2); }
+.osend-hint { margin-block-start: var(--s-3); line-height: 1.6; }
+
+/* --- After sending -------------------------------------------------------- */
+.osent { text-align: center; padding-block: var(--s-6); }
+.osent__title { font-size: var(--t-lg); font-weight: 400; margin-block-end: var(--s-3); }
+.osent__body { color: var(--ink-600); line-height: 1.7; margin-block-end: var(--s-5); }
+.osent .btn-row { justify-content: center; align-items: center; }
+
+/* --- The menu page's one-line instruction --------------------------------- */
+.ohint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-block-start: var(--s-4);
+  padding: 0.5rem 0.95rem;
+  border: 1px dashed rgb(var(--rgb-brass) / 0.5);
+  border-radius: var(--r-pill);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  color: var(--brass-800);
+  background: rgb(var(--rgb-brass) / 0.07);
+}
+
+.ohint svg { width: 14px; height: 14px; flex: none; }
+
+/* Nothing in the basket UI does anything without JS, so it stays out of the
+   page until the script says otherwise. The menu, the prices and the
+   WhatsApp number are all still there without it. */
+html:not(.js) .obar,
+html:not(.js) .opanel,
+html:not(.js) .special__add,
+html:not(.js) .ohint { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .obar__btn,
+  .opanel__sheet,
+  .opanel__scrim { transition: none; }
+  .mrow__qty.is-bumped { animation: none; }
+  .mrow__price--add:active { transform: none; }
+}

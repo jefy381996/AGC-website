@@ -127,6 +127,50 @@
      in half here. The bottom one still divides the strip from the page. */
   .marquee { border-block-start: 0; }
 
+  /* ORDERING ON A PHONE
+     A side sheet on a phone is just a full-screen panel that slid in from an
+     odd direction, so it becomes a bottom sheet — the shape a thumb expects,
+     and the direction the basket bar it came from is already in. It stops
+     short of the top so the page behind stays visible and the sheet reads as
+     a layer rather than a new page. */
+  .opanel__sheet {
+    justify-self: stretch;
+    align-self: end;
+    width: 100%;
+    height: auto;
+    max-height: 88svh;
+    border-start-start-radius: var(--r-xl);
+    border-start-end-radius: var(--r-xl);
+    transform: translateY(100%);
+  }
+
+  [dir='rtl'] .opanel__sheet { transform: translateY(100%); }
+  body.opanel-open .opanel__sheet { transform: none; }
+
+  /* A grab handle, so the sheet reads as a sheet. */
+  .opanel__head::before {
+    content: '';
+    position: absolute;
+    inset-block-start: 0.55rem;
+    inset-inline: 0;
+    margin-inline: auto;
+    width: 38px;
+    height: 4px;
+    border-radius: var(--r-pill);
+    background: var(--line);
+  }
+
+  .opanel__head { position: relative; padding-block-start: var(--s-6); }
+
+  /* Full width, so the bar is a proper thumb target rather than a pill
+     floating in the middle of the screen. */
+  .obar { padding-inline: 0.75rem; inset-block-end: 0.75rem; }
+  .obar__btn { width: 100%; justify-content: space-between; }
+
+  /* The quarter/half/full prices are 62px apart on a phone too, so the count
+     needs to sit tighter to its number. */
+  .mrow__qty { min-width: 17px; height: 17px; font-size: 0.62rem; }
+
   /* The home page runs long on a phone. "How we cook" and the figures strip
      below it are supporting detail, so they are dropped here and kept on
      wider screens. They stay in the markup, which is what Google indexes. */

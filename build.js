@@ -95,7 +95,13 @@ const REQUIRED_CSS = [
   '.header', '.hero', '.hero__bg', '.hero__veil', '.marquee',
   '.mrow', '.mtable__head', '.chip', '.menu-tools',
   '.gal__item', '.lightbox', '.acc__btn', '.social-link',
-  '.footer', '.btn--gold', '.card', '.frame', '.open-pill'
+  '.footer', '.btn--gold', '.card', '.frame', '.open-pill',
+  // Ordering. [hidden] in particular: without it the basket bar and the
+  // quantity badges set their own display and ignore being hidden, which
+  // puts an empty bar and a green dot on every price.
+  '[hidden]', '.obar', '.obar__btn', '.opanel', '.opanel__sheet',
+  '.opanel__scroll', '.oline', '.ostep', '.oform', '.ofield__input',
+  '.mrow__price--add', '.mrow__qty'
 ];
 
 function checkCss(css) {
@@ -107,6 +113,18 @@ function checkCss(css) {
     console.error('\n  BUILD FAILED — these rules are missing from the stylesheet:');
     missing.forEach(function (m) { console.error('    ' + m); });
     console.error('  A stylesheet edit probably removed more than it meant to.\n');
+    process.exit(1);
+  }
+}
+
+/* Two dishes sharing a slug would share a basket line, so one would silently
+   become the other. Cheap to check, impossible to spot by eye. */
+function checkOrder() {
+  const dupes = require('./src/data/order').duplicates();
+  if (dupes.length) {
+    console.error('\n  BUILD FAILED — these order ids are not unique:');
+    dupes.forEach(function (d) { console.error('    ' + d); });
+    console.error('  Two menu items slug to the same id; rename one.\n');
     process.exit(1);
   }
 }
@@ -127,6 +145,7 @@ function build() {
   /* Styles and scripts, bundled into one file each. */
   const css = minifyCss(concat(path.join(SRC, 'static/assets/css'), '.css'));
   checkCss(css);
+  checkOrder();
   const cssOut = '/*! Al Ashfaz Restaurant — Al-Batha, Riyadh */\n' + css;
 
   const js = concat(path.join(SRC, 'static/assets/js'), '.js');

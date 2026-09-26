@@ -3,7 +3,8 @@
 --------------------------------------------------------------------------- */
 
 const site = require('../data/site');
-const { ui } = require('../data/content');
+const { ui, order } = require('../data/content');
+const orderData = require('../data/order');
 const icons = require('./icons');
 const photos = require('./photos');
 
@@ -38,6 +39,17 @@ function pageUrl(pageId, lang) {
   const file = page ? page.file : 'index.html';
   const prefix = lang === 'en' ? site.base + '/' : site.base + '/ar/';
   return file === 'index.html' ? prefix : prefix + file;
+}
+
+/* site.url already ends in the base path ("…github.io/AGC-website") and
+   asset() prepends that same base, so joining the two doubled it — every
+   social preview image pointed at /AGC-website/AGC-website/… and 404'd.
+   The canonical and hreflang links strip the base back off for this reason;
+   this does the same job for anything under assets/. It matters more than it
+   looks: WhatsApp builds its link preview from og:image, and WhatsApp is
+   where every order now starts. */
+function absUrl(rel) {
+  return site.url.replace(/\/$/, '') + '/' + String(rel).replace(/^\//, '');
 }
 
 function waLink(lang) {
@@ -83,7 +95,7 @@ function jsonLd(lang) {
       : 'Al Ashfaz Restaurant in Al-Batha, Riyadh — karahi, charcoal BBQ, biryani and tandoor-fresh naan, all cooked to order.',
     url: site.url,
     telephone: site.contact.phoneHref,
-    image: site.url + asset('assets/img/brand/og-image.jpg'),
+    image: absUrl('assets/img/brand/og-image.jpg'),
     servesCuisine: ['Pakistani', 'Afghan', 'Desi', 'Shinwari', 'Barbecue'],
     priceRange: 'SAR 1–90',
     currenciesAccepted: 'SAR',
@@ -155,6 +167,162 @@ function header(lang, current) {
       </a>
     </div>
   </div>`;
+}
+
+/* --- Ordering ------------------------------------------------------------
+   The basket bar and the order panel live in the shell rather than on the
+   menu page, because a basket survives navigation — you can add a karahi,
+   wander to the gallery, and the bar is still there.
+
+   Nothing here is interactive without JavaScript, so the whole block is
+   hidden until 07-order.js marks the document ready. The menu itself, the
+   prices and the WhatsApp number stay readable either way.            */
+
+function orderUi(lang) {
+  const rtl = lang === 'ar';
+  const opt = `<span class="ofield__opt">${esc(t(order.optional, lang))}</span>`;
+
+  return `
+  <div class="obar" id="obar" hidden data-order-bar>
+    <button class="obar__btn" type="button" data-order-open>
+      <span class="obar__count" data-order-count aria-hidden="true">0</span>
+      <span class="obar__label">${esc(t(order.review, lang))}</span>
+      <span class="obar__total"><span data-order-total>0</span> ${esc(t(ui.sar, lang))}</span>
+    </button>
+  </div>
+
+  <div class="opanel" id="order-panel" hidden aria-hidden="true" role="dialog" aria-modal="true"
+       aria-labelledby="order-panel-title">
+    <div class="opanel__sheet">
+      <div class="opanel__head">
+        <h2 class="opanel__title" id="order-panel-title">${esc(t(order.panelTitle, lang))}</h2>
+        <button class="opanel__close" type="button" data-order-close
+                aria-label="${esc(t(ui.close, lang))}">${icons.close}</button>
+      </div>
+
+      <div class="opanel__scroll">
+        <p class="opanel__empty" data-order-empty hidden>
+          ${esc(t(order.empty, lang))}
+          <a class="olink" href="${pageUrl('menu', lang)}">${esc(t(order.browse, lang))}</a>
+        </p>
+
+        <ul class="olist" data-order-list></ul>
+
+        <div class="ototal" data-order-summary hidden>
+          <div class="ototal__row">
+            <span>${esc(t(order.total, lang))}</span>
+            <strong><span data-order-total>0</span> ${esc(t(ui.sar, lang))}</strong>
+          </div>
+          <p class="tiny muted ototal__note">${esc(t(order.totalNote, lang))}</p>
+          <button class="olink olink--quiet" type="button" data-order-clear>${esc(t(order.clear, lang))}</button>
+        </div>
+
+        <form class="oform" data-order-form novalidate hidden>
+          <fieldset class="ohow">
+            <legend class="ofield__label">${esc(t(order.howLabel, lang))}</legend>
+            <label class="ohow__opt">
+              <input type="radio" name="fulfilment" value="pickup" checked>
+              <span class="ohow__body">
+                <span class="ohow__name">${esc(t(order.pickup, lang))}</span>
+                <span class="ohow__hint">${esc(t(order.pickupHint, lang))}</span>
+              </span>
+            </label>
+            <label class="ohow__opt">
+              <input type="radio" name="fulfilment" value="delivery">
+              <span class="ohow__body">
+                <span class="ohow__name">${esc(t(order.delivery, lang))}</span>
+                <span class="ohow__hint">${esc(t(order.deliveryHint, lang))}</span>
+              </span>
+            </label>
+          </fieldset>
+
+          <p class="ofield">
+            <label class="ofield__label" for="o-name">${esc(t(order.nameLabel, lang))}</label>
+            <input class="ofield__input" id="o-name" name="name" type="text" autocomplete="name"
+                   placeholder="${esc(t(order.namePlaceholder, lang))}" required
+                   aria-describedby="o-name-err">
+            <span class="ofield__err" id="o-name-err" data-err hidden></span>
+          </p>
+
+          <p class="ofield">
+            <label class="ofield__label" for="o-phone">${esc(t(order.phoneLabel, lang))}</label>
+            <input class="ofield__input ltr" id="o-phone" name="phone" type="tel" autocomplete="tel"
+                   inputmode="tel" placeholder="${esc(t(order.phonePlaceholder, lang))}" required
+                   aria-describedby="o-phone-err">
+            <span class="ofield__err" id="o-phone-err" data-err hidden></span>
+          </p>
+
+          <p class="ofield" data-order-address hidden>
+            <label class="ofield__label" for="o-address">${esc(t(order.addressLabel, lang))}</label>
+            <textarea class="ofield__input" id="o-address" name="address" rows="3"
+                      placeholder="${esc(t(order.addressPlaceholder, lang))}"
+                      aria-describedby="o-address-err"></textarea>
+            <span class="ofield__err" id="o-address-err" data-err hidden></span>
+          </p>
+
+          <p class="ofield">
+            <label class="ofield__label" for="o-notes">${esc(t(order.notesLabel, lang))} ${opt}</label>
+            <textarea class="ofield__input" id="o-notes" name="notes" rows="2"
+                      placeholder="${esc(t(order.notesPlaceholder, lang))}"></textarea>
+          </p>
+
+          <button class="btn btn--gold obtn" type="submit">
+            ${icons.whatsapp}<span>${esc(t(order.send, lang))}</span>
+          </button>
+          <p class="tiny muted osend-hint">${esc(t(order.sendHint, lang))}</p>
+        </form>
+
+        <div class="osent" data-order-sent hidden>
+          <h3 class="osent__title">${esc(t(order.sentTitle, lang))}</h3>
+          <p class="osent__body">${esc(t(order.sentBody, lang))}</p>
+          <div class="btn-row btn-row--tight">
+            <button class="btn btn--ghost" type="button" data-order-restart>${esc(t(order.sentClear, lang))}</button>
+            <button class="olink olink--quiet" type="button" data-order-keep>${esc(t(order.sentKeep, lang))}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="opanel__scrim" data-order-close></div>
+  </div>
+
+  <script type="application/json" id="order-catalogue">${
+    JSON.stringify(orderData.catalogue).replace(/</g, '\\u003c')
+  }</script>
+  <script type="application/json" id="order-config">${
+    JSON.stringify({
+      wa: site.contact.whatsapp,
+      lang: lang,
+      rtl: rtl,
+      sar: t(ui.sar, lang),
+      s: {
+        count: order.count[lang] || order.count.en,
+        increase: t(order.increase, lang),
+        decrease: t(order.decrease, lang),
+        remove: t(order.remove, lang),
+        clearConfirm: t(order.clearConfirm, lang),
+        errName: t(order.errName, lang),
+        errPhone: t(order.errPhone, lang),
+        errPhoneShape: t(order.errPhoneShape, lang),
+        errAddress: t(order.errAddress, lang),
+        errEmpty: t(order.errEmpty, lang),
+        inOrder: t(order.inOrder, lang),
+        addTo: t(order.addTo, lang),
+        wa: {
+          heading: t(order.wa.heading, lang),
+          items: t(order.wa.items, lang),
+          total: t(order.wa.total, lang),
+          how: t(order.wa.how, lang),
+          pickup: t(order.wa.pickup, lang),
+          delivery: t(order.wa.delivery, lang),
+          name: t(order.wa.name, lang),
+          phone: t(order.wa.phone, lang),
+          address: t(order.wa.address, lang),
+          notes: t(order.wa.notes, lang),
+          footer: t(order.wa.footer, lang)
+        }
+      }
+    }).replace(/</g, '\\u003c')
+  }</script>`;
 }
 
 /* --- Footer ------------------------------------------------------------- */
@@ -308,13 +476,13 @@ ${opts.noindex ? '<meta name="robots" content="noindex">' : ''}
 <meta property="og:title" content="${esc(opts.title)}">
 <meta property="og:description" content="${esc(opts.description)}">
 <meta property="og:url" content="${canonical}">
-<meta property="og:image" content="${site.url + asset('assets/img/brand/og-image.jpg')}">
+<meta property="og:image" content="${absUrl('assets/img/brand/og-image.jpg')}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(opts.title)}">
 <meta name="twitter:description" content="${esc(opts.description)}">
-<meta name="twitter:image" content="${site.url + asset('assets/img/brand/og-image.jpg')}">
+<meta name="twitter:image" content="${absUrl('assets/img/brand/og-image.jpg')}">
 
 <link rel="icon" href="${asset('assets/img/brand/favicon-32.png')}" sizes="32x32">
 <link rel="icon" href="${asset('assets/img/brand/icon-192.png')}" sizes="192x192">
@@ -354,6 +522,7 @@ ${footer(lang)}
 <a class="wa-float" href="${waLink(lang)}" target="_blank" rel="noopener" aria-label="${esc(t(ui.whatsapp, lang))}">
   ${icons.whatsapp}<span>${esc(t(ui.whatsapp, lang))}</span>
 </a>
+${orderUi(lang)}
 ${opts.extra || ''}
 
 <script src="${asset(bundles.js)}" defer></script>
