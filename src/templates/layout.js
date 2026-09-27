@@ -266,6 +266,8 @@ function orderUi(lang) {
                       placeholder="${esc(t(order.notesPlaceholder, lang))}"></textarea>
           </p>
 
+          <p class="ocall" data-order-confirmcall hidden>${icons.phone}<span>${esc(t(order.confirmCall, lang))}</span></p>
+
           <button class="btn btn--gold obtn" type="submit">
             ${icons.whatsapp}<span>${esc(t(order.send, lang))}</span>
           </button>
@@ -276,8 +278,25 @@ function orderUi(lang) {
           <h3 class="osent__title">${esc(t(order.sentTitle, lang))}</h3>
           <p class="osent__body">${esc(t(order.sentBody, lang))}</p>
           <div class="btn-row btn-row--tight">
-            <button class="btn btn--ghost" type="button" data-order-restart>${esc(t(order.sentClear, lang))}</button>
+            <!-- The label must be wrapped in a span. .btn::before is the sweep
+                 fill at z-index 1, and only element children are lifted above
+                 it. A bare text node is not an element, so the fill paints
+                 over the words and the button reads as an empty pill while
+                 hovered. (No backticks in here: this sits inside a template
+                 literal.) -->
+            <button class="btn btn--ghost" type="button" data-order-restart><span>${esc(t(order.sentClear, lang))}</span></button>
             <button class="olink olink--quiet" type="button" data-order-keep>${esc(t(order.sentKeep, lang))}</button>
+          </div>
+
+          <div class="ofallback">
+            <p class="tiny muted ofallback__q">${esc(t(order.didNotOpen, lang))}</p>
+            <div class="btn-row btn-row--tight ofallback__row">
+              <button class="olink" type="button" data-order-copy>${esc(t(order.copyOrder, lang))}</button>
+              <a class="olink" href="#" target="_blank" rel="noopener" data-order-reopen>${esc(t(order.openAgain, lang))}</a>
+            </div>
+            <p class="ofallback__said" data-order-copied hidden role="status"></p>
+            <label class="sr-only" for="o-raw">${esc(t(order.copyOrder, lang))}</label>
+            <textarea class="ofield__input ofallback__raw" id="o-raw" data-order-raw rows="6" readonly hidden></textarea>
           </div>
         </div>
       </div>
@@ -291,6 +310,8 @@ function orderUi(lang) {
   <script type="application/json" id="order-config">${
     JSON.stringify({
       wa: site.contact.whatsapp,
+      logUrl: (site.ordering && site.ordering.logUrl) || '',
+      confirmOver: (site.ordering && site.ordering.confirmCallOver) || 0,
       lang: lang,
       rtl: rtl,
       sar: t(ui.sar, lang),
@@ -307,6 +328,8 @@ function orderUi(lang) {
         errEmpty: t(order.errEmpty, lang),
         inOrder: t(order.inOrder, lang),
         addTo: t(order.addTo, lang),
+        copied: t(order.copied, lang),
+        copyManual: t(order.copyManual, lang),
         wa: {
           heading: t(order.wa.heading, lang),
           items: t(order.wa.items, lang),
@@ -525,6 +548,7 @@ ${footer(lang)}
 ${orderUi(lang)}
 ${opts.extra || ''}
 
+${site.analytics && site.analytics.cloudflareToken ? `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${esc(site.analytics.cloudflareToken)}"}'></script>` : ''}
 <script src="${asset(bundles.js)}" defer></script>
 </body>
 </html>`;

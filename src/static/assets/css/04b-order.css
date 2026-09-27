@@ -425,11 +425,55 @@ textarea.ofield__input { resize: vertical; min-height: 3rem; line-height: 1.6; }
 .obtn { width: 100%; margin-block-start: var(--s-2); }
 .osend-hint { margin-block-start: var(--s-3); line-height: 1.6; }
 
+/* --- The "we will ring first" note ---------------------------------------- */
+.ocall {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin: 0 0 var(--s-4);
+  padding: 0.7rem 0.9rem;
+  border-inline-start: 3px solid var(--brass-500);
+  border-radius: var(--r-sm);
+  background: rgb(var(--rgb-brass) / 0.09);
+  font-size: var(--t-xs);
+  line-height: 1.55;
+  color: var(--ink-800);
+}
+
+.ocall svg { width: 15px; height: 15px; flex: none; margin-block-start: 1px; color: var(--brass-800); }
+
 /* --- After sending -------------------------------------------------------- */
 .osent { text-align: center; padding-block: var(--s-6); }
 .osent__title { font-size: var(--t-lg); font-weight: 400; margin-block-end: var(--s-3); }
 .osent__body { color: var(--ink-600); line-height: 1.7; margin-block-end: var(--s-5); }
 .osent .btn-row { justify-content: center; align-items: center; }
+
+/* The escape hatch for a phone that blocked the WhatsApp window. Quiet by
+   design — it is the answer to a question most people will not have. */
+.ofallback {
+  margin-block-start: var(--s-6);
+  padding-block-start: var(--s-4);
+  border-block-start: 1px solid var(--line-soft);
+}
+
+.ofallback__q { margin: 0 0 var(--s-2); }
+.ofallback__row { justify-content: center; }
+.ofallback__said {
+  margin-block-start: var(--s-3);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  color: var(--green-800);
+}
+
+.ofallback__raw {
+  margin-block-start: var(--s-3);
+  font-size: var(--t-xs);
+  line-height: 1.5;
+  text-align: start;
+  /* The order is written for WhatsApp, which reads left to right even in an
+     Arabic thread, so the raw text is shown the way it will be pasted. */
+  direction: ltr;
+}
 
 /* --- The menu page's one-line instruction --------------------------------- */
 .ohint {

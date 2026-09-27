@@ -62,6 +62,31 @@ const site = {
     }
   },
 
+  /* --- Ordering ----------------------------------------------------------
+     The three settings below are the only ones you need to touch to switch
+     the extras on. All of them are safe to leave empty: the site works
+     exactly as it does now, orders still reach WhatsApp, and nothing is sent
+     anywhere else. SETUP.md walks through filling each one in. */
+  ordering: {
+    // Paste the Google Apps Script web-app URL here and every order is also
+    // written as a row in your spreadsheet. Empty = no order log, WhatsApp
+    // only. See SETUP.md step 2 and tools/order-log.gs.
+    logUrl: '',
+
+    // Orders at or above this total (in riyals) show a line telling the
+    // customer you will ring to confirm before cooking. Set to 0 to never
+    // show it. Delivery orders always show it, whatever the total.
+    confirmCallOver: 150
+  },
+
+  /* --- Analytics ----------------------------------------------------------
+     Empty means no tracking script is put on the page at all — not a
+     disabled one, none. Fill it in and one cookieless script is added. */
+  analytics: {
+    // Cloudflare Web Analytics token. SETUP.md step 4.
+    cloudflareToken: ''
+  },
+
   currency: { en: 'SAR', ar: 'ريال' },
 
   // Set to '' to hide a link from the footer. Paste the clean profile URL —

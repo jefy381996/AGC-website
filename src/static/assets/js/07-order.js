@@ -150,7 +150,20 @@
   var countEls = $$('[data-order-count]');
   var totalEls = $$('[data-order-total]');
   var addressField = $('[data-order-address]', panel);
+  var callNote = $('[data-order-confirmcall]', panel);
+  var lastMessage = '';
   var live = null;
+
+  /* Shown for any delivery, and for a collection order big enough that the
+     kitchen would ring anyway. Saying so before they send turns a suspicious
+     phone call into an expected one. */
+  function paintCallNote() {
+    if (!callNote) return;
+    var checked = $('input[name="fulfilment"]:checked', panel);
+    var delivery = !!checked && checked.value === 'delivery';
+    var big = cfg.confirmOver > 0 && totals().sar >= cfg.confirmOver;
+    callNote.hidden = !(delivery || big);
+  }
 
   function name(item) { return cfg.lang === 'ar' ? item.a : item.e; }
   function variant(item) { return cfg.lang === 'ar' ? item.va : item.ve; }
@@ -226,6 +239,7 @@
     formEl.hidden = !has;
 
     paintButtons();
+    paintCallNote();
     if (live) live.textContent = countLabel(t.count);
   }
 
@@ -283,6 +297,58 @@
     out.push('');
     out.push(w.footer);
     return out.join(nl);
+  }
+
+  /* --- the order log ---------------------------------------------------- */
+  /* A copy of the order goes to a Google Sheet, when one is configured, so
+     there is a record that outlives the WhatsApp thread. It is deliberately
+     fire-and-forget: the customer is about to be handed to WhatsApp and must
+     never wait on, or be blocked by, a spreadsheet.
+
+     sendBeacon is used first because it survives the page being navigated
+     away from, which is exactly what is about to happen. text/plain keeps it
+     a "simple" request, so the browser does not try a CORS preflight that an
+     Apps Script endpoint would not answer. Nothing reads the response — if
+     the log fails, the order still reaches the kitchen, which is the part
+     that matters. */
+  function logOrder(values) {
+    if (!cfg.logUrl) return;
+    var t = totals();
+    var payload = JSON.stringify({
+      at: new Date().toISOString(),
+      lang: cfg.lang,
+      name: values.name,
+      phone: values.phone,
+      fulfilment: values.fulfilment,
+      address: values.address,
+      notes: values.notes,
+      total: t.sar,
+      count: t.count,
+      items: t.lines.map(function (line) {
+        return {
+          id: line.item.i,
+          name: line.item.e + (line.item.ve ? ' (' + line.item.ve + ')' : ''),
+          qty: line.qty,
+          each: line.item.p,
+          line: line.item.p * line.qty
+        };
+      })
+    });
+
+    try {
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon(cfg.logUrl, new Blob([payload], { type: 'text/plain;charset=UTF-8' }));
+        return;
+      }
+    } catch (e) { /* fall through */ }
+
+    try {
+      fetch(cfg.logUrl, {
+        method: 'POST', mode: 'no-cors', keepalive: true,
+        headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+        body: payload
+      }).catch(function () {});
+    } catch (e) { /* the order is already on its way to WhatsApp */ }
   }
 
   /* --- validation ------------------------------------------------------- */
@@ -365,8 +431,37 @@
       sentEl.hidden = true;
       render();
       closePanel();
+      return;
     }
+
+    if (e.target.closest && e.target.closest('[data-order-copy]')) copyOrder();
   });
+
+  /* If the browser blocked the WhatsApp window the order is still sitting
+     right here, so it can be copied and pasted by hand rather than retyped.
+     Clipboard access can be refused outright, so there is a visible textarea
+     behind it as the last resort. */
+  function copyOrder() {
+    var said = $('[data-order-copied]', panel);
+    var raw = $('[data-order-raw]', panel);
+    if (!lastMessage || !said) return;
+
+    function ok() { said.textContent = S.copied; said.hidden = false; }
+    function manual() {
+      said.textContent = S.copyManual;
+      said.hidden = false;
+      if (!raw) return;
+      raw.hidden = false;
+      raw.focus();
+      raw.select();
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(lastMessage).then(ok, manual);
+      return;
+    }
+    manual();
+  }
 
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && isOpen()) closePanel();
@@ -394,6 +489,7 @@
         addr.required = delivery;
         if (!delivery) setError(addressField, '');
       }
+      paintCallNote();
     });
   });
 
@@ -416,8 +512,21 @@
     var bad = validate(values, wantsDelivery);
     if (bad.length) { bad[0].focus(); return; }
 
-    var url = 'https://wa.me/' + cfg.wa + '?text=' + encodeURIComponent(buildMessage(values));
+    var text = buildMessage(values);
+    var url = 'https://wa.me/' + cfg.wa + '?text=' + encodeURIComponent(text);
+
+    logOrder(values);
     window.open(url, '_blank', 'noopener');
+
+    // Kept so the fallback below can hand the same order over again if the
+    // browser blocked the window — the commonest way an order is lost.
+    lastMessage = text;
+    var reopen = $('[data-order-reopen]', panel);
+    if (reopen) reopen.setAttribute('href', url);
+    var raw = $('[data-order-raw]', panel);
+    if (raw) raw.value = text;
+    var said = $('[data-order-copied]', panel);
+    if (said) { said.hidden = true; said.textContent = ''; }
 
     // The basket is kept until they say the order went through — WhatsApp
     // may not have opened, or they may have backed out of it.

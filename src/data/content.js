@@ -373,6 +373,20 @@ const order = {
     en: 'This opens WhatsApp with your order written out. Nothing is ordered until you press send there, and we reply to confirm.',
     ar: 'سيفتح هذا واتساب وطلبك مكتوب بالكامل. لا يتم تأكيد الطلب حتى ترسله من هناك، ثم نرد عليك للتأكيد.'
   },
+  /* Shown before sending, when the order is big enough (or is a delivery)
+     that the kitchen will ring first. Better here than as a surprise. */
+  confirmCall: {
+    en: 'We will call you on this number to confirm before we start cooking.',
+    ar: 'سنتصل بك على هذا الرقم للتأكيد قبل أن نبدأ الطهي.'
+  },
+
+  /* The escape hatch for a phone that blocked the WhatsApp window. */
+  didNotOpen: { en: 'Did WhatsApp not open?', ar: 'لم يفتح واتساب؟' },
+  copyOrder: { en: 'Copy the order', ar: 'انسخ الطلب' },
+  copied: { en: 'Copied — paste it to us on WhatsApp', ar: 'تم النسخ — الصقه لنا على واتساب' },
+  copyManual: { en: 'Select the text below and copy it', ar: 'حدِّد النص بالأسفل وانسخه' },
+  openAgain: { en: 'Open WhatsApp again', ar: 'افتح واتساب مرة أخرى' },
+
   sentTitle: { en: 'Sent to the kitchen', ar: 'أُرسل إلى المطبخ' },
   sentBody: {
     en: 'Check WhatsApp and press send if it is still sitting there. We will reply with the total and the time.',
