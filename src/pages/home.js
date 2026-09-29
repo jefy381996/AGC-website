@@ -1,6 +1,6 @@
 const site = require('../data/site');
 const menu = require('../data/menu');
-const { ui, home } = require('../data/content');
+const { ui, home, order } = require('../data/content');
 const L = require('../templates/layout');
 const P = require('../templates/parts');
 const { t, esc, pageUrl, directionsLink, waLink, icons } = L;
@@ -92,7 +92,10 @@ module.exports = function (lang) {
         <p class="lede hero__lede hero__fade" style="--i:2">${esc(t(home.hero.lede, lang))}</p>
 
         <div class="btn-row hero__fade" style="--i:3">
-          <a class="btn btn--gold magnetic" href="${pageUrl('menu', lang)}"><span>${esc(t(ui.viewMenu, lang))}</span>${icons.arrowRight}</a>
+          <!-- "View the Menu" told nobody they could order from it. This goes
+               to the same page, so anyone who only wants to read the menu
+               still lands where they meant to. -->
+          <a class="btn btn--gold magnetic" href="${pageUrl('menu', lang)}">${icons.bag}<span>${esc(t(order.orderOnline, lang))}</span>${icons.arrowRight}</a>
           <a class="btn btn--ghost magnetic" href="${pageUrl('visit', lang)}">${icons.pin}<span>${esc(t(ui.findUs, lang))}</span></a>
         </div>
 

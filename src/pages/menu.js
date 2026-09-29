@@ -141,7 +141,12 @@ module.exports = function (lang) {
     eyebrow: menuPage.hero.eyebrow,
     title: menuPage.hero.title,
     lede: menuPage.hero.lede,
-    after: `<p class="ohint">${icons.bag}<span>${esc(t(order.howTo, lang))}</span></p>`
+    /* Spelled out rather than hinted at. Someone who has never ordered from
+       a website needs to be told what to do, not given a nudge. */
+    after: `<div class="ohowto">
+        <p class="ohowto__title">${icons.bag}<span>${esc(t(order.howToTitle, lang))}</span></p>
+        <p class="ohowto__lead">${esc(t(order.howToLead, lang))}</p>
+      </div>`
   })}
 
   <section class="section section--tight section--flush-top">

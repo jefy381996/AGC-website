@@ -35,14 +35,36 @@
    and not clickable, just a number, which is what it was before. That also
    means no flash of "enabled" before the bundle runs, so :disabled has to be
    visually identical to the resting state. */
+/* The resting state carries a soft pill and a faint plus. Without it a price
+   is just a number, and nobody taps a number — which is the whole reason
+   ordering was hard to find. This is the fix that means the welcome card is a
+   courtesy rather than the only thing holding the feature up. */
+.mrow__price--add {
+  background: rgb(var(--rgb-brass) / 0.10);
+  border-color: rgb(var(--rgb-brass) / 0.22);
+}
+
+.mrow__price--add::after {
+  content: '+';
+  margin-inline-start: 0.28em;
+  font-size: 0.82em;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--brass-600);
+  transition: color var(--d-fast) var(--ease-out);
+}
+
 .mrow__price--add:disabled { cursor: default; opacity: 1; color: var(--brass-700); }
 
 .mrow__price--add:not(:disabled):hover,
 .mrow__price--add:not(:disabled):focus-visible {
-  background: rgb(var(--rgb-brass) / 0.12);
-  border-color: rgb(var(--rgb-brass) / 0.38);
+  background: rgb(var(--rgb-brass) / 0.22);
+  border-color: rgb(var(--rgb-brass) / 0.55);
   color: var(--brass-800);
 }
+
+.mrow__price--add:not(:disabled):hover::after { color: var(--brass-800); }
+.mrow__price--add.is-in::after { content: none; }
 
 .mrow__price--add:not(:disabled):active { transform: scale(0.96); }
 
@@ -94,6 +116,217 @@
 }
 
 .btn-row--tight { gap: var(--s-3); flex-wrap: wrap; }
+
+/* --- The always-visible way in -------------------------------------------- */
+/* Gold against the plain nav links, because it is the one item on this site
+   that earns money. */
+.nav__order {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1rem;
+  margin-inline-start: 0.35rem;
+  border-radius: var(--r-pill);
+  background: var(--gradient-metal-dark);
+  color: var(--green-900);
+  font-weight: 800;
+  box-shadow: 0 4px 14px rgb(var(--rgb-brass) / 0.30);
+  transition: transform var(--d-fast) var(--ease-out), box-shadow var(--d-fast) var(--ease-out);
+}
+
+.nav__order::after { display: none; }
+.nav__order svg { width: 15px; height: 15px; flex: none; }
+.nav__order:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgb(var(--rgb-brass) / 0.42); }
+
+.drawer__order {
+  margin: var(--s-5) var(--gutter) 0;
+  justify-content: center;
+}
+
+/* --- The menu page's instruction band ------------------------------------- */
+.ohowto {
+  max-width: 34rem;
+  margin: var(--s-5) auto 0;
+  padding: var(--s-4) var(--s-5);
+  border: 1px solid rgb(var(--rgb-brass) / 0.34);
+  border-radius: var(--r-lg);
+  background: rgb(var(--rgb-deep) / 0.30);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  text-align: center;
+}
+
+.ohowto__title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 0 0 0.35rem;
+  font-size: var(--t-sm);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brass-300);
+}
+
+[lang='ar'] .ohowto__title { letter-spacing: 0; text-transform: none; }
+.ohowto__title svg { width: 16px; height: 16px; flex: none; }
+.ohowto__lead { margin: 0; font-size: var(--t-sm); line-height: 1.6; color: rgb(var(--rgb-cream) / 0.92); }
+
+/* --- The welcome card ----------------------------------------------------- */
+.owelcome {
+  position: fixed;
+  inset: 0;
+  z-index: 180;
+  display: grid;
+  grid-template-areas: 'stack';
+  grid-template-rows: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
+  place-items: center;
+  padding: var(--gutter);
+  visibility: hidden;
+}
+
+body.owelcome-open .owelcome { visibility: visible; }
+
+.owelcome__scrim {
+  grid-area: stack;
+  /* Fixed to the viewport, not stretched inside the grid: the parent carries
+     padding to keep the card off the screen edges, and a stretched scrim
+     inherits that inset — leaving a bright frame all round and half the
+     header undimmed above it. */
+  position: fixed;
+  inset: 0;
+  background: rgb(var(--rgb-deep) / 0.72);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  opacity: 0;
+  transition: opacity 420ms var(--ease-out);
+  cursor: pointer;
+}
+
+body.owelcome-open .owelcome__scrim { opacity: 1; }
+
+.owelcome__card {
+  grid-area: stack;
+  z-index: 1;
+  width: min(26rem, 100%);
+  max-height: 90svh;
+  overflow-y: auto;
+  padding: clamp(1.6rem, 1.2rem + 1.6vw, 2.4rem);
+  border: 1px solid rgb(var(--rgb-brass) / 0.36);
+  border-radius: var(--r-xl);
+  background:
+    radial-gradient(120% 85% at 50% 0%, rgb(var(--rgb-green) / 0.55), transparent 62%),
+    var(--green-900);
+  box-shadow: var(--shadow-dark);
+  text-align: center;
+  color: var(--on-dark);
+  opacity: 0;
+  transform: translateY(26px) scale(0.94);
+  transition: opacity 420ms var(--ease-out), transform 520ms var(--ease-out);
+}
+
+body.owelcome-open .owelcome__card { opacity: 1; transform: none; }
+
+.owelcome__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0 0 var(--s-3);
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--r-pill);
+  background: rgb(var(--rgb-brass) / 0.16);
+  border: 1px solid rgb(var(--rgb-brass) / 0.34);
+  font-size: var(--t-xs);
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brass-300);
+}
+
+[lang='ar'] .owelcome__eyebrow { letter-spacing: 0; text-transform: none; }
+.owelcome__eyebrow svg { width: 14px; height: 14px; flex: none; }
+
+.owelcome__title {
+  font-size: var(--t-xl);
+  font-weight: 300;
+  line-height: 1.12;
+  margin: 0 0 var(--s-3);
+  color: var(--on-dark);
+}
+
+.owelcome__lead {
+  margin: 0 0 var(--s-5);
+  font-size: var(--t-sm);
+  line-height: 1.6;
+  color: rgb(var(--rgb-cream) / 0.86);
+}
+
+/* The three steps, each rising a beat after the one before it. */
+.osteps { list-style: none; margin: 0 0 var(--s-5); padding: 0; display: grid; gap: 0.7rem; text-align: start; }
+
+.osteps__item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: var(--r-md);
+  border: 1px solid rgb(var(--rgb-cream) / 0.12);
+  background: rgb(var(--rgb-cream) / 0.05);
+  font-size: var(--t-sm);
+  line-height: 1.45;
+  color: rgb(var(--rgb-cream) / 0.94);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 420ms var(--ease-out), transform 420ms var(--ease-out);
+}
+
+body.owelcome-open .osteps__item { opacity: 1; transform: none; }
+body.owelcome-open .osteps__item:nth-child(1) { transition-delay: 180ms; }
+body.owelcome-open .osteps__item:nth-child(2) { transition-delay: 280ms; }
+body.owelcome-open .osteps__item:nth-child(3) { transition-delay: 380ms; }
+
+.osteps__n {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--gradient-metal-dark);
+  color: var(--green-900);
+  font-weight: 800;
+  font-size: var(--t-sm);
+  line-height: 1;
+}
+
+.owelcome__pay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 0 0 var(--s-5);
+  font-size: var(--t-xs);
+  line-height: 1.5;
+  color: rgb(var(--rgb-cream) / 0.74);
+}
+
+.owelcome__pay svg { width: 15px; height: 15px; flex: none; color: var(--brass-300); }
+
+.owelcome__cta { width: 100%; }
+/* Scoped to .owelcome deliberately. .olink--quiet is declared further down
+   this file at the same specificity, so a bare .owelcome__no loses to it and
+   the dismiss link paints --ink-600 on a dark green card: 1.86:1, all but
+   invisible. Raised to 0.62 cream, which clears AA. */
+.owelcome .owelcome__no {
+  margin-block-start: var(--s-4);
+  color: rgb(var(--rgb-cream) / 0.62);
+}
+
+.owelcome .owelcome__no:hover { color: var(--brass-300); }
+
+html:not(.js) .owelcome { display: none !important; }
 
 /* --- The basket bar ------------------------------------------------------ */
 /* Rises from the bottom once there is something in the order. It sits above
@@ -501,6 +734,9 @@ html:not(.js) .special__add,
 html:not(.js) .ohint { display: none !important; }
 
 @media (prefers-reduced-motion: reduce) {
+  .owelcome__card,
+  .owelcome__scrim,
+  .osteps__item { transition: none; transform: none; }
   .obar__btn,
   .opanel__sheet,
   .opanel__scrim { transition: none; }
