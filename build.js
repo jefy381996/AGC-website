@@ -101,7 +101,8 @@ const REQUIRED_CSS = [
   // puts an empty bar and a green dot on every price.
   '[hidden]', '.obar', '.obar__btn', '.opanel', '.opanel__sheet',
   '.opanel__scroll', '.oline', '.ostep', '.oform', '.ofield__input',
-  '.mrow__price--add', '.mrow__qty', '.ocall', '.ofallback'
+  '.mrow__price--add', '.mrow__qty', '.ocall', '.ofallback',
+  '.owelcome', '.owelcome__card', '.osteps', '.nav__order', '.ohowto'
 ];
 
 function checkCss(css) {

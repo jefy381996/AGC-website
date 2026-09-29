@@ -305,10 +305,40 @@ const notFound = {
    receives Arabic from an Arabic reader and English from an English one.   */
 
 const order = {
+  /* --- The welcome card -------------------------------------------------
+     Shown once per visit. Written for someone who has never ordered from a
+     website before, so it says what to DO rather than describing a feature:
+     short sentences, no jargon, one obvious button. */
+  welcome: {
+    eyebrow: { en: 'Order online', ar: 'اطلب أونلاين' },
+    title: { en: 'Ordering is easy', ar: 'الطلب سهل' },
+    lead: {
+      en: 'Three steps, about a minute. No app, no account.',
+      ar: 'ثلاث خطوات، دقيقة تقريباً. بدون تطبيق وبدون حساب.'
+    },
+    step1: { en: 'Open the menu and tap any price', ar: 'افتح المنيو واضغط على أي سعر' },
+    step2: { en: 'Check your list and add your name', ar: 'راجع قائمتك وأضف اسمك' },
+    step3: { en: 'Send it to us on WhatsApp', ar: 'أرسله لنا على واتساب' },
+    cta: { en: 'Start my order', ar: 'ابدأ طلبي' },
+    dismiss: { en: 'Just looking', ar: 'أتصفَّح فقط' },
+    pay: {
+      en: 'Pay when you collect, or when it arrives.',
+      ar: 'ادفع عند الاستلام أو عند وصول الطلب.'
+    }
+  },
+
+  /* The always-visible way in — nav, drawer and the hero button. */
+  orderOnline: { en: 'Order Online', ar: 'اطلب أونلاين' },
+
   /* the invitation on the menu page */
   howTo: {
     en: 'Tap any price to add it to your order.',
     ar: 'اضغط على أي سعر لإضافته إلى طلبك.'
+  },
+  howToTitle: { en: 'How to order', ar: 'كيف تطلب' },
+  howToLead: {
+    en: 'Tap the price of anything you want. It goes into your order at the bottom of the screen.',
+    ar: 'اضغط على سعر أي شيء تريده. سيُضاف إلى طلبك في أسفل الشاشة.'
   },
   addTo: { en: 'Add', ar: 'أضف' },
   inOrder: { en: 'in your order', ar: 'في طلبك' },

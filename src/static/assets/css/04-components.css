@@ -101,15 +101,21 @@
 
 /* On the hero, the page heroes, the closing band and the footer the ground
    is dark, so the primary button switches to brass and the outline to cream.
-   A bottle-green button on bottle green would simply disappear. */
-.hero .btn--gold, .phero .btn--gold, .footer .btn--gold, .drawer .btn--gold {
+   A bottle-green button on bottle green would simply disappear.
+
+   Any new dark panel has to be added here too — .owelcome is one, and its
+   call to action vanished until it was. If a third arrives, this list is
+   what to change. */
+.hero .btn--gold, .phero .btn--gold, .footer .btn--gold, .drawer .btn--gold,
+.owelcome .btn--gold {
   color: var(--green-900);
   background: var(--gradient-metal-dark);
   background-size: 200% 100%;
   box-shadow: 0 14px 34px rgb(0 0 0 / 0.30);
 }
 
-.hero .btn--gold:hover, .phero .btn--gold:hover, .footer .btn--gold:hover {
+.hero .btn--gold:hover, .phero .btn--gold:hover, .footer .btn--gold:hover,
+.owelcome .btn--gold:hover {
   background: var(--gradient-metal-dark);
   box-shadow: 0 18px 44px rgb(0 0 0 / 0.38);
 }

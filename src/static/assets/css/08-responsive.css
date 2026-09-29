@@ -171,6 +171,31 @@
      needs to sit tighter to its number. */
   .mrow__qty { min-width: 17px; height: 17px; font-size: 0.62rem; }
 
+  /* At 62px a price cell has no room for a number and a plus side by side,
+     so the plus goes and the pill alone carries "this is a button". */
+  .mrow--3 .mrow__price--add::after { content: none; }
+  .mrow__price--add { padding-inline: 0.25rem; }
+
+  /* The welcome card meets the thumb at the bottom, like every other sheet
+     on this site, rather than floating in the middle of the screen. */
+  .owelcome { place-items: end center; padding: 0; }
+
+  .owelcome__card {
+    width: 100%;
+    max-width: none;
+    max-height: 92svh;
+    border-inline: 0;
+    border-block-end: 0;
+    border-start-start-radius: var(--r-xl);
+    border-start-end-radius: var(--r-xl);
+    border-end-start-radius: 0;
+    border-end-end-radius: 0;
+    padding-block-end: calc(var(--s-6) + env(safe-area-inset-bottom, 0px));
+    transform: translateY(100%) scale(1);
+  }
+
+  body.owelcome-open .owelcome__card { transform: none; }
+
   /* The home page runs long on a phone. "How we cook" and the figures strip
      below it are supporting detail, so they are dropped here and kept on
      wider screens. They stay in the markup, which is what Google indexes. */

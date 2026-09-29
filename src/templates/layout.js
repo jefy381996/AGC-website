@@ -118,6 +118,13 @@ function jsonLd(lang) {
 function header(lang, current) {
   const other = lang === 'en' ? 'ar' : 'en';
 
+  /* A separate, highlighted item rather than another page link: it is the
+     one thing on this site that earns money, and "Menu" does not tell
+     anyone they can order from it. It points at the menu page all the same,
+     so browsers and orderers land in the same place. */
+  const orderLink = `<a class="nav__link nav__order" href="${pageUrl('menu', lang)}">${
+    icons.bag}<span>${esc(t(order.orderOnline, lang))}</span></a>`;
+
   const navLinks = site.pages.map(function (p) {
     return `<a class="nav__link${p.id === current ? ' is-current' : ''}" href="${pageUrl(p.id, lang)}"${
       p.id === current ? ' aria-current="page"' : ''}>${esc(t(p.nav, lang))}</a>`;
@@ -141,6 +148,7 @@ function header(lang, current) {
 
       <nav class="nav" aria-label="${esc(lang === 'ar' ? 'التنقل الرئيسي' : 'Main navigation')}">
         ${navLinks}
+        ${orderLink}
       </nav>
 
       <div class="header__actions">
@@ -160,6 +168,10 @@ function header(lang, current) {
       </a>`;
       }).join('\n      ')}
     </nav>
+    <a class="btn btn--gold drawer__order" href="${pageUrl('menu', lang)}">
+      ${icons.bag}<span>${esc(t(order.orderOnline, lang))}</span>
+    </a>
+
     <div class="drawer__foot">
       <p class="drawer__meta"><strong>${esc(lang === 'ar' ? 'العنوان' : 'Where we are')}</strong>${esc(t(site.contact.addressOneLine, lang))}</p>
       <a class="btn btn--wa" href="${waLink(lang)}" target="_blank" rel="noopener">
@@ -183,6 +195,29 @@ function orderUi(lang) {
   const opt = `<span class="ofield__opt">${esc(t(order.optional, lang))}</span>`;
 
   return `
+  <div class="owelcome" id="owelcome" hidden aria-hidden="true" role="dialog" aria-modal="true"
+       aria-labelledby="owelcome-title" data-welcome>
+    <div class="owelcome__scrim" data-welcome-close></div>
+    <div class="owelcome__card">
+      <p class="owelcome__eyebrow">${icons.bag}<span>${esc(t(order.welcome.eyebrow, lang))}</span></p>
+      <h2 class="owelcome__title" id="owelcome-title">${esc(t(order.welcome.title, lang))}</h2>
+      <p class="owelcome__lead">${esc(t(order.welcome.lead, lang))}</p>
+
+      <ol class="osteps">
+        <li class="osteps__item"><span class="osteps__n">1</span><span>${esc(t(order.welcome.step1, lang))}</span></li>
+        <li class="osteps__item"><span class="osteps__n">2</span><span>${esc(t(order.welcome.step2, lang))}</span></li>
+        <li class="osteps__item"><span class="osteps__n">3</span><span>${esc(t(order.welcome.step3, lang))}</span></li>
+      </ol>
+
+      <p class="owelcome__pay">${icons.wallet}<span>${esc(t(order.welcome.pay, lang))}</span></p>
+
+      <a class="btn btn--gold owelcome__cta" href="${pageUrl('menu', lang)}" data-welcome-go>
+        <span>${esc(t(order.welcome.cta, lang))}</span>${icons.arrowRight}
+      </a>
+      <button class="olink olink--quiet owelcome__no" type="button" data-welcome-close>${esc(t(order.welcome.dismiss, lang))}</button>
+    </div>
+  </div>
+
   <div class="obar" id="obar" hidden data-order-bar>
     <button class="obar__btn" type="button" data-order-open>
       <span class="obar__count" data-order-count aria-hidden="true">0</span>
@@ -328,6 +363,7 @@ function orderUi(lang) {
         errEmpty: t(order.errEmpty, lang),
         inOrder: t(order.inOrder, lang),
         addTo: t(order.addTo, lang),
+        welcomeDelay: 1100,
         copied: t(order.copied, lang),
         copyManual: t(order.copyManual, lang),
         wa: {

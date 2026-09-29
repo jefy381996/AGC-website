@@ -550,4 +550,77 @@
 
   load();
   render();
+
+  /* --- the welcome card -------------------------------------------------- */
+  /* Once per visit, not once per page. Someone clicking from the menu to the
+     gallery and back has not "opened the site" three times, and a card that
+     reappears on every click stops being help and becomes an obstacle.
+     sessionStorage is exactly that distinction: it clears when the tab
+     closes, so a customer coming back tomorrow is greeted again.
+
+     It is also skipped for anyone who already has something in their basket,
+     since they have plainly worked out how to order — which is why this
+     runs after load(), not before it. Ask an empty basket and it always
+     answers zero. */
+  (function () {
+    var card = $('[data-welcome]');
+    if (!card) return;
+
+    var SEEN = 'alashfaz.welcomed.v1';
+    var lastFocus = null;
+
+    function seen() {
+      try { return window.sessionStorage.getItem(SEEN) === '1'; } catch (e) { return false; }
+    }
+
+    function markSeen() {
+      try { window.sessionStorage.setItem(SEEN, '1'); } catch (e) { /* no storage */ }
+    }
+
+    function close() {
+      markSeen();
+      body.classList.remove('owelcome-open');
+      card.setAttribute('aria-hidden', 'true');
+      var done = function () { if (!body.classList.contains('owelcome-open')) card.hidden = true; };
+      if (prefersStill()) done(); else setTimeout(done, 520);
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    function open() {
+      lastFocus = document.activeElement;
+      card.hidden = false;
+      requestAnimationFrame(function () {
+        body.classList.add('owelcome-open');
+        card.removeAttribute('aria-hidden');
+        var cta = $('[data-welcome-go]', card);
+        if (cta) cta.focus({ preventScroll: true });
+      });
+    }
+
+    if (seen()) return;
+    if (totals().count > 0) { markSeen(); return; }
+
+    card.addEventListener('click', function (e) {
+      if (e.target.closest('[data-welcome-close]')) { close(); return; }
+      // The call to action is a real link; let it navigate, just do not
+      // greet them again when the menu page loads.
+      if (e.target.closest('[data-welcome-go]')) markSeen();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && body.classList.contains('owelcome-open')) close();
+    });
+
+    card.addEventListener('keydown', function (e) {
+      if (e.key !== 'Tab' || !body.classList.contains('owelcome-open')) return;
+      var items = $$('a, button', card).filter(function (el) { return el.offsetParent !== null; });
+      if (!items.length) return;
+      var first = items[0], last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+
+    // A beat after the page settles, so it arrives rather than ambushes.
+    setTimeout(open, S.welcomeDelay || 1100);
+  })();
 })();
