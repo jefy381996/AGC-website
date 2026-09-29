@@ -1,6 +1,7 @@
 const site = require('../data/site');
 const menu = require('../data/menu');
-const { ui, menuPage } = require('../data/content');
+const { ui, menuPage, order } = require('../data/content');
+const orderData = require('../data/order');
 const L = require('../templates/layout');
 const P = require('../templates/parts');
 const { t, esc, asset, pageUrl, icons } = L;
@@ -16,6 +17,31 @@ function haystack(item, section, group) {
   ].join(' ');
 }
 
+/* The price IS the button.
+
+   The menu grid is `1fr 62px 62px 62px` on a karahi row and it already had to
+   be fought down to fit a 320px phone, so there is no room for a separate
+   "add" column. Tapping the number under "Half" adds a half karahi, which is
+   also the thing a customer is already pointing at. Rows keep their exact
+   geometry and no width is spent.
+
+   Without JavaScript these stay plain numbers — hasOrdering() only dresses
+   them up as buttons, and 07-order.js is what makes them do anything. */
+function priceCell(item, section, column, lang) {
+  const price = column ? item.prices[column.key] : item.price;
+  const id = orderData.idFor(item.name, column && column.key);
+  const unit = !column && section.unit ? `<em>${esc(t(section.unit, lang))}</em>` : '';
+  const label = column ? `${esc(t(item.name, lang))} — ${esc(t(column.label, lang))}` : esc(t(item.name, lang));
+  const aria = `${esc(t(order.addTo, lang))}: ${label}, ${price} ${esc(t(ui.sar, lang))}`;
+  const dataLabel = column ? ` data-label="${esc(t(column.label, lang))}"` : '';
+
+  return `<button class="mrow__price mrow__price--add" type="button"${dataLabel} disabled
+              data-add="${esc(id)}" aria-label="${aria}">
+              <span class="mrow__price-num">${price}${unit}</span>
+              <span class="mrow__qty" data-qty="${esc(id)}" hidden></span>
+            </button>`;
+}
+
 function row(item, section, group, lang) {
   const cols = section.columns;
   const cls = cols ? 'mrow mrow--3' : 'mrow mrow--1';
@@ -26,11 +52,10 @@ function row(item, section, group, lang) {
   let prices;
   if (cols) {
     prices = cols.map(function (c) {
-      return `<div class="mrow__price" data-label="${esc(t(c.label, lang))}">${item.prices[c.key]}</div>`;
+      return priceCell(item, section, c, lang);
     }).join('');
   } else {
-    const unit = section.unit ? `<em>${esc(t(section.unit, lang))}</em>` : '';
-    prices = `<div class="mrow__price">${item.price}${unit}</div>`;
+    prices = priceCell(item, section, null, lang);
   }
 
   return `
@@ -100,6 +125,12 @@ module.exports = function (lang) {
             <h3 class="special__name">${esc(t(item.name, lang))}</h3>
             <p class="special__price">${item.price}<small>${esc(t(ui.sar, lang))}</small></p>
             <p class="special__desc">${esc(t(item.desc, lang))}</p>
+            <button class="btn btn--ghost btn--sm special__add" type="button" disabled
+                    data-add="${esc(orderData.idFor(item.name))}"
+                    aria-label="${esc(t(order.addTo, lang))}: ${esc(t(item.name, lang))}, ${item.price} ${esc(t(ui.sar, lang))}">
+              ${icons.plus}<span>${esc(t(order.addTo, lang))}</span>
+              <span class="mrow__qty" data-qty="${esc(orderData.idFor(item.name))}" hidden></span>
+            </button>
           </div>
         </article>`;
   }).join('');
@@ -109,7 +140,8 @@ module.exports = function (lang) {
     image: 'karahi',
     eyebrow: menuPage.hero.eyebrow,
     title: menuPage.hero.title,
-    lede: menuPage.hero.lede
+    lede: menuPage.hero.lede,
+    after: `<p class="ohint">${icons.bag}<span>${esc(t(order.howTo, lang))}</span></p>`
   })}
 
   <section class="section section--tight section--flush-top">

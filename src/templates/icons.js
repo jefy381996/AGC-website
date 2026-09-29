@@ -52,6 +52,19 @@ const icons = {
     <circle cx="10.8" cy="10.8" r="7"/><path d="M21 21l-5.2-5.2"/>
   </svg>`,
 
+  plus: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+    <path d="M12 5.5v13M5.5 12h13"/>
+  </svg>`,
+
+  minus: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+    <path d="M5.5 12h13"/>
+  </svg>`,
+
+  bag: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M4.5 7.5h15l-1.1 12a1.6 1.6 0 0 1-1.6 1.5H7.2a1.6 1.6 0 0 1-1.6-1.5z"/>
+    <path d="M8.75 10V6.6a3.25 3.25 0 0 1 6.5 0V10"/>
+  </svg>`,
+
   close: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true">
     <path d="M5.5 5.5l13 13M18.5 5.5l-13 13"/>
   </svg>`,

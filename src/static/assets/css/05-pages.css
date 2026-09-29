@@ -423,7 +423,6 @@ body.header-hidden .menu-tools { inset-block-start: 0; }
 /* --- Menu sections ----------------------------------------------------- */
 .mgroup { padding-block: clamp(3rem, 2rem + 4vw, 6rem); border-block-end: 1px solid var(--line-soft); }
 .mgroup:last-of-type { border-block-end: 0; }
-.mgroup[hidden] { display: none; }
 
 .mgroup__head {
   display: grid;
@@ -503,7 +502,6 @@ body.header-hidden .menu-tools { inset-block-start: 0; }
 
 .mrow:hover { background: rgb(var(--rgb-surface) / 0.70); }
 .mrow:hover::before { transform: scaleY(1); }
-.mrow[hidden] { display: none; }
 
 .mrow__name { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.55rem; }
 
@@ -539,7 +537,6 @@ body.header-hidden .menu-tools { inset-block-start: 0; }
 /* Sub-group heading inside karahi */
 .msub { padding-top: clamp(1.8rem, 1.2rem + 1.6vw, 2.8rem); }
 .msub:first-child { padding-top: 0; }
-.msub[hidden] { display: none; }
 
 .msub__head {
   display: flex;
@@ -559,7 +556,6 @@ body.header-hidden .menu-tools { inset-block-start: 0; }
 .msub__desc { font-size: var(--t-sm); color: var(--ink-600); line-height: 1.68; max-width: 62ch; margin-bottom: var(--s-4); }
 
 .mempty { padding: var(--s-8) 0; text-align: center; color: var(--ink-600); }
-.mempty[hidden] { display: none; }
 
 .mnote {
   margin-top: var(--s-6);

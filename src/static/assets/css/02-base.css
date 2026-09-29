@@ -295,6 +295,14 @@ h4, .t-lg { font-size: var(--t-lg); line-height: var(--lh-snug); }
    Utility
    ========================================================================= */
 
+/* The browser hides [hidden] with a plain `display: none`, which any author
+   rule outranks — so a component that sets its own display (a flex bar, a
+   grid badge) stays on screen however many times the script hides it. The
+   HTML spec expects authors to protect the attribute exactly like this, and
+   it replaces the per-component .thing[hidden] patches that were accruing
+   further down this bundle. */
+[hidden] { display: none !important; }
+
 .sr-only {
   position: absolute !important;
   width: 1px; height: 1px;

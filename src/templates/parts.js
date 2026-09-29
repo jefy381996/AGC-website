@@ -59,8 +59,8 @@ function ctaBand(lang, opts) {
     ar: 'تعال وتناول الطعام معنا'
   };
   const body = opts.body || {
-    en: 'No bookings, no delivery, no waiting on an app. Just walk in — we will cook it fresh.',
-    ar: 'لا حجوزات، ولا توصيل، ولا انتظار لتطبيق. فقط ادخل — وسنطهو لك طازجاً.'
+    en: 'Walk in and we will cook it fresh while you wait — or send your order ahead on WhatsApp and collect it, or have it brought to you.',
+    ar: 'ادخل وسنطهو لك طازجاً بينما تنتظر — أو أرسل طلبك مسبقاً على واتساب لتستلمه، أو ليصلك إلى مكانك.'
   };
 
   return `
@@ -74,7 +74,7 @@ function ctaBand(lang, opts) {
           <a class="btn btn--gold magnetic" href="${directionsLink()}" target="_blank" rel="noopener">${icons.pin}<span>${esc(t(ui.directions, lang))}</span></a>
           <a class="btn btn--ghost magnetic" href="${pageUrl('menu', lang)}"><span>${esc(t(ui.viewMenu, lang))}</span>${icons.arrowRight}</a>
         </div>
-        <p class="tiny muted" style="margin-top:1.6rem">${esc(t(ui.noDelivery, lang))}</p>
+        <p class="tiny muted" style="margin-top:1.6rem">${esc(t(ui.orderNote, lang))}</p>
       </div>
     </div>
   </section>`;
@@ -90,6 +90,7 @@ function pageHero(lang, opts) {
       <p class="eyebrow eyebrow--center" data-reveal="up" style="justify-content:center">${esc(t(opts.eyebrow, lang))}</p>
       <h1 class="phero__title" data-reveal="up" style="--rv-delay:90ms">${esc(t(opts.title, lang))}</h1>
       <p class="lede" data-reveal="up" style="--rv-delay:180ms">${esc(t(opts.lede, lang))}</p>
+      ${opts.after ? `<div data-reveal="up" style="--rv-delay:260ms">${opts.after}</div>` : ''}
     </div>
   </section>`;
 }
