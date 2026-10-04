@@ -199,6 +199,9 @@ function orderUi(lang) {
        aria-labelledby="owelcome-title" data-welcome>
     <div class="owelcome__scrim" data-welcome-close></div>
     <div class="owelcome__card">
+      <!-- The card scrolls in its middle only, so the button below can never
+           be pushed off the bottom on a short laptop window. -->
+      <div class="owelcome__body">
       <p class="owelcome__eyebrow">${icons.bag}<span>${esc(t(order.welcome.eyebrow, lang))}</span></p>
       <h2 class="owelcome__title" id="owelcome-title">${esc(t(order.welcome.title, lang))}</h2>
       <p class="owelcome__lead">${esc(t(order.welcome.lead, lang))}</p>
@@ -210,6 +213,7 @@ function orderUi(lang) {
       </ol>
 
       <p class="owelcome__pay">${icons.wallet}<span>${esc(t(order.welcome.pay, lang))}</span></p>
+      </div>
 
       <a class="btn btn--gold owelcome__cta" href="${pageUrl('menu', lang)}" data-welcome-go>
         <span>${esc(t(order.welcome.cta, lang))}</span>${icons.arrowRight}
