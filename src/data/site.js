@@ -76,8 +76,26 @@ const site = {
     // Orders at or above this total (in riyals) show a line telling the
     // customer you will ring to confirm before cooking. Set to 0 to never
     // show it. Delivery orders always show it, whatever the total.
-    confirmCallOver: 150
+    confirmCallOver: 150,
+
+    // How long after the page settles the "Ordering is easy" card appears,
+    // in milliseconds. Long enough that it does not ambush someone who has
+    // only just arrived, short enough that they are still on the page to
+    // read it. 4 seconds. Set to 0 to switch the card off entirely.
+    welcomeDelay: 4000
   },
+
+  /* --- How the site opens -------------------------------------------------
+     Reopening a browser restores the tab it was on, so someone whose last
+     visit ended on the menu comes back to the menu. With this on, a page
+     reopened that way hands them to the home page instead, so every visit
+     starts in the same place.
+
+     It acts only on a reload, which is how a browser restores a tab. Someone
+     arriving from a Google result or a shared WhatsApp link still lands
+     exactly where they meant to, and the back button is untouched. Set it to
+     false to leave people wherever they were. */
+  openFresh: true,
 
   /* --- Analytics ----------------------------------------------------------
      Empty means no tracking script is put on the page at all — not a

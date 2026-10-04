@@ -363,7 +363,8 @@ function orderUi(lang) {
         errEmpty: t(order.errEmpty, lang),
         inOrder: t(order.inOrder, lang),
         addTo: t(order.addTo, lang),
-        welcomeDelay: 1100,
+        welcomeDelay: site.ordering && site.ordering.welcomeDelay !== undefined
+          ? site.ordering.welcomeDelay : 4000,
         copied: t(order.copied, lang),
         copyManual: t(order.copyManual, lang),
         wa: {
@@ -552,7 +553,37 @@ ${opts.noindex ? '<meta name="robots" content="noindex">' : ''}
 <link rel="preload" as="font" type="font/woff2" crossorigin href="${asset('assets/fonts/' + (lang === 'ar' ? 'tajawal-500-normal-arabic' : 'manrope-300-normal-latin') + '.woff2')}">
 <link rel="preload" as="image" href="${asset('assets/img/food/' + heroFile)}" fetchpriority="high">
 <link rel="stylesheet" href="${asset(bundles.css)}">
-<script>document.documentElement.classList.add('js');</script>
+<script>
+document.documentElement.classList.add('js');
+/* Open at the top, every time. Browsers restore the exact scroll position
+   when a tab is reopened or a page reloaded, so someone who left halfway
+   down the menu yesterday comes back halfway down the menu today — which
+   reads as the site being broken, not as a convenience. This has to run
+   before the first paint, which is why it is inline here rather than in the
+   deferred bundle: set any later and the page can restore and then jump. */
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+${site.openFresh === false ? '' : `
+/* Start every visit on the home page. A browser restores a reopened tab by
+   reloading it, and a reload is something the page can see — so this acts on
+   that alone. Arriving from a Google result or a shared link is a 'navigate'
+   and is left well alone, which is the whole point: bouncing those visitors
+   off the page they chose would cost more than it saves. The back button is
+   'back_forward' and is untouched too.
+
+   location.replace rather than an assignment, so this never becomes a
+   history entry of its own and cannot trap anyone pressing back. */
+(function () {
+  var home = ${JSON.stringify(pageUrl('home', lang))};
+  if (location.pathname === home || location.hash) return;
+  try {
+    // Someone mid-order keeps their place; losing it is worse than a tidy start.
+    var basket = localStorage.getItem('alashfaz.order.v1');
+    if (basket && basket !== '{}') return;
+  } catch (e) { /* storage blocked — carry on */ }
+  var nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+  if (nav && nav.type === 'reload') location.replace(home);
+})();`}
+</script>
 <script type="application/ld+json">${jsonLd(lang)}</script>
 </head>
 <body class="page-${opts.id}${opts.id === 'notfound' ? '' : ' has-dark-hero'}">

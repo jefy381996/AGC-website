@@ -13,19 +13,49 @@
 [build.environment]
   NODE_VERSION = "20"
 
-# Long cache for fingerprint-free but rarely changed assets.
+# --- Caching -----------------------------------------------------------------
+#
+# Two rules, and the order matters: the broad one first, the specific ones
+# after, because a later and more specific match wins.
+#
+# The principle is that only HTML is allowed to go stale, and it is not
+# allowed to go stale at all. HTML is the index of everything else — it names
+# the exact bundle filenames the page loads — so a fresh page always pulls the
+# right assets, and a long-lived asset can never be the wrong one.
+
+# Default: revalidate. Cheap (a 304 when nothing changed) and never stale.
+# This covers every page, the manifest, robots.txt and the sitemap.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# The CSS and JS bundles carry a content hash in their filenames (build.js
+# fingerprints them), so a changed file is a different URL. These can be kept
+# for a year and never checked again — "immutable" tells the browser not to
+# revalidate even on a manual refresh.
+[[headers]]
+  for = "/assets/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Fonts are not fingerprinted but never change: a new typeface would be a new
+# filename anyway.
 [[headers]]
   for = "/assets/fonts/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Photographs are not fingerprinted either, and a replaced photo should reach
+# people reasonably soon, so a month rather than a year.
 [[headers]]
   for = "/assets/img/*"
   [headers.values]
     Cache-Control = "public, max-age=2592000"
-
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"

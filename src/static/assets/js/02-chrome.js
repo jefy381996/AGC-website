@@ -109,6 +109,18 @@
   }, 160));
 })();
 
+/* --- Always open at the top --------------------------------------------- */
+(function () {
+  // history.scrollRestoration is already 'manual' (set inline in the head),
+  // so the browser will not restore anything. This is the belt to that
+  // braces: it covers engines that ignore the setting, and the moment
+  // between the document being parsed and the browser deciding where to put
+  // the page. Deliberately NOT bound to 'load' — someone on a slow
+  // connection may have started reading and scrolling while images arrive,
+  // and yanking them back to the top then would be its own bug.
+  if (!window.location.hash && window.scrollY) window.scrollTo(0, 0);
+})();
+
 /* --- Floating buttons -------------------------------------------------- */
 (function () {
   var toTop = $('.to-top');
@@ -154,6 +166,11 @@
   // Coming back via the browser's back button must not show a black screen.
   window.addEventListener('pageshow', function (e) {
     if (e.persisted) document.body.classList.remove('is-leaving');
+    /* The back/forward cache hands back the whole page exactly as it was,
+       scroll position included — history.scrollRestoration does not govern
+       it. So a restored page is put back at the top too, unless the visitor
+       asked for somewhere specific with a #hash. */
+    if (e.persisted && !window.location.hash) window.scrollTo(0, 0);
   });
 })();
 

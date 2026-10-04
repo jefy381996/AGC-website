@@ -211,6 +211,49 @@ cannot keep a secret. Worth doing only once the order volume justifies it.
 
 ---
 
+## How freshness works
+
+You do not need to do anything here — this is a note on what is set up, and
+on the one limit your current host imposes.
+
+**Every visit starts on the home page.** Reopening a browser restores the tab
+it was on, so someone whose last visit ended on the menu used to come back to
+the menu. Now they are handed to the home page instead. This acts only on a
+reload — which is how a browser restores a tab — so anyone arriving from a
+Google result or a shared WhatsApp link still lands exactly where they meant
+to, and the back button is untouched. Someone with an order already in their
+basket keeps their place too. To turn it off, set `openFresh: false` in
+`src/data/site.js`.
+
+**Opening the site always starts at the top of the page.** Browsers normally
+restore the exact scroll position when a tab is reopened, which is why the
+site kept coming back halfway down the menu. That is switched off, and a page
+restored from the back button is put back at the top too. A link with a `#`
+in it still jumps to its target, since that is someone asking for a specific
+place.
+
+**Your CSS and JavaScript carry a content hash in the filename.** Change a
+style and the file becomes `styles.a1b2c3d4.css` instead of
+`styles.9f8e7d6c.css` — a different address, so no browser anywhere can serve
+the old one. This is what stops the "I merged it but still see the old site"
+problem.
+
+**On GitHub Pages, HTML freshness is not something we control.** GitHub sets
+its own caching rules for everything it serves and gives no way to change
+them, so after a deploy a visitor who was on the site very recently may get
+the previous page for a short while before it refreshes itself. Nothing is
+broken when this happens and it clears on its own. If it ever matters to you,
+moving to Netlify or Cloudflare Pages removes the limit entirely — the full
+caching policy is already written in `netlify.toml`, so it would apply the
+moment you deployed there.
+
+**No service worker, deliberately.** A service worker can cache the whole
+site for offline use, but it is also the single most common reason a website
+gets stuck showing an old version — the thing you asked me to prevent. For a
+menu that people read once and order from, the cost outweighs the benefit.
+Say the word if you ever want offline support and I will add one properly,
+with an update path that cannot strand anyone.
+
 ## Still outstanding
 
 Things only you can supply. None of them block anything.
