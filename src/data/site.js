@@ -14,8 +14,15 @@ function cleanUrl(value) {
 }
 
 function cleanBase(value) {
-  // Unset means GitHub Pages, which is where the site lives today.
-  if (value === undefined || value === null) return '/AGC-website';
+  /* Unset means the root, because that is what every host does except
+     GitHub project pages — and GitHub is the one host whose build we
+     control, so .github/workflows/deploy.yml sets SITE_BASE itself.
+
+     This way round on purpose: a new host that knows nothing about this
+     setting gets a working site, rather than one whose stylesheets all
+     404 because they were looking inside a subfolder that only exists on
+     GitHub. */
+  if (value === undefined || value === null) return '';
   var v = String(value).trim();
   // Every spelling of "the site is at the root".
   if (v === '' || v === '/' || v.toLowerCase() === 'root' || v.toLowerCase() === 'none') return '';
@@ -32,10 +39,9 @@ const site = {
      nothing is broken while you compare them.
 
        SITE_URL   the full address, e.g. https://al-ashfaz.pages.dev
-       SITE_BASE  the subfolder. '/' or empty means the site is at the root,
-                  which is what every host except GitHub project pages does.
-
-     Set neither and you get the GitHub Pages values below, unchanged. */
+       SITE_BASE  the subfolder. Leave it unset and the site is built for
+                  the root of a domain, which is what every host except
+                  GitHub project pages needs. The GitHub workflow sets it. */
   url: cleanUrl(process.env.SITE_URL) || 'https://jefy381996.github.io/AGC-website',
   base: cleanBase(process.env.SITE_BASE),
 

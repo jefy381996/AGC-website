@@ -141,7 +141,24 @@ function build() {
   rimraf(OUT);
   fs.mkdirSync(OUT, { recursive: true });
 
-  console.log('\n  Al Ashfaz — building\n');
+  // Which host this build is for. The commonest deploy problem is a site
+  // built for the wrong one — every stylesheet 404s and the page renders as
+  // plain text — and it is invisible until you look at the page. Printing it
+  // makes the build log answer the question.
+  console.log('\n  Al Ashfaz — building');
+  console.log('    for ' + site.url + (site.base ? '  (subfolder ' + site.base + ')' : '  (site root)') + '\n');
+
+  /* A site built for the root whose address still carries a subfolder is a
+     mismatch: the pages will work, but every canonical link, sitemap entry
+     and social preview image points somewhere that does not exist. Not fatal
+     — the site is perfectly usable — so this warns rather than fails. */
+  const urlPath = site.url.replace(/^https?:\/\/[^/]+/, '');
+  if (!site.base && urlPath && urlPath !== '/') {
+    console.log('    NOTE: built for the site root, but SITE_URL still ends in "' + urlPath + '".');
+    console.log('          Pages will work. Canonical links, the sitemap and the');
+    console.log('          WhatsApp preview image will point at the wrong address.');
+    console.log('          Set SITE_URL to this deployment\'s own address to fix it.\n');
+  }
 
   /* Styles and scripts, bundled into one file each. */
   const css = minifyCss(concat(path.join(SRC, 'static/assets/css'), '.css'));
