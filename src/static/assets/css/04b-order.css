@@ -215,9 +215,15 @@ body.owelcome-open .owelcome__scrim { opacity: 1; }
   grid-area: stack;
   z-index: 1;
   width: min(24rem, 100%);
-  max-height: min(84svh, 40rem);
-  overflow-y: auto;
-  padding: clamp(1.5rem, 1.1rem + 1.4vw, 2.1rem);
+  /* 92svh rather than 84: a laptop with a bookmarks bar and a taskbar leaves
+     far less height than its screen suggests, and the card needs the room. */
+  max-height: min(92svh, 40rem);
+  /* A column, so the call to action can sit outside the scrolling area and
+     stay visible however short the window is. */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: clamp(1.25rem, 1rem + 1.2vw, 2rem);
   border: 1px solid rgb(var(--rgb-brass) / 0.36);
   border-radius: var(--r-xl);
   background:
@@ -232,6 +238,25 @@ body.owelcome-open .owelcome__scrim { opacity: 1; }
 }
 
 body.owelcome-open .owelcome__card { opacity: 1; transform: none; }
+
+/* The only part that scrolls. Everything below it — the button and the
+   dismiss link — stays put, which is the whole point: a card whose primary
+   action has scrolled out of sight is worse than no card. */
+.owelcome__body {
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--rgb-brass) / 0.5) transparent;
+}
+
+.owelcome__body::-webkit-scrollbar { width: 5px; }
+.owelcome__body::-webkit-scrollbar-track { background: transparent; }
+.owelcome__body::-webkit-scrollbar-thumb {
+  background: rgb(var(--rgb-brass) / 0.5);
+  border-radius: var(--r-pill);
+}
+
+.owelcome__cta { flex: none; }
 
 .owelcome__eyebrow {
   display: inline-flex;
@@ -324,11 +349,36 @@ body.owelcome-open .osteps__item:nth-child(3) { transition-delay: 380ms; }
    the dismiss link paints --ink-600 on a dark green card: 1.86:1, all but
    invisible. Raised to 0.62 cream, which clears AA. */
 .owelcome .owelcome__no {
+  flex: none;
   margin-block-start: var(--s-4);
   color: rgb(var(--rgb-cream) / 0.62);
 }
 
 .owelcome .owelcome__no:hover { color: var(--brass-300); }
+
+/* Short windows. A 1366x768 laptop with a bookmarks bar and a taskbar can
+   leave under 600px, which is where this card used to overflow and put a
+   scrollbar through the middle of itself. Tightened rather than truncated:
+   every line still says what it said. */
+@media (max-height: 780px) {
+  .owelcome__card { padding: 1.25rem 1.1rem; }
+  .owelcome__eyebrow { margin-block-end: var(--s-2); padding: 0.3rem 0.75rem; }
+  .owelcome__title { font-size: var(--t-lg); margin-block-end: var(--s-2); }
+  .owelcome__lead { margin-block-end: var(--s-4); }
+  .osteps { gap: 0.45rem; margin-block-end: var(--s-4); }
+  .osteps__item { padding: 0.5rem 0.7rem; gap: 0.6rem; }
+  .osteps__n { width: 26px; height: 26px; font-size: var(--t-xs); }
+  .owelcome__pay { margin-block-end: var(--s-3); }
+  .owelcome .owelcome__no { margin-block-start: var(--s-3); }
+}
+
+@media (max-height: 620px) {
+  .owelcome__card { padding: 1rem; }
+  .owelcome__title { font-size: var(--t-md); }
+  .owelcome__lead { font-size: var(--t-xs); margin-block-end: var(--s-3); }
+  .osteps__item { padding: 0.4rem 0.65rem; font-size: var(--t-xs); }
+  .osteps__n { width: 22px; height: 22px; }
+}
 
 html:not(.js) .owelcome { display: none !important; }
 
