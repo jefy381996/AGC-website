@@ -4,14 +4,40 @@
    Edit this file, push, and the site rebuilds itself.
 --------------------------------------------------------------------------- */
 
-const site = {
-  // The URL the site lives on. Update this after you pick a host/domain so
-  // that Google and WhatsApp previews point at the right place.
-  url: 'https://jefy381996.github.io/AGC-website',
+/* --- Build-time host overrides ---------------------------------------------
+   Forgiving on purpose: these get typed into a hosting dashboard by hand, so
+   a trailing slash or a stray space should not produce a broken site. */
 
-  // If you deploy to a project page (…github.io/AGC-website) this must stay
-  // '/AGC-website'. On a custom domain or Netlify, set it to '' (empty).
-  base: '/AGC-website',
+function cleanUrl(value) {
+  if (!value) return '';
+  return String(value).trim().replace(/\/+$/, '');
+}
+
+function cleanBase(value) {
+  // Unset means GitHub Pages, which is where the site lives today.
+  if (value === undefined || value === null) return '/AGC-website';
+  var v = String(value).trim();
+  // Every spelling of "the site is at the root".
+  if (v === '' || v === '/' || v.toLowerCase() === 'root' || v.toLowerCase() === 'none') return '';
+  if (v.charAt(0) !== '/') v = '/' + v;
+  return v.replace(/\/+$/, '');
+}
+
+const site = {
+  /* --- Where the site lives ------------------------------------------------
+     Both of these can be overridden by environment variables at build time,
+     so one repository can serve two hosts at once. That matters during a
+     move: GitHub Pages keeps working from its /AGC-website/ subfolder while
+     Cloudflare builds the same commit at the root of its own domain, and
+     nothing is broken while you compare them.
+
+       SITE_URL   the full address, e.g. https://al-ashfaz.pages.dev
+       SITE_BASE  the subfolder. '/' or empty means the site is at the root,
+                  which is what every host except GitHub project pages does.
+
+     Set neither and you get the GitHub Pages values below, unchanged. */
+  url: cleanUrl(process.env.SITE_URL) || 'https://jefy381996.github.io/AGC-website',
+  base: cleanBase(process.env.SITE_BASE),
 
   name: { en: 'Al Ashfaz Restaurant', ar: 'مطعم آل أشفاز' },
   shortName: { en: 'Al Ashfaz', ar: 'آل أشفاز' },

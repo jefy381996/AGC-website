@@ -1,0 +1,33 @@
+# Cloudflare Pages reads this file from the site root and applies it to every
+# response. It mirrors netlify.toml, so the same caching policy follows the
+# site to whichever of the two hosts it ends up on. GitHub Pages ignores the
+# file entirely — it sets its own headers and offers no way to change them,
+# which is one of the reasons to move off it.
+#
+# The principle: only HTML is allowed to go stale, and it is not allowed to go
+# stale at all. HTML names the exact fingerprinted bundle filenames, so a
+# fresh page always pulls the right assets and a long-lived asset can never be
+# the wrong one.
+
+# Everything revalidates by default — cheap (a 304 when nothing changed) and
+# never stale. Covers the pages, the manifest, robots.txt and the sitemap.
+/*
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+# The CSS and JS carry a content hash in the filename, so a changed file is a
+# different URL. Keep them for a year and never check again.
+/assets/css/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/js/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Not fingerprinted, but a new typeface would be a new filename anyway.
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# A replaced photograph should reach people without waiting a year.
+/assets/img/*
+  Cache-Control: public, max-age=2592000
