@@ -27,6 +27,11 @@ jobs:
           node-version: 20
 
       - name: Build the site
+        env:
+          # GitHub project pages serve from /AGC-website/, so this build asks
+          # for that subfolder. Every other host serves from the root, which
+          # is the default, so no other host needs to configure anything.
+          SITE_BASE: /AGC-website
         run: node build.js
 
       - uses: actions/configure-pages@v5
