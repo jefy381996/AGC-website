@@ -553,7 +553,16 @@ ${opts.noindex ? '<meta name="robots" content="noindex">' : ''}
 <link rel="preload" as="font" type="font/woff2" crossorigin href="${asset('assets/fonts/' + (lang === 'ar' ? 'tajawal-500-normal-arabic' : 'manrope-300-normal-latin') + '.woff2')}">
 <link rel="preload" as="image" href="${asset('assets/img/food/' + heroFile)}" fetchpriority="high">
 <link rel="stylesheet" href="${asset(bundles.css)}">
-<script>document.documentElement.classList.add('js');</script>
+<script>
+document.documentElement.classList.add('js');
+/* Open at the top, every time. Browsers restore the exact scroll position
+   when a tab is reopened or a page reloaded, so someone who left halfway
+   down the menu yesterday comes back halfway down the menu today — which
+   reads as the site being broken, not as a convenience. This has to run
+   before the first paint, which is why it is inline here rather than in the
+   deferred bundle: set any later and the page can restore and then jump. */
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+</script>
 <script type="application/ld+json">${jsonLd(lang)}</script>
 </head>
 <body class="page-${opts.id}${opts.id === 'notfound' ? '' : ' has-dark-hero'}">
