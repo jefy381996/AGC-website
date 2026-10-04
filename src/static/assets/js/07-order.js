@@ -620,7 +620,25 @@
       else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     });
 
-    // A beat after the page settles, so it arrives rather than ambushes.
-    setTimeout(open, S.welcomeDelay || 1100);
+    // A pause after the page settles, so it arrives rather than ambushes —
+    // long enough to have looked around, short enough to still be here.
+    // ordering.welcomeDelay in site.js; 0 switches the card off.
+    var wait = typeof S.welcomeDelay === 'number' ? S.welcomeDelay : 4000;
+    if (wait <= 0) return;
+
+    setTimeout(function () {
+      /* Checked again here, not just before the timer was set. Four seconds
+         is long enough to reach the menu, tap a price and open the order
+         panel — and a card explaining how to order, thrown over the order
+         someone is already placing, is worse than no card at all. The same
+         goes for the mobile drawer: two dialogs at once traps focus between
+         them. */
+      if (totals().count > 0) { markSeen(); return; }
+      if (body.classList.contains('opanel-open') || body.classList.contains('drawer-open')) {
+        markSeen();
+        return;
+      }
+      open();
+    }, wait);
   })();
 })();

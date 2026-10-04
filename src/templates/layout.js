@@ -363,7 +363,8 @@ function orderUi(lang) {
         errEmpty: t(order.errEmpty, lang),
         inOrder: t(order.inOrder, lang),
         addTo: t(order.addTo, lang),
-        welcomeDelay: 1100,
+        welcomeDelay: site.ordering && site.ordering.welcomeDelay !== undefined
+          ? site.ordering.welcomeDelay : 4000,
         copied: t(order.copied, lang),
         copyManual: t(order.copyManual, lang),
         wa: {
