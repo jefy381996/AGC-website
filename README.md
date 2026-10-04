@@ -2,8 +2,10 @@
 
 A bilingual (English / Arabic) website for **Al Ashfaz Restaurant**, Al-Batha, Riyadh.
 
-No bookings, no online ordering, no delivery — by design. The site's job is to show
-people what you cook, what it costs, and how to walk through the door.
+No bookings and no card payment — by design. The site's job is to show people what
+you cook, what it costs, and how to walk through the door. Ordering happens through
+WhatsApp: a customer taps prices on the menu, fills in a name and a phone number,
+and the whole order arrives as one message. Collection or delivery, paid in person.
 
 ---
 
@@ -80,37 +82,44 @@ Then push. Nothing else to do; the site picks it up on the next build.
 
 ## Publishing it
 
-The site is a folder of plain HTML — it will run on any free host.
+The site is a folder of plain HTML — it will run on any free host. Two are live
+right now, from the same commit, and neither interferes with the other.
 
-### Option A — GitHub Pages (already set up)
+| Where | Address | Built by |
+| --- | --- | --- |
+| **Cloudflare Worker** (the real one) | `agc-website.jaffar381996152.workers.dev` | Cloudflare, on every push to `main` |
+| GitHub Pages (the spare) | `jefy381996.github.io/AGC-website` | `.github/workflows/deploy.yml` |
 
-1. On GitHub, go to **Settings → Pages**.
-2. Under **Source**, choose **GitHub Actions**.
-3. Push to `main`. The workflow in `.github/workflows/deploy.yml` builds and
-   publishes automatically, usually within a minute.
+### How one repository serves two hosts
 
-Your address will be `https://<your-username>.github.io/AGC-website/`.
+Two environment variables, both read in `src/data/site.js`:
 
-### Option B — Netlify or Cloudflare Pages
+```
+SITE_URL    the full public address
+SITE_BASE   the subfolder, if the host puts the site in one
+```
 
-1. In `src/data/site.js`, change **both** of these:
-   ```js
-   base: '',                              // was '/AGC-website'
-   url:  'https://your-site.netlify.app', // your new address
-   ```
-   This matters: GitHub Pages serves the site from a `/AGC-website/` subfolder,
-   Netlify and Cloudflare serve it from the root. Get this wrong and every link
-   and image breaks.
-2. Connect the repository. Build command `node build.js`, publish directory
-   `dist`. `netlify.toml` already says so, so it should be detected for you.
+`SITE_BASE` is **unset by default**, which means the root — what Cloudflare,
+Netlify and every other host needs. GitHub project pages are the one exception,
+so the GitHub workflow sets `SITE_BASE: /AGC-website` itself. Nothing to
+configure on a new host; it works out of the box.
 
-### When you get a domain name
+Get this wrong in the other direction and every stylesheet and image 404s, which
+is exactly what a plain, unstyled deploy looks like.
 
-1. Point the domain at your host (their docs walk you through the DNS records).
-2. In `src/data/site.js` set `base: ''` and `url: 'https://yourdomain.com'`.
-3. On GitHub Pages, also add a file called `CNAME` in `src/static/`
-   containing just your domain, e.g. `alashfaz.com`.
-4. Push. Sitemap, canonical links and social previews all follow automatically.
+### Adding a host
+
+Connect the repository. Build command `node build.js`, publish directory `dist`.
+`netlify.toml` already says so and is detected automatically; on Cloudflare,
+`src/static/_headers` carries the same caching policy into the build output.
+
+### Connecting a domain name
+
+See **`DOMAIN.md`** — a step-by-step walkthrough for a Namecheap domain on the
+Cloudflare Worker, written for someone who has not done it before.
+
+The one code change it needs is `SITE_URL`, which sets the canonical link on
+every page, the sitemap, and the image that appears when the link is shared.
 
 ---
 
