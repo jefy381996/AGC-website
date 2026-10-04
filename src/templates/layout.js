@@ -562,6 +562,27 @@ document.documentElement.classList.add('js');
    before the first paint, which is why it is inline here rather than in the
    deferred bundle: set any later and the page can restore and then jump. */
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+${site.openFresh === false ? '' : `
+/* Start every visit on the home page. A browser restores a reopened tab by
+   reloading it, and a reload is something the page can see — so this acts on
+   that alone. Arriving from a Google result or a shared link is a 'navigate'
+   and is left well alone, which is the whole point: bouncing those visitors
+   off the page they chose would cost more than it saves. The back button is
+   'back_forward' and is untouched too.
+
+   location.replace rather than an assignment, so this never becomes a
+   history entry of its own and cannot trap anyone pressing back. */
+(function () {
+  var home = ${JSON.stringify(pageUrl('home', lang))};
+  if (location.pathname === home || location.hash) return;
+  try {
+    // Someone mid-order keeps their place; losing it is worse than a tidy start.
+    var basket = localStorage.getItem('alashfaz.order.v1');
+    if (basket && basket !== '{}') return;
+  } catch (e) { /* storage blocked — carry on */ }
+  var nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+  if (nav && nav.type === 'reload') location.replace(home);
+})();`}
 </script>
 <script type="application/ld+json">${jsonLd(lang)}</script>
 </head>

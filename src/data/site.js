@@ -85,6 +85,18 @@ const site = {
     welcomeDelay: 4000
   },
 
+  /* --- How the site opens -------------------------------------------------
+     Reopening a browser restores the tab it was on, so someone whose last
+     visit ended on the menu comes back to the menu. With this on, a page
+     reopened that way hands them to the home page instead, so every visit
+     starts in the same place.
+
+     It acts only on a reload, which is how a browser restores a tab. Someone
+     arriving from a Google result or a shared WhatsApp link still lands
+     exactly where they meant to, and the back button is untouched. Set it to
+     false to leave people wherever they were. */
+  openFresh: true,
+
   /* --- Analytics ----------------------------------------------------------
      Empty means no tracking script is put on the page at all — not a
      disabled one, none. Fill it in and one cookieless script is added. */

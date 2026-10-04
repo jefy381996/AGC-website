@@ -216,6 +216,15 @@ cannot keep a secret. Worth doing only once the order volume justifies it.
 You do not need to do anything here — this is a note on what is set up, and
 on the one limit your current host imposes.
 
+**Every visit starts on the home page.** Reopening a browser restores the tab
+it was on, so someone whose last visit ended on the menu used to come back to
+the menu. Now they are handed to the home page instead. This acts only on a
+reload — which is how a browser restores a tab — so anyone arriving from a
+Google result or a shared WhatsApp link still lands exactly where they meant
+to, and the back button is untouched. Someone with an order already in their
+basket keeps their place too. To turn it off, set `openFresh: false` in
+`src/data/site.js`.
+
 **Opening the site always starts at the top of the page.** Browsers normally
 restore the exact scroll position when a tab is reopened, which is why the
 site kept coming back halfway down the menu. That is switched off, and a page
