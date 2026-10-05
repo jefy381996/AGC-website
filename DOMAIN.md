@@ -9,7 +9,10 @@ catches up — usually under an hour, occasionally up to a day. Nothing goes
 offline while you wait. The `workers.dev` address keeps working the whole
 time and forever after, so you always have a link that is guaranteed up.
 
-Everywhere below, `yourdomain.com` means your actual domain.
+Your domain is **alashfazrestaurant.com**. Steps 1 to 3 are done — Cloudflare
+says the zone is Active. **Step 4 is the one still outstanding**, and the
+section below on "the site times out" explains why that produces a timeout
+rather than an error page.
 
 ---
 
@@ -24,7 +27,7 @@ Nothing to install, no code, no cost.
 
 **One warning, read it before step 2.** If you currently use Namecheap's
 free **email forwarding** on this domain — anything like
-`info@yourdomain.com` arriving in your Gmail — it will stop working when
+`info@alashfazrestaurant.com` arriving in your Gmail — it will stop working when
 you switch nameservers, because it runs on Namecheap's own DNS. Cloudflare
 has the same thing for free (**Email Routing**) and setting it back up takes
 five minutes. Just know it in advance rather than discovering it. If you
@@ -40,7 +43,7 @@ have never set up email on this domain, ignore this entirely.
 2. Top of the page, click **Add a domain** (older dashboards say *Add a
    site*).
 3. Type your domain **without** `www` and without `https://` — just
-   `yourdomain.com`. Continue.
+   `alashfazrestaurant.com`. Continue.
 4. Choose the **Free** plan. Scroll past the paid ones; Free is at the
    bottom. Continue.
 5. Cloudflare scans your existing DNS records and shows you what it found.
@@ -104,20 +107,20 @@ domain otherwise, and the error message is not very clear about why.
 2. Click your Worker, **agc-website**.
 3. Go to the **Settings** tab → **Domains & Routes**.
 4. Click **Add** → **Custom Domain**.
-5. Type `yourdomain.com`. Click **Add Domain**.
+5. Type `alashfazrestaurant.com`. Click **Add Domain**.
 
 Cloudflare now creates the DNS record and issues the HTTPS certificate for
 you. No records to type by hand. It shows *Initializing* for a minute or
 two, then *Active*.
 
-Open `https://yourdomain.com` — your site should be there, with a padlock.
+Open `https://alashfazrestaurant.com` — your site should be there, with a padlock.
 
 ### Add `www` as well
 
 Most people type `www.` out of habit, and if nothing answers there they
 assume the site is broken. So do the same thing once more:
 
-**Add** → **Custom Domain** → `www.yourdomain.com` → **Add Domain**.
+**Add** → **Custom Domain** → `www.alashfazrestaurant.com` → **Add Domain**.
 
 Both addresses now serve the site. Google is told which one is the real one
 by the canonical tag on every page — that is the `SITE_URL` in step 5 — so
@@ -129,18 +132,20 @@ there is no duplicate-content problem.
 
 ---
 
-## Step 5 — Tell me the domain
+## Step 5 — The address inside the site · done
 
-**This is the only part that is mine, and it is one line of code.**
+Every page used to tell Google *"my real address is
+jefy381996.github.io/AGC-website"*, because that was true when it was built.
+The sitemap said the same, and so did the preview image that appears when
+someone shares the link on WhatsApp.
 
-Every page currently tells Google *"my real address is
-jefy381996.github.io/AGC-website"*, because that is what was true when it
-was built. The sitemap says the same, and so does the preview image that
-appears when someone shares the link on WhatsApp.
+That is now set to `https://alashfazrestaurant.com`, so canonical links, the
+sitemap and the WhatsApp preview all name your domain. The GitHub Pages copy
+keeps its own address, set in `.github/workflows/deploy.yml`.
 
-Send me the domain and I will set it, push it, and Cloudflare will rebuild.
-Two minutes. Until then the site works perfectly — this only affects search
-engines and link previews, not customers.
+The two settings have to agree — `SITE_URL` must end in whatever `SITE_BASE`
+says — and the build now prints a NOTE in its log if they ever drift apart.
+Nothing for you to do here; it is written down so the next person knows.
 
 ---
 
@@ -149,10 +154,10 @@ engines and link previews, not customers.
 **Optional, 1 minute each, both free.**
 
 **Force HTTPS.** Cloudflare → **SSL/TLS** → **Edge Certificates** → turn on
-**Always Use HTTPS**. Anyone who types `yourdomain.com` without the `https`
+**Always Use HTTPS**. Anyone who types `alashfazrestaurant.com` without the `https`
 gets sent to the secure version instead of a warning.
 
-**Email on your domain.** If you want `info@yourdomain.com` forwarding to
+**Email on your domain.** If you want `info@alashfazrestaurant.com` forwarding to
 your Gmail — or you are restoring what Namecheap used to do — Cloudflare →
 **Email** → **Email Routing** → follow the wizard. It adds the records
 itself.
@@ -161,10 +166,33 @@ itself.
 
 ## What good looks like when you are finished
 
-- `https://yourdomain.com` → the site, padlock in the address bar
-- `https://www.yourdomain.com` → the same site
-- `http://yourdomain.com` → silently becomes `https://`
+- `https://alashfazrestaurant.com` → the site, padlock in the address bar
+- `https://www.alashfazrestaurant.com` → the same site
+- `http://alashfazrestaurant.com` → silently becomes `https://`
 - `https://agc-website.jaffar381996152.workers.dev/` → still works, always will
+
+---
+
+## "The site times out" — what that means
+
+This is the expected symptom between step 3 and step 4, and it is worth
+understanding because the error is misleading.
+
+After step 2, every request for your domain goes to Cloudflare. Cloudflare
+then looks up what to do with it. Right now the answer is still the parking
+record it copied from Namecheap in step 1 — a server that no longer answers.
+So Cloudflare waits, gives up, and shows a timeout.
+
+The dashboard says the same thing in plainer words: the DNS panel on your
+domain's Overview page reads **"No Workers connected"**.
+
+Nothing is broken and nothing needs undoing. Step 4 is what tells Cloudflare
+to send those requests to your site instead of to the dead parking server,
+and it replaces the parking record while it does it.
+
+The giveaway is a **timeout** rather than *"this site can't be reached"*. A
+timeout means something answered and then stalled — Cloudflare is there, it
+just has nowhere to forward you yet.
 
 ---
 
@@ -175,7 +203,7 @@ itself.
 | Cloudflare stuck on **Pending** after a few hours | The nameservers did not save at Namecheap | Go back to step 2 and check the **green tick** was clicked. Both boxes filled, spelled exactly. |
 | **"This zone is not active"** when adding the custom domain | You are on step 4 before step 3 finished | Wait for Active, then retry. |
 | **"A CNAME record already exists"** | Cloudflare imported a Namecheap parking record | **DNS → Records**, delete that row, retry. |
-| Domain loads but shows a Cloudflare error page (522, 1016) | The custom domain was not attached to the Worker | Redo step 4. Make sure it is the **Worker's** Settings, not the domain's. |
+| Domain **times out**, or shows Cloudflare error 522 / 1016 | Step 4 was not done, or did not take. DNS reaches Cloudflare; Cloudflare has no Worker to hand it to | Do step 4. Check the Overview page no longer says *No Workers connected*. |
 | Site loads but looks plain and unstyled | A stale build is being served | Cloudflare → the Worker → **Deployments**, check the newest one succeeded. |
 | `www` works, bare domain does not (or the reverse) | Only one of the two was added | Add the missing one in step 4. |
 

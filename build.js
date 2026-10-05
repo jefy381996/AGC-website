@@ -152,9 +152,10 @@ function build() {
      mismatch: the pages will work, but every canonical link, sitemap entry
      and social preview image points somewhere that does not exist. Not fatal
      — the site is perfectly usable — so this warns rather than fails. */
-  const urlPath = site.url.replace(/^https?:\/\/[^/]+/, '');
-  if (!site.base && urlPath && urlPath !== '/') {
-    console.log('    NOTE: built for the site root, but SITE_URL still ends in "' + urlPath + '".');
+  const urlPath = site.url.replace(/^https?:\/\/[^/]+/, '').replace(/\/$/, '');
+  if (urlPath !== site.base) {
+    console.log('    NOTE: SITE_URL ends in "' + (urlPath || '/') + '" but the site is');
+    console.log('          built for ' + (site.base ? '"' + site.base + '"' : 'the root') + '. These have to agree.');
     console.log('          Pages will work. Canonical links, the sitemap and the');
     console.log('          WhatsApp preview image will point at the wrong address.');
     console.log('          Set SITE_URL to this deployment\'s own address to fix it.\n');
