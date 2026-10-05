@@ -126,9 +126,37 @@ Both addresses now serve the site. Google is told which one is the real one
 by the canonical tag on every page — that is the `SITE_URL` in step 5 — so
 there is no duplicate-content problem.
 
-> **If it refuses `www`** saying a CNAME already exists: Cloudflare's scan
-> in step 1 imported a Namecheap parking record. Go to **DNS → Records**,
-> delete the `www` row, and try again.
+### If it refuses: "already has externally managed DNS records"
+
+Expected, on a domain that was parked at Namecheap. The scan in step 1 copied
+Namecheap's parking records across, and a Custom Domain will not write over a
+record it did not create. Clear them and it goes through.
+
+1. **Cancel** the dialog.
+2. Top left → **Back to Domains** → **alashfazrestaurant.com** → **DNS** →
+   **Records**.
+3. Delete **only** these rows:
+   - `A`, `AAAA` or `CNAME` where the name is `alashfazrestaurant.com` or `@`
+   - `A`, `AAAA` or `CNAME` where the name is `www`
+
+   They usually point at a Namecheap parking address, something like
+   `162.255.119.x` or `parkingpage.namecheap.com`.
+4. Go back to the Worker and do step 4 again.
+
+> **Leave everything else alone.** Do not delete `MX` records (that is your
+> email), `TXT` records (domain verification, SPF), or anything you
+> deliberately added. Only the A/AAAA/CNAME rows for the root and `www` are
+> in the way, and attaching the Custom Domain writes correct ones back.
+
+Between deleting and re-adding, the domain will briefly say *site can't be
+reached* instead of timing out. That is the right direction — it means the
+dead parking record is gone.
+
+### The `Enable for` dropdown
+
+Leave it on **Production and Preview**, or set it to **Production** if you
+would rather preview builds did not get subdomains of your real domain.
+Either works; nothing downstream depends on it.
 
 ---
 
@@ -202,7 +230,7 @@ just has nowhere to forward you yet.
 |---|---|---|
 | Cloudflare stuck on **Pending** after a few hours | The nameservers did not save at Namecheap | Go back to step 2 and check the **green tick** was clicked. Both boxes filled, spelled exactly. |
 | **"This zone is not active"** when adding the custom domain | You are on step 4 before step 3 finished | Wait for Active, then retry. |
-| **"A CNAME record already exists"** | Cloudflare imported a Namecheap parking record | **DNS → Records**, delete that row, retry. |
+| **"already has externally managed DNS records"** | Cloudflare imported Namecheap's parking records in step 1 | **DNS → Records**, delete the A/AAAA/CNAME rows for the root and `www` only, retry. See step 4. |
 | Domain **times out**, or shows Cloudflare error 522 / 1016 | Step 4 was not done, or did not take. DNS reaches Cloudflare; Cloudflare has no Worker to hand it to | Do step 4. Check the Overview page no longer says *No Workers connected*. |
 | Site loads but looks plain and unstyled | A stale build is being served | Cloudflare → the Worker → **Deployments**, check the newest one succeeded. |
 | `www` works, bare domain does not (or the reverse) | Only one of the two was added | Add the missing one in step 4. |
