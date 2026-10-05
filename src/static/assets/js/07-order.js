@@ -577,8 +577,71 @@
       try { window.sessionStorage.setItem(SEEN, '1'); } catch (e) { /* no storage */ }
     }
 
+    /* --- The card reads the ground behind it -----------------------------
+       The page is left scrollable on purpose while this card is open, so the
+       card does not sit on one background: it opens over the dark hero and
+       crosses onto the sand page as you scroll. A bottle-green card on the
+       bottle-green hero is the weakest version of both. So the palette
+       follows the page — sand card on the dark bands, green card on the
+       sand page — and 04b-order.css cross-fades between the two.
+
+       Decided by what is behind the card's CENTRE rather than by how much of
+       it covers each band. Mid-crossing the card genuinely spans both, and
+       there is no correct answer for that instant; picking the midpoint puts
+       the single switch where the cross-fade reads as the card following the
+       page rather than reacting to it. */
+    var ground = (function () {
+      var inner = $('.owelcome__card', card) || card;
+      var bands = $$('.hero, .phero, .footer');
+      if (!bands.length) return { on: function () { }, off: function () { } };
+
+      function darkAtCentre() {
+        var mid = (window.innerHeight || document.documentElement.clientHeight) / 2;
+        for (var i = 0; i < bands.length; i++) {
+          var r = bands[i].getBoundingClientRect();
+          if (r.top <= mid && r.bottom >= mid) return true;
+        }
+        return false;
+      }
+
+      function apply() { inner.classList.toggle('is-light', darkAtCentre()); }
+
+      /* No IntersectionObserver, deliberately. The obvious implementation is
+         one observer per band with a rootMargin pinching the root down to a
+         line at the centre — but rootMargin is fixed at construction, and
+         this card is open across exactly the events that invalidate it: a
+         phone rotating, and a mobile address bar sliding away, which changes
+         the viewport height without firing a scroll. Two getBoundingClientRect
+         calls on the shared rAF scroll loop cost less than rebuilding an
+         observer on every resize, and cannot go stale. */
+      var live = false, wired = false;
+      function tick() { if (live) apply(); }
+
+      return {
+        /* Synchronously, before the card is made visible: the first paint has
+           to be the right colour. Letting it settle a frame later would show
+           a green card fading to sand every time someone opens the page at
+           the top, which is most of them.
+
+           Wired on first open rather than up front. Most visits never reach
+           here — a returning visitor is marked seen and this whole block
+           returns early — and there is no reason for them to carry a scroll
+           task that only ever checks a flag. */
+        on: function () {
+          live = true;
+          apply();
+          if (wired) return;
+          wired = true;
+          onScroll(tick);
+          window.addEventListener('resize', tick);
+        },
+        off: function () { live = false; }
+      };
+    })();
+
     function close() {
       markSeen();
+      ground.off();
       body.classList.remove('owelcome-open');
       card.setAttribute('aria-hidden', 'true');
       var done = function () { if (!body.classList.contains('owelcome-open')) card.hidden = true; };
@@ -589,6 +652,7 @@
     function open() {
       lastFocus = document.activeElement;
       card.hidden = false;
+      ground.on();
       requestAnimationFrame(function () {
         body.classList.add('owelcome-open');
         card.removeAttribute('aria-hidden');

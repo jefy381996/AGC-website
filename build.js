@@ -102,7 +102,10 @@ const REQUIRED_CSS = [
   '[hidden]', '.obar', '.obar__btn', '.opanel', '.opanel__sheet',
   '.opanel__scroll', '.oline', '.ostep', '.oform', '.ofield__input',
   '.mrow__price--add', '.mrow__qty', '.ocall', '.ofallback',
-  '.owelcome', '.owelcome__card', '.osteps', '.nav__order', '.ohowto'
+  '.owelcome', '.owelcome__card', '.osteps', '.nav__order', '.ohowto',
+  // The welcome card's light palette. Losing it is silent — the card
+  // simply stays bottle green on the bottle-green hero.
+  '.owelcome__card.is-light'
 ];
 
 function checkCss(css) {
