@@ -32,6 +32,10 @@ jobs:
           # for that subfolder. Every other host serves from the root, which
           # is the default, so no other host needs to configure anything.
           SITE_BASE: /AGC-website
+          # And its own address, because the default is now the real domain
+          # on Cloudflare. These two must agree — the URL ends in the base —
+          # or canonical links and the preview image point into thin air.
+          SITE_URL: https://jefy381996.github.io/AGC-website
         run: node build.js
 
       - uses: actions/configure-pages@v5

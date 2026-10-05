@@ -10,6 +10,10 @@ None of them cost anything.
 There are four steps. Do them in this order if you can — step 1 is the one
 that changes your evenings most, and step 3 depends on nothing.
 
+Connecting your own domain name is a separate job and lives in its own file:
+**`DOMAIN.md`**. It does not depend on anything here, and nothing here depends
+on it.
+
 ---
 
 ## Step 1 — WhatsApp Business app
@@ -181,7 +185,10 @@ are on a phone. No cookies, so no consent banner.
 
 1. Go to <https://dash.cloudflare.com> and make a free account.
 2. In the sidebar, find **Web Analytics** and click **Add a site**.
-3. Enter the site address: `jefy381996.github.io/AGC-website`
+3. Enter the site address. Right now that is
+   `agc-website.jaffar381996152.workers.dev`. Once your own domain is
+   connected (see `DOMAIN.md`), add that as a second site too — they
+   count separately.
 4. It will show you a snippet of code containing a **token** — a long string
    of letters and numbers inside `"token": "..."`. Copy just that token, not
    the whole snippet.
@@ -238,14 +245,18 @@ style and the file becomes `styles.a1b2c3d4.css` instead of
 the old one. This is what stops the "I merged it but still see the old site"
 problem.
 
-**On GitHub Pages, HTML freshness is not something we control.** GitHub sets
-its own caching rules for everything it serves and gives no way to change
-them, so after a deploy a visitor who was on the site very recently may get
-the previous page for a short while before it refreshes itself. Nothing is
-broken when this happens and it clears on its own. If it ever matters to you,
-moving to Netlify or Cloudflare Pages removes the limit entirely — the full
-caching policy is already written in `netlify.toml`, so it would apply the
-moment you deployed there.
+**On Cloudflare, HTML freshness is set deliberately.** The `_headers` file
+built into the site tells Cloudflare to re-check every page on every visit,
+while letting it keep stylesheets, scripts and fonts for a year — safe,
+because those carry a content hash in the filename. So a deploy reaches
+people on their next page load, not whenever a cache happens to expire.
+
+**On GitHub Pages it is not something we control.** That copy of the site is
+still live at `jefy381996.github.io/AGC-website` and GitHub sets its own
+caching rules with no way to change them, so after a deploy a recent visitor
+there may see the previous page for a short while. Nothing is broken when
+that happens and it clears on its own. It is also the reason the Cloudflare
+copy is the one to give people.
 
 **No service worker, deliberately.** A service worker can cache the whole
 site for offline use, but it is also the single most common reason a website

@@ -41,8 +41,16 @@ const site = {
        SITE_URL   the full address, e.g. https://al-ashfaz.pages.dev
        SITE_BASE  the subfolder. Leave it unset and the site is built for
                   the root of a domain, which is what every host except
-                  GitHub project pages needs. The GitHub workflow sets it. */
-  url: cleanUrl(process.env.SITE_URL) || 'https://jefy381996.github.io/AGC-website',
+                  GitHub project pages needs. The GitHub workflow sets it.
+
+     Keep these two agreeing: SITE_URL must END IN whatever SITE_BASE says,
+     because absUrl() in the layout joins them on that assumption. The build
+     checks it and says so in the log if they drift apart.
+
+     The default below is the real address, so a host that configures
+     nothing produces a correct site. GitHub Pages is the exception and
+     overrides both in .github/workflows/deploy.yml. */
+  url: cleanUrl(process.env.SITE_URL) || 'https://alashfazrestaurant.com',
   base: cleanBase(process.env.SITE_BASE),
 
   name: { en: 'Al Ashfaz Restaurant', ar: 'مطعم آل أشفاز' },

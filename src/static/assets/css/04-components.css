@@ -105,7 +105,11 @@
 
    Any new dark panel has to be added here too — .owelcome is one, and its
    call to action vanished until it was. If a third arrives, this list is
-   what to change. */
+   what to change.
+
+   .owelcome is the one entry that is only sometimes dark: the welcome card
+   flips to a sand ground over the hero, and 04b-order.css overrides this
+   rule back to bottle green for .owelcome__card.is-light. */
 .hero .btn--gold, .phero .btn--gold, .footer .btn--gold, .drawer .btn--gold,
 .owelcome .btn--gold {
   color: var(--green-900);
