@@ -25,13 +25,17 @@ Two things, and only two:
 
 Nothing to install, no code, no cost.
 
-**One warning, read it before step 2.** If you currently use Namecheap's
-free **email forwarding** on this domain — anything like
-`info@alashfazrestaurant.com` arriving in your Gmail — it will stop working when
-you switch nameservers, because it runs on Namecheap's own DNS. Cloudflare
-has the same thing for free (**Email Routing**) and setting it back up takes
-five minutes. Just know it in advance rather than discovering it. If you
-have never set up email on this domain, ignore this entirely.
+**One warning about email.** This domain has Namecheap **email forwarding**
+set up — that is what the five `MX` records pointing at
+`eforward1–5.registrar-servers.com` are. They were copied into Cloudflare by
+the scan in step 1, so mail still routes to Namecheap's servers and there is
+nothing to do now.
+
+Namecheap documents email forwarding as a feature of *their* nameservers,
+which this domain no longer uses, so it may or may not keep working. Keeping
+the records costs nothing and is the only way it can. **Send yourself a test
+message** once the site is up. If it does not arrive, Cloudflare **Email
+Routing** does the same job free — see the end of this guide.
 
 ---
 
@@ -135,18 +139,24 @@ record it did not create. Clear them and it goes through.
 1. **Cancel** the dialog.
 2. Top left → **Back to Domains** → **alashfazrestaurant.com** → **DNS** →
    **Records**.
-3. Delete **only** these rows:
-   - `A`, `AAAA` or `CNAME` where the name is `alashfazrestaurant.com` or `@`
-   - `A`, `AAAA` or `CNAME` where the name is `www`
+3. There are eight records. Delete **two**:
 
-   They usually point at a Namecheap parking address, something like
-   `162.255.119.x` or `parkingpage.namecheap.com`.
+   | Delete? | Name | Type | Content | Why |
+   |---|---|---|---|---|
+   | **DELETE** | `alashfazrestaurant.com` | `A` | `192.64.119.153` | Namecheap's parking server. The record causing the error. |
+   | **DELETE** | `www.alashfazrestaurant.com` | `CNAME` | `parkingpage.namecheap.com` | Same, for `www`. |
+   | keep | `alashfazrestaurant.com` | `MX` ×5 | `eforward1–5.registrar-servers.com` | Email forwarding. Deleting these kills mail to the domain. |
+   | keep | `alashfazrestaurant.com` | `TXT` | `v=spf1 include:spf.ef…` | SPF for that email. Without it your mail gets marked as spam. |
+
+   The two to delete are the only ones marked **Proxied** (orange cloud).
+   Everything to keep says **DNS only**. That is a reliable tell here.
+
 4. Go back to the Worker and do step 4 again.
 
-> **Leave everything else alone.** Do not delete `MX` records (that is your
-> email), `TXT` records (domain verification, SPF), or anything you
-> deliberately added. Only the A/AAAA/CNAME rows for the root and `www` are
-> in the way, and attaching the Custom Domain writes correct ones back.
+> **The five MX rows and the TXT row are not in the way.** Cloudflare's error
+> names "A, CNAME, etc" and it is tempting to clear the lot. Only the two
+> address records conflict — a Custom Domain answers web traffic and never
+> touches mail routing. Attaching it writes correct address records back.
 
 Between deleting and re-adding, the domain will briefly say *site can't be
 reached* instead of timing out. That is the right direction — it means the
